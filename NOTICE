@@ -1,0 +1,14 @@
+kbn-proto-ui
+Copyright Elasticsearch B.V. and/or licensed to Elasticsearch B.V.
+
+This package bundles @kbn/ui-chrome-layout and @kbn/ui-side-navigation
+and includes modified portions of elastic/kibana and elastic/vibe-kibana.
+The bundled Kibana packages offer Elastic License 2.0, AGPL-3.0-only,
+or SSPL-1.0. This distribution elects Elastic License 2.0.
+The complete elected license is included in LICENSE and licenses/.
+
+Modifications: standalone React props and types, static navigation snapshots,
+English labels without Kibana i18n, UI-only agent/header integration,
+and removal of the deprecated AI Assistant logo and its supported icon value.
+Original source paths and package versions are listed in SOURCES.md.
+Original notices are retained in source and generated bundle legal comments.

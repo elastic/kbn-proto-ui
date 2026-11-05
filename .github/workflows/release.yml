@@ -1,0 +1,70 @@
+name: Release prebuilt GitHub tag
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version to tag (for example 0.1.0)
+        required: true
+        type: string
+      approved_package_name:
+        description: Maintainer-approved package name (must match package.json)
+        required: true
+        type: string
+permissions:
+  contents: write
+concurrency:
+  group: release
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://artifactory.elastic.dev/artifactory/api/npm/kibana-ui/
+          scope: '@kbn'
+      - name: Validate approved name and version
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+          APPROVED_NAME: ${{ inputs.approved_package_name }}
+        run: |
+          node --input-type=module - <<'JS'
+          import { readFileSync } from 'node:fs';
+          import { execFileSync } from 'node:child_process';
+          const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
+          if (process.env.APPROVED_NAME !== pkg.name) throw new Error('Package name has not been approved');
+          if (!/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/.test(process.env.RELEASE_VERSION)) throw new Error('Use a stable semver version');
+          const tag = `v${process.env.RELEASE_VERSION}`;
+          if (execFileSync('git', ['tag', '--list', tag], { encoding: 'utf8' }).trim()) throw new Error('Tag already exists');
+          JS
+      - name: Check build credentials are configured
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.KIBANA_UI_NPM_TOKEN }}
+        run: |
+          if [ -z "$NODE_AUTH_TOKEN" ]; then
+            echo "::error::Add the KIBANA_UI_NPM_TOKEN Actions secret before running the private-package build."
+            exit 1
+          fi
+      - run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.KIBANA_UI_NPM_TOKEN }}
+      - name: Set package version
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: npm version "$RELEASE_VERSION" --no-git-tag-version --allow-same-version --ignore-scripts
+      - run: npm run typecheck && npm test && npm run build:library && npm run check:package
+      - name: Tag the prebuilt distribution
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json
+          git add -f dist
+          git commit -m "Release v${RELEASE_VERSION} with prebuilt distribution"
+          git tag "v${RELEASE_VERSION}"
+          git push origin "refs/tags/v${RELEASE_VERSION}"

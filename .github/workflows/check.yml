@@ -1,0 +1,44 @@
+name: Check library
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    # Forks and Dependabot do not receive the private-registry secret.
+    # Run the full build only on trusted branches; never use pull_request_target
+    # to execute a contributor's code with the Artifactory token.
+    if: >-
+      github.actor != 'dependabot[bot]' &&
+      (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://artifactory.elastic.dev/artifactory/api/npm/kibana-ui/
+          scope: '@kbn'
+      - name: Check build credentials are configured
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.KIBANA_UI_NPM_TOKEN }}
+        run: |
+          if [ -z "$NODE_AUTH_TOKEN" ]; then
+            echo "::error::Add the KIBANA_UI_NPM_TOKEN Actions secret before running the private-package build."
+            exit 1
+          fi
+      - run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.KIBANA_UI_NPM_TOKEN }}
+      - run: npm run typecheck && npm test && npm run build:library && npm run check:package
+  fork-guidance:
+    if: >-
+      github.event_name == 'pull_request' &&
+      (github.event.pull_request.head.repo.full_name != github.repository || github.actor == 'dependabot[bot]')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Explain the private-registry build requirement
+        run: echo "The full library build requires a maintainer to review these changes and test them on a trusted branch with Artifactory access." >> "$GITHUB_STEP_SUMMARY"

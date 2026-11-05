@@ -1,0 +1,38 @@
+# Validation — 2026-11-05
+
+The implementation is local. No project commits, pushes, GitHub repository creation, tags, or npm publication were performed. Temporary Git fixtures were created only under `/private/tmp` to test Git installation.
+
+| Check | Result |
+| --- | --- |
+| Solution menu rename | Renamed all seven menu files unchanged to the top-level `solution-menus` folder and updated the public entry point without an alias. Typecheck, all nine tests, build and package checks pass. The new package subpath imports successfully; the old subpath is rejected with `ERR_PACKAGE_PATH_NOT_EXPORTED`. Package audit verifies the new entry files and excludes old output. SOURCES.md classifies implementation origins |
+| Wrapper/replica organization | Source matches the documented `wrappers/`, `kibana-copies/`, `replicas/`, `solution-menus/` and `utilities/` structure. Translation adapter moved to utilities; imports, exports, build entries and aliases updated. Typecheck, all nine tests, build and package checks pass; public package exports are unchanged |
+| Deprecated logo removal | Removed the logo asset, special icon mapping and supported icon value. Source and built output contain no deprecated icon references; typecheck, all nine tests, build and package checks pass. The two changed upstream files carry modification notices; gradient files remain unchanged |
+| Shared AI styling API | `src/utilities/aiStyles.ts` re-exports the original gradient hooks, SVG definitions and types through the package root. Two new tests cover custom controls updating with light/dark themes and unique SVG gradient IDs. All nine tests, typecheck, build and package checks pass; utility-only bundles exclude chrome and the gradient files remain byte-for-byte unchanged |
+| Consumer-independent API | Removed the consumer-only palette module and exports. Typecheck, all seven tests, build and package checks pass; rebuilt output contains no legacy palette API |
+| Agent builder grouping | `AgentSidebar.tsx` and `agentConnectorLogo.ts` are under `src/replicas/agent-builder/`; exports, chrome imports, tests and build entries updated. Typecheck, all seven tests, build and package checks pass |
+| Source structure | Published-package setup is under `src/wrappers/`, rebuilt UI under `src/replicas/`, menu data under `src/solution-menus/`, shared helpers/adapters under `src/utilities/`, and upstream files under `src/kibana-copies/ai-components/` with the deprecated-logo removal documented in SOURCES.md. Typecheck, all seven tests, build and package checks pass after the move; the English-label adapter is bundled without a private runtime dependency |
+| First-commit snapshot | Pass; copied only Git's non-ignored commit candidates into a fresh directory, then ran offline `npm ci`, typecheck, tests, build and package checks. No existing `dist/` or `node_modules/` was copied |
+| Dependency security | `npm audit` reports zero known vulnerabilities after updating development tooling and overriding development PrismJS. Consuming apps must audit their own dependency trees |
+| Commit contents | No credential patterns or machine-specific absolute paths found in commit candidates; token-free scoped `.npmrc`; build output, archives, dependencies, environment files and test reports ignored |
+| Library TypeScript | Pass |
+| Unit tests | 9 pass: solution data/overrides, host URLs, sidebar limits, agent submission/disabled state, close/header active state, custom AI styles following light/dark themes, unique SVG gradient IDs |
+| ESM build and declarations | Pass; published Kibana code bundled; no private imports in public declarations |
+| Package audit | Pass; React, react-dom, EUI and both Emotion peers external; no runtime dependencies; no build/prepare/install hooks; npm publication blocked by `private: true` |
+| Tree shaking | Pass; an AI-button-only import is about 8 KB minified before external host dependencies and contains no chrome implementation; nav-only import contains no chrome |
+| Clean npm pack install | Pass with empty user/global npm config, token environment variables removed, and an empty cache |
+| Actual Git-tag install | Pass using a temporary prebuilt local Git tag; initial install used an empty npm cache/config and no tokens. Final distribution installed offline. A deliberately nonexistent dev dependency proved npm did not prepare/build or install dev dependencies. No `@kbn` packages were installed in the consumer |
+| Vite consumer | Typecheck and production build pass; like the existing prototypes, the consumer uses `skipLibCheck` for EUI's upstream declarations |
+| Final rebuilt consumer | Fresh archive installed into the temporary Vite consumer; TypeScript, production build and Chrome smoke checks pass after the tooling update. All four solutions, routing/modified clicks, nested navigation, agent submission/resizing, collapse controls and both themes pass with no runtime or duplicate-Emotion errors |
+| EUI minimum | 123.0.0 and 123.1.0 verified in Chrome. 116.3.1 renders but lacks `addToChat`; excluded from peers |
+| Browser behavior | All four solutions, nested overflow menus, ordinary router callbacks, native modified clicks, collapse/expand, agent open/close/submission, keyboard sidebar resizing, light/dark themes pass. No runtime or duplicate-Emotion warnings; layout fits a 1440 × 1000 viewport |
+| vibe-kibana | Migrated on unpushed `test/kbn-proto-ui`; TypeScript passes. Before/after screenshots of Discover and Dashboards preserve page content layouts. Shell menus intentionally change to source-derived solution menus; header search is narrower and unwired controls are disabled. Full Discover query and dashboard edit/save workflows were not regression-tested |
+| Temporary solution switch | Added to Discover, all four menus checked in vibe-kibana, then removed |
+| GitHub Actions | YAML parses; main push trigger and missing-secret handling checked locally. Fork and Dependabot PRs receive guidance without access to the registry secret. Release name/version/existing-tag guards pass in a temporary Git fixture. Remote Actions were not run |
+
+The current clean source test run passes without the earlier optimizer warning. No EUI/Emotion implementation is bundled into this package. Library development uses Node 22.12+; the distributed library's consumer requirement remains Node 20+.
+
+Classic is an adaptation of Kibana's real registered app categories to the published `SideNavigation`, not a reproduction of the unpublished legacy collapsible drawer. Source snapshots select explicit feature defaults; see SOURCES.md for settings and the nine-repository compatibility table.
+
+The local archive is `elastic-kbn-proto-ui-0.1.0.tgz`. The test branch installs it from the adjacent library workspace. A GitHub install URL will become usable only after remote creation, source push, CI secret setup, and the prebuilt release Action. The repo/package names were approved as `kbn-proto-ui` / `@elastic/kbn-proto-ui`.
+
+Consumer-specific palette exports (`AI_BUTTON_COLORS`, `aiForegroundGradient`, `aiBackgroundGradient`) were subsequently removed from the library. The vibe-kibana comparison above predates this API removal; its Visor must own or source its colors before reinstalling the updated package. No consuming repository was changed as part of this removal.
