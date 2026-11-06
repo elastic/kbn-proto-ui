@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../src/wrappers/layout.ts"],
+  "sourcesContent": ["import { layoutVar as upstreamLayoutVar, layoutVarName as upstreamLayoutVarName } from '@kbn/ui-chrome-layout';\n/** Mirrors the published CSS-variable names without exposing private package types. */\ntype LayoutComponent = 'banner' | 'header' | 'footer' | 'navigation' | 'sidebar' | 'application';\ntype LayoutProperty = 'top' | 'bottom' | 'left' | 'right' | 'height' | 'width' | 'marginBottom' | 'marginRight' | 'marginTop';\nexport type LayoutVarName = `${LayoutComponent}.${LayoutProperty}` | `application.${'topBar' | 'bottomBar' | 'content'}.${LayoutProperty}`;\nexport const layoutVar = (name: LayoutVarName, fallback?: string): string => upstreamLayoutVar(name, fallback);\nexport const layoutVarName = (name: LayoutVarName): string => upstreamLayoutVarName(name);\n"],
+  "mappings": ";;;;;;;;AAAA,8BAAuF;AAKhF,IAAM,YAAY,CAAC,MAAqB,iBAA8B,wBAAAA,WAAkB,MAAM,QAAQ;AACtG,IAAM,gBAAgB,CAAC,aAAgC,wBAAAC,eAAsB,IAAI;",
+  "names": ["upstreamLayoutVar", "upstreamLayoutVarName"]
+}
