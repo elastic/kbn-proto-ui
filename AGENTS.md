@@ -17,6 +17,7 @@ Keep the public API independent of consuming prototypes. Include UI and supporti
 - The application panel is fixed to `layoutVar('application.content.height')`. Keep page regions at `minHeight: 0` and put scrolling inside the page.
 - Prefer lower-level exported components when only one part is needed. Never copy the library's chrome into a prototype.
 - Use `KibanaPageHeader` for application headers. Use `menu` with Kibana's declarative `AppMenuConfig` for actions; do not add page presets. Use `KibanaTabs.wrapTabsBar` → `KibanaPageHeader.titleAppend` for Discover-style tabs; use the header's data-driven `tabs` for normal page tabs. Do not port vibe-kibana's legacy TabBar props or presets.
+- Global header slots are `switcher`, `projectPicker` and `subscriptionBadge`; pass them through `KibanaChrome.header` or directly to `KibanaHeader`. Omitted `switcher` preserves the space button; `null` hides it. `KibanaProjectPicker` is a count/button replica only; the host owns its popover. `trailing` stays before the avatar. `afterUserMenu` is a host-only extension after the avatar, not Kibana API; never ship prototype tools in this library.
 - For registered placement, pass header props through `KibanaChrome.pageHeader` (measured `applicationTopBar` slot). For Discover-style inline placement, render the header inside the app children and leave `pageHeader` unset. Preserve upstream prop names and shapes, including `disableButton`, focus-return contexts and the description/metadata union.
 
 ## Maintaining this library

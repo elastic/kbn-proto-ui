@@ -14,6 +14,7 @@ src/
     ai-components/
   replicas/          # Type 3: rebuilt to look like Kibana; maintained here
     KibanaHeader.tsx
+    KibanaProjectPicker.tsx
     KibanaSidebar.tsx
     sidebarWidth.ts
     page-header/     # Rebuilt to match Kibana
@@ -99,6 +100,29 @@ export function CustomAiAction() {
 Use your host's Emotion JSX configuration and existing `EuiProvider`. The hook supports `base`, `outlined`, `empty`, and `accent` variants plus `iconOnly`; its styles include hover, focus and disabled states. `useSvgAiGradient({ variant })` also exposes the resolved `colors.startColor` / `colors.endColor`, `gradientId` and `iconGradientCss`. For gradient icons, render `<SvgAiGradientDefs gradientId={gradientId} colors={colors} />` alongside the icon and apply `iconGradientCss` to its wrapper. Each hook call creates a unique SVG gradient ID. These utilities follow the host's theme and reuse the unchanged Kibana implementation; no separate fixed palette is maintained.
 
 The agent is UI only: pass `messages`, `onSubmit`, and `isResponding` through `agent` to connect your prototype's behavior, or supply `agent.children` for custom conversation content. Header actions and user/space labels are configured through `header`. Unconfigured actions are disabled. The page fills a fixed-height panel; give your page's scrollable region `min-height: 0; overflow: auto`.
+
+The global `KibanaHeader` has Kibana's named `switcher`, `projectPicker` and `subscriptionBadge` slots. Omit `switcher` to keep the existing solution-logo/space button; pass `null` to hide it. The order is switcher → project picker → subscription badge → breadcrumbs/spacer → search → help → AI Agent → existing theme control (if configured) → `trailing` → avatar → `afterUserMenu`. Kibana's fixed left-group divider and conditional switcher/picker-badge dividers follow `header_shell.tsx`.
+
+Pass these props directly to `KibanaHeader`, or through `KibanaChrome.header`:
+
+```tsx
+import { EuiButtonEmpty } from '@elastic/eui';
+import { KibanaChrome, KibanaProjectPicker } from '@elastic/kbn-proto-ui';
+
+<KibanaChrome
+  header={{
+    switcher: <EuiButtonEmpty color="text" size="s" iconType="arrowDown" iconSide="right">ACME Corp</EuiButtonEmpty>,
+    projectPicker: <KibanaProjectPicker selected={31} total={435} />,
+    afterUserMenu: <button type="button" onClick={openPrototypeTools}>Prototype tools</button>,
+  }}
+>
+  <MyPrototypePage />
+</KibanaChrome>
+```
+
+`KibanaProjectPicker` is the cross-project scope button only: pass numeric `selected`/`total`, optional `onClick`, and an optional tooltip override. It shows compact counts with tabular numbers, “All” when every project is selected, and a warning button for zero selected (including 0/0). Its default tooltip is “Cross-project search scope selector”. The host implements the picker popover and selection state. Counts use English compact notation without introducing Kibana's numeral dependency.
+
+**`afterUserMenu` is a prototype-only extension, not part of Kibana.** It leaves space after the avatar for host-owned tools; this library provides no tweaks, variants or versioning UI. The existing `trailing` slot remains before the avatar.
 
 Classic uses Kibana's app categories in the published side navigation. Kibana's legacy collapsible Classic drawer itself is not published. The default solution snapshots represent self-managed Kibana with Agent chat, Streams and Workflows enabled; feature/privilege differences can be overridden with `navItems`.
 

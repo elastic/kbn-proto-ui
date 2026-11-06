@@ -11,6 +11,7 @@ const result = await build({
   entryPoints: [
     'src/index.ts', 'src/solution-menus/index.ts', 'src/utilities/aiStyles.ts', 'src/wrappers/layout.ts',
     'src/wrappers/KibanaChrome.tsx', 'src/replicas/KibanaHeader.tsx',
+    'src/replicas/KibanaProjectPicker.tsx',
     'src/wrappers/KibanaSideNav.tsx', 'src/replicas/KibanaSidebar.tsx',
     'src/replicas/agent-builder/AgentSidebar.tsx',
     'src/replicas/agent-builder/agentConnectorLogo.ts',
