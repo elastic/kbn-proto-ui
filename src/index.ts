@@ -22,3 +22,9 @@ export { ANTHROPIC_LOGO } from './replicas/agent-builder/agentConnectorLogo';
 export * from './solution-menus';
 export { layoutVar, layoutVarName } from './wrappers/layout';
 export type { LayoutVarName } from './wrappers/layout';
+export { KibanaPageHeader } from './replicas/page-header/KibanaPageHeader';
+export type * from './replicas/page-header/types';
+export type * from './replicas/page-header/menuTypes';
+
+export { KibanaTabs } from './replicas/unified-tabs/KibanaTabs';
+export type { KibanaTabsProps, TabItem, TabbedContentState } from './replicas/unified-tabs/types';

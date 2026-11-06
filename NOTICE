@@ -10,5 +10,11 @@ The complete elected license is included in LICENSE and licenses/.
 Modifications: standalone React props and types, static navigation snapshots,
 English labels without Kibana i18n, UI-only agent/header integration,
 and removal of the deprecated AI Assistant logo and its supported icon value.
+The page-header replica adapts Kibana's declarative header/menu type contracts
+and reuses matching EUI layout and button styling from vibe-kibana's PageHeader.
 Original source paths and package versions are listed in SOURCES.md.
 Original notices are retained in source and generated bundle legal comments.
+
+KibanaTabs adapts the supported public types, tab interactions and selected-tab
+corner SVG from Kibana's kbn-unified-tabs, via vibe-kibana's TabBar styling.
+Modified by Elastic, November 2026: standalone EUI replica with no Kibana services.
