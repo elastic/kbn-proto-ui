@@ -18,13 +18,17 @@ export function SearchButton({ onClick }: { onClick?: () => void }) {
   const fontSize = useEuiFontSize('s').fontSize;
   const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad|iPod/.test(navigator.platform || navigator.userAgent);
   useEffect(() => {
+    if (!onClick) return;
     const keydown = (event: KeyboardEvent) => {
-      if (event.key === '/' && (isMac ? event.metaKey : event.ctrlKey) && !event.altKey && !event.repeat && !event.defaultPrevented) {
-        event.preventDefault(); onClick?.();
-      }
+      if (event.key.toLowerCase() !== '/') return;
+      const target = event.target;
+      if (target instanceof HTMLElement && (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target.isContentEditable)) return;
+      if (event.shiftKey || event.altKey) return;
+      if (isMac ? !event.metaKey || event.ctrlKey : !event.ctrlKey || event.metaKey) return;
+      event.preventDefault(); onClick();
     };
-    window.addEventListener('keydown', keydown);
-    return () => window.removeEventListener('keydown', keydown);
+    document.addEventListener('keydown', keydown);
+    return () => document.removeEventListener('keydown', keydown);
   }, [isMac, onClick]);
   const collapsible = { [compactQuery]: { display: 'none' } };
   return <button type="button" aria-label="Search" data-test-subj="chromeHeaderSearchButton" onClick={onClick}

@@ -218,7 +218,7 @@ Old root exports and the old prop remain functional and carry `@deprecated` anno
 
 ## Global search and header actions
 
-`ChromeHeader` renders Kibana's bordered `SearchButton`, with a magnify icon, “Find content...” placeholder and a themed `⌘ /` badge (`Ctrl /` on non-Mac). On xs/s screens it becomes a square icon button. Pass `onSearchClick` to open the host's search UI; clicking or using the shortcut calls the same callback. Help uses Kibana's bordered `HeaderActionButton`, with a transparent background and theme-based hover/focus styles. Neither action is disabled when unconfigured.
+`ChromeHeader` renders Kibana's bordered `SearchButton`, with a magnify icon, “Find content...” placeholder and a themed `⌘ /` badge (`Ctrl /` on non-Mac). On xs/s screens it becomes a square icon button. Pass `onSearchClick` to open the host's search UI; clicking or using the shortcut calls the same callback. As in Kibana, the shortcut ignores inputs, textareas, editable content and extra modifiers. Help uses Kibana's bordered `HeaderActionButton`, with a transparent background and theme-based hover/focus styles. Neither action is disabled when unconfigured.
 
 `searchValue`, `onSearchChange` and `onSearchSubmit` are deprecated for one release. Supplying any of them without `onSearchClick` retains the old editable search field and callbacks. `onSearchClick` takes precedence and selects the new button. Migrate by moving search/query UI to the host and supplying that callback.
 

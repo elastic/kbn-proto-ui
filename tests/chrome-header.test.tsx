@@ -100,9 +100,9 @@ describe('header action buttons', () => {
     const click = vi.fn(); const view = show({ onSearchClick: click });
     expect(screen.getByText(badge).closest('.euiBadge')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Search' }));
-    fireEvent.keyDown(window, { key: '/', [key]: true });
+    fireEvent.keyDown(document, { key: '/', [key]: true });
     expect(click).toHaveBeenCalledTimes(2);
-    view.unmount(); fireEvent.keyDown(window, { key: '/', [key]: true });
+    view.unmount(); fireEvent.keyDown(document, { key: '/', [key]: true });
     expect(click).toHaveBeenCalledTimes(2); platformSpy.mockRestore();
   });
   it('prefers onSearchClick over deprecated input props and orders custom actions before AI', () => {
@@ -116,4 +116,17 @@ describe('header action buttons', () => {
     const buttons = screen.getAllByRole('button');
     expect(buttons.indexOf(screen.getByRole('button', { name: 'Inspect' }))).toBeLessThan(buttons.indexOf(screen.getByRole('button', { name: 'AI Agent' })));
   });
+});
+
+it('matches Kibana shortcut handling for editable targets and extra modifiers', () => {
+  const platform = vi.spyOn(window.navigator, 'platform', 'get').mockReturnValue('MacIntel');
+  const click = vi.fn();
+  render(<EuiProvider><ChromeHeader onSearchClick={click} /><input aria-label="Host editor" /></EuiProvider>);
+  fireEvent.keyDown(screen.getByRole('textbox', { name: 'Host editor' }), { key: '/', metaKey: true });
+  fireEvent.keyDown(document, { key: '/', metaKey: true, shiftKey: true });
+  fireEvent.keyDown(document, { key: '/', metaKey: true, ctrlKey: true });
+  fireEvent.keyDown(document, { key: '/', ctrlKey: true });
+  expect(click).not.toHaveBeenCalled();
+  fireEvent.keyDown(document, { key: '/', metaKey: true });
+  expect(click).toHaveBeenCalledOnce(); platform.mockRestore();
 });
