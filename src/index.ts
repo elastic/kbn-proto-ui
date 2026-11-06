@@ -1,7 +1,7 @@
 export { KibanaChromeLayout } from './wrappers/KibanaChromeLayout';
 export type { KibanaChromeLayoutProps, AgentConfig } from './wrappers/KibanaChromeLayout';
 export { ChromeHeader } from './replicas/ChromeHeader';
-export type { ChromeHeaderProps, KibanaBreadcrumb } from './replicas/ChromeHeader';
+export type { ChromeHeaderProps, ChromeHeaderAction, KibanaBreadcrumb } from './replicas/ChromeHeader';
 export { KibanaSideNav } from './wrappers/KibanaSideNav';
 export type { KibanaSideNavProps } from './wrappers/KibanaSideNav';
 export { Sidebar, clampSidebarWidth, getDefaultSidebarWidth } from './replicas/Sidebar';

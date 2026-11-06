@@ -99,9 +99,9 @@ export function CustomAiAction() {
 
 Use your host's Emotion JSX configuration and existing `EuiProvider`. The hook supports `base`, `outlined`, `empty`, and `accent` variants plus `iconOnly`; its styles include hover, focus and disabled states. `useSvgAiGradient({ variant })` also exposes the resolved `colors.startColor` / `colors.endColor`, `gradientId` and `iconGradientCss`. For gradient icons, render `<SvgAiGradientDefs gradientId={gradientId} colors={colors} />` alongside the icon and apply `iconGradientCss` to its wrapper. Each hook call creates a unique SVG gradient ID. These utilities follow the host's theme and reuse the unchanged Kibana implementation; no separate fixed palette is maintained.
 
-The agent is UI only: pass `messages`, `onSubmit`, and `isResponding` through `agent` to connect your prototype's behavior, or supply `agent.children` for custom conversation content. Header actions and user/space labels are configured through `header`. Unconfigured actions are disabled. The page fills a fixed-height panel; give your page's scrollable region `min-height: 0; overflow: auto`.
+The agent is UI only: pass `messages`, `onSubmit`, and `isResponding` through `agent` to connect your prototype's behavior, or supply `agent.children` for custom conversation content. Header actions and user/space labels are configured through `header`. Unconfigured header actions remain enabled and do nothing until the host supplies a callback. The page fills a fixed-height panel; give your page's scrollable region `min-height: 0; overflow: auto`.
 
-The global `ChromeHeader` has Kibana's named `switcher`, `projectPicker` and `subscriptionBadge` slots. Omit `switcher` to keep the existing solution-logo/space button; pass `null` to hide it. The order is switcher → project picker → subscription badge → breadcrumbs/spacer → search → help → AI Agent → existing theme control (if configured) → `trailing` → avatar → `afterUserMenu`. Kibana's fixed left-group divider and conditional switcher/picker-badge dividers follow `header_shell.tsx`.
+The global `ChromeHeader` has Kibana's named `switcher`, `projectPicker` and `subscriptionBadge` slots. Omit `switcher` to keep the existing solution-logo/space button; pass `null` to hide it. The order is switcher → project picker → subscription badge → breadcrumbs/spacer → search → help → custom actions → AI Agent → existing theme control (if configured) → `trailing` → avatar → `afterUserMenu`. Kibana's fixed left-group divider and conditional switcher/picker-badge dividers follow `header_shell.tsx`.
 
 Pass these props directly to `ChromeHeader`, or through `KibanaChromeLayout.header`:
 
@@ -204,3 +204,11 @@ Replicas use Kibana's exact component names. Wrappers retain the `Kibana` prefix
 | `pageHeader` | `appHeader` |
 
 Old root exports and the old prop remain functional and carry `@deprecated` annotations. Prefer `appHeader` when both props are supplied. Internal files move to the new names and `replicas/app-header/`; consumers should use the package root exports. The release workflow sets v0.4.0; this source change does not create a release or bump the source manifest.
+
+## Global search and header actions
+
+`ChromeHeader` renders Kibana's bordered `SearchButton`, with a magnify icon, “Find content...” placeholder and a themed `⌘ /` badge (`Ctrl /` on non-Mac). On xs/s screens it becomes a square icon button. Pass `onSearchClick` to open the host's search UI; clicking or using the shortcut calls the same callback. Help uses Kibana's bordered `HeaderActionButton`, with a transparent background and theme-based hover/focus styles. Neither action is disabled when unconfigured.
+
+`searchValue`, `onSearchChange` and `onSearchSubmit` are deprecated for one release. Supplying any of them without `onSearchClick` retains the old editable search field and callbacks. `onSearchClick` takes precedence and selects the new button. Migrate by moving search/query UI to the host and supplying that callback.
+
+Use `header.actions` for custom icon actions (`id`, `label`, `iconType`, optional `variant: 'bordered' | 'plain'`, and `onClick`). They appear after Help and before AI Agent; existing theme control, `trailing`, avatar and `afterUserMenu` keep their order. The AI Agent now uses Kibana's `base` variant when closed and `accent` when open, without a text-color override.

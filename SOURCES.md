@@ -112,3 +112,9 @@ After approval to publish, create `elastic/kbn-proto-ui` with the chosen GitHub 
 CI runs on pushes to `main`, same-repository pull requests, and manual dispatch. Fork and Dependabot pull requests cannot access the Artifactory secret: they receive an explanatory check; a maintainer must review and test the changes on a trusted branch. The workflow never uses `pull_request_target` to run untrusted code with credentials.
 
 Manually run **Release prebuilt GitHub tag** with the approved package name and version. The workflow builds and verifies first, then creates a release-only commit containing `dist/` and pushes its version tag. It does not push a branch or publish to npm. The tag points at the prebuilt commit, so `npm install github:...#v0.1.0` needs no build or private-registry access. Do not manually tag a source-only commit. Nothing has been published by this implementation task.
+
+## Header actions and search (v0.4.0)
+
+`src/replicas/chrome-header/HeaderActionButton.tsx` adapts `src/core/packages/chrome/browser-components/src/shared/header_action_button.tsx`: shared transparent base/hover/focus styles, control radius, 32px square buttons and bordered/plain variants. It remains internal. Help follows `shared/help_button.tsx` (bordered button, subdued question icon). Search adapts `shared/search_button.tsx` compact layout: EUI breakpoints, placeholder, badge, colors and font size; host callbacks/native key listeners replace global-search and keyboard services. The optional expanded layout and notification dot are not implemented. Legacy search props retain the input only as a one-release compatibility path. Unconfigured controls are enabled.
+
+Agent button styling follows `x-pack/platform/plugins/shared/agent_builder/public/components/nav_control/agent_builder_nav_control.tsx`: `base` closed, `accent` open, with no `color="text"` override. No AI component copy is changed.

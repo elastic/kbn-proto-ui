@@ -8,14 +8,14 @@ import type { ChromeHeaderProps } from '../src/replicas/ChromeHeader';
 const show = (props: ChromeHeaderProps = {}) => render(<EuiProvider><ChromeHeader {...props} /></EuiProvider>);
 
 describe('global header slots', () => {
-  it('keeps the default space button, solution logo, callback and disabled behavior', async () => {
+  it('keeps the default space button, solution logo, callback and enabled unconfigured behavior', async () => {
     const click = vi.fn();
     const { container, unmount } = show({ spaceName: 'Production', solution: 'security', onSpaceClick: click });
     fireEvent.click(screen.getByRole('button', { name: 'Production' }));
     expect(click).toHaveBeenCalledOnce();
     await waitFor(() => expect(container.querySelector('[data-icon-type="logoSecurity"]')).toBeTruthy());
     unmount(); show();
-    expect((screen.getByRole('button', { name: 'Default' }) as HTMLButtonElement).disabled).toBe(true);
+    expect((screen.getByRole('button', { name: 'Default' }) as HTMLButtonElement).disabled).toBe(false);
   });
 
   it('replaces only the switcher and preserves slot/breadcrumb/right-group order', () => {
@@ -24,7 +24,7 @@ describe('global header slots', () => {
       subscriptionBadge: <EuiBadge>Trial</EuiBadge>, breadcrumbs: [{ text: 'Discover' }],
       onAgentClick: () => {}, trailing: <button>Trailing</button>, afterUserMenu: <button>Prototype tools</button> });
     expect(screen.queryByRole('button', { name: 'Default' })).toBeNull();
-    const ordered = ['ACME Corp', 'Cross-project search scope selector: 31/435', 'Help', 'AI Agent', 'Trailing', 'User menu: Elastic User', 'Prototype tools'];
+    const ordered = ['ACME Corp', 'Cross-project search scope selector: 31/435', 'Search', 'Help', 'AI Agent', 'Trailing', 'User menu: Elastic User', 'Prototype tools'];
     const buttons = screen.getAllByRole('button');
     expect(ordered.map(name => buttons.indexOf(screen.getByRole('button', { name })))).toEqual([...ordered.keys()]);
     const switcher = container.querySelector('[data-test-subj="kibanaHeaderSwitcher"]')!;
@@ -82,5 +82,38 @@ describe('KibanaProjectPicker', () => {
     render(<EuiProvider><KibanaProjectPicker selected={1} total={3} onClick={click} tooltip="Choose projects" /></EuiProvider>);
     fireEvent.click(screen.getByRole('button', { name: 'Choose projects: 1/3' }));
     expect(click).toHaveBeenCalledOnce();
+  });
+});
+
+describe('header action buttons', () => {
+  it('keeps Help, Search, space and user actions enabled without handlers', () => {
+    show();
+    for (const name of ['Help', 'Search', 'Default', 'User menu: Elastic User']) {
+      const button = screen.getByRole('button', { name }) as HTMLButtonElement;
+      expect(button.disabled).toBe(false); fireEvent.click(button);
+    }
+    expect(screen.queryByRole('searchbox')).toBeNull();
+    expect(screen.getByText('Find content...')).toBeTruthy();
+  });
+  it.each([['MacIntel', '⌘ /', 'metaKey'], ['Win32', 'Ctrl /', 'ctrlKey']])('uses %s shortcut and removes its listener on unmount', (platform, badge, key) => {
+    const platformSpy = vi.spyOn(window.navigator, 'platform', 'get').mockReturnValue(platform);
+    const click = vi.fn(); const view = show({ onSearchClick: click });
+    expect(screen.getByText(badge).closest('.euiBadge')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: 'Search' }));
+    fireEvent.keyDown(window, { key: '/', [key]: true });
+    expect(click).toHaveBeenCalledTimes(2);
+    view.unmount(); fireEvent.keyDown(window, { key: '/', [key]: true });
+    expect(click).toHaveBeenCalledTimes(2); platformSpy.mockRestore();
+  });
+  it('prefers onSearchClick over deprecated input props and orders custom actions before AI', () => {
+    const search = vi.fn(), inspect = vi.fn();
+    show({ onSearchClick: search, searchValue: 'old', onAgentClick: () => {}, actions: [
+      { id: 'inspect', label: 'Inspect', iconType: 'inspect', onClick: inspect, variant: 'plain' },
+    ] });
+    expect(screen.queryByRole('searchbox')).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: 'Search' })); expect(search).toHaveBeenCalledOnce();
+    fireEvent.click(screen.getByRole('button', { name: 'Inspect' })); expect(inspect).toHaveBeenCalledOnce();
+    const buttons = screen.getAllByRole('button');
+    expect(buttons.indexOf(screen.getByRole('button', { name: 'Inspect' }))).toBeLessThan(buttons.indexOf(screen.getByRole('button', { name: 'AI Agent' })));
   });
 });
