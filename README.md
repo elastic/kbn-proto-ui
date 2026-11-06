@@ -25,6 +25,7 @@ src/
     ai-components/
   replicas/          # Type 3: rebuilt to look like Kibana; maintained here
     ChromeHeader.tsx
+    chrome-header/   # Internal HeaderActionButton and SearchButton
     KibanaProjectPicker.tsx
     Sidebar.tsx
     sidebarWidth.ts
@@ -44,10 +45,10 @@ src/
 
 Wrappers configure and connect published Kibana packages to host-supplied props. Copies preserve upstream implementations until Kibana publishes them; the only local source changes are the deprecated AI Assistant logo removal documented in [SOURCES.md](SOURCES.md). Replicas recreate Kibana UI that is not available as a suitable published component and are maintained in this library. `utilities/aiStyles.ts` exposes the shared AI gradient implementation; `utilities/kibanaI18n.ts` is the internal English-label adapter used by build and test aliases.
 
-Install a prebuilt release tag once the first release has been created:
+This source prepares v0.4.0. After the maintainer releases it, install the prebuilt tag below. The current v0.3.0 tag has the previous names and APIs.
 
 ```sh
-npm install github:elastic/kbn-proto-ui#v0.1.0
+npm install github:elastic/kbn-proto-ui#v0.4.0
 ```
 
 Keep your app's existing `EuiProvider` and theme. React 18.2+, EUI 123.x, `@emotion/react` 11.14+, and `@emotion/css` 11.13.5+ are peers, shared with your app. No Artifactory access or build step is needed when installing a release tag.
@@ -200,7 +201,7 @@ This is a supported subset, not the complete package: drag reordering, recently 
 
 For maintenance, compatibility results, exact upstream paths, license findings, and release instructions, see [SOURCES.md](SOURCES.md).
 
-Maintainers: use Node 22.12+ (`nvm use`), run `npm ci` with your existing Artifactory access, then `npm run typecheck`, `npm test`, `npm run build:library`, and `npm run check:package`. The initial source commit excludes `dist/`; the release workflow adds it to the version tag. Add the `KIBANA_UI_NPM_TOKEN` Actions secret before running CI or creating the first release. `"private": true` prevents npm publication and does not control GitHub repository visibility.
+Maintainers: use Node 22.12+ (`nvm use`), run `npm ci` with your existing Artifactory access, then `npm run typecheck`, `npm test`, `npm run build:library`, and `npm run check:package`. Source branches exclude `dist/`; the release workflow adds it to the version tag. CI/release checks use the existing `KIBANA_UI_NPM_TOKEN` Actions secret. `"private": true` prevents npm publication and does not control GitHub repository visibility.
 
 ## Naming and migration for v0.4.0
 
