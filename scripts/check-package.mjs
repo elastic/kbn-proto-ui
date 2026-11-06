@@ -32,7 +32,7 @@ for (const file of ['dist/index.js', 'dist/index.d.ts', 'dist/solution-menus/ind
 assert(![...files].some((file) => file.startsWith('dist/navigation/')), 'Old navigation output must not be packaged');
 assert(!files.has('.npmrc'));
 assert(![...files].some((file) => file.startsWith('node_modules/')));
-for (const [symbol, path] of [['AiButton', './dist/index.js'], ['KibanaPageHeader', './dist/index.js'], ['useAiButtonGradientStyles', './dist/index.js'], ['useSvgAiGradient', './dist/index.js'], ['SvgAiGradientDefs', './dist/index.js'], ['observabilityNav', './dist/solution-menus/index.js']]) {
+for (const [symbol, path] of [['AiButton', './dist/index.js'], ['KibanaPageHeader', './dist/index.js'], ['KibanaTabs', './dist/index.js'], ['useAiButtonGradientStyles', './dist/index.js'], ['useSvgAiGradient', './dist/index.js'], ['SvgAiGradientDefs', './dist/index.js'], ['observabilityNav', './dist/solution-menus/index.js']]) {
   const result = await build({
     stdin: { contents: `import { ${symbol} } from '${path}'; console.log(${symbol});`, resolveDir: process.cwd() },
     bundle: true, write: false, format: 'esm', minify: true, treeShaking: true,
@@ -41,5 +41,5 @@ for (const [symbol, path] of [['AiButton', './dist/index.js'], ['KibanaPageHeade
   });
   assert(!result.outputFiles[0].text.includes('app-main-scroll'), `${symbol} pulled in unused chrome code`);
 }
-execFileSync(process.execPath, ['node_modules/typescript/bin/tsc', '--noEmit', '--strict', '--skipLibCheck', '--moduleResolution', 'bundler', '--module', 'esnext', '--target', 'es2022', '--types', 'react', 'tests/page-header.contract.ts'], { stdio: 'inherit' });
+execFileSync(process.execPath, ['node_modules/typescript/bin/tsc', '--noEmit', '--strict', '--skipLibCheck', '--moduleResolution', 'bundler', '--module', 'esnext', '--target', 'es2022', '--types', 'react', 'tests/page-header.contract.ts', 'tests/tabs.contract.ts'], { stdio: 'inherit' });
 console.log(`Package verified: ${pack.entryCount} files; peers external; no Artifactory runtime or type dependencies.`);

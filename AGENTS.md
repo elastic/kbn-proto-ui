@@ -16,7 +16,7 @@ Keep the public API independent of consuming prototypes. Include UI and supporti
 - The agent uses `{ open, onOpenChange, attachment?, messages?, onSubmit?, isResponding? }`. Supply responses from the host; this library never fabricates responses or fetches data.
 - The application panel is fixed to `layoutVar('application.content.height')`. Keep page regions at `minHeight: 0` and put scrolling inside the page.
 - Prefer lower-level exported components when only one part is needed. Never copy the library's chrome into a prototype.
-- Use `KibanaPageHeader` for application headers. Use `menu` with Kibana's declarative `AppMenuConfig` for actions; do not add page presets. Only use `titleAppend` for host-owned content such as Discover's complete tab bar; use data-driven `tabs` for normal page tabs. Never move the host's TabBar into this library.
+- Use `KibanaPageHeader` for application headers. Use `menu` with Kibana's declarative `AppMenuConfig` for actions; do not add page presets. Use `KibanaTabs.wrapTabsBar` → `KibanaPageHeader.titleAppend` for Discover-style tabs; use the header's data-driven `tabs` for normal page tabs. Do not port vibe-kibana's legacy TabBar props or presets.
 - For registered placement, pass header props through `KibanaChrome.pageHeader` (measured `applicationTopBar` slot). For Discover-style inline placement, render the header inside the app children and leave `pageHeader` unset. Preserve upstream prop names and shapes, including `disableButton`, focus-return contexts and the description/metadata union.
 
 ## Maintaining this library
@@ -33,3 +33,43 @@ Keep the public API independent of consuming prototypes. Include UI and supporti
 - Run `npm run typecheck`, `npm test`, `npm run build:library`, and `npm run check:package`. Inspect theme and solution changes in vibe-kibana.
 - Track temporary ports and original paths in SOURCES.md. Preserve upstream license headers and modification notices.
 - Ask the maintainer before publishing, creating a remote repo, committing or pushing existing repos. The approved names are `elastic/kbn-proto-ui` and `@elastic/kbn-proto-ui`; publishing still requires maintainer approval.
+
+## Discover tabs pattern
+
+Keep controlled state, ID creation and page content in the host. Use the following inside `KibanaChrome`'s children and leave `KibanaChrome.pageHeader` unset. `wrapTabsBar` renders the inline header, and `renderContent` renders the selected tab's content below it:
+
+```tsx
+import { useState } from 'react';
+import {
+  KibanaPageHeader, KibanaTabs, type TabbedContentState,
+} from '@elastic/kbn-proto-ui';
+
+export function DiscoverPage() {
+  const [state, setState] = useState<TabbedContentState>({
+    items: [{ id: 'initial', label: 'Untitled' }], selectedItem: null,
+  });
+  return (
+    <KibanaTabs
+      items={state.items}
+      selectedItemId={state.selectedItem?.id}
+      onChanged={setState}
+      createItem={() => ({ id: crypto.randomUUID(), label: 'Untitled' })}
+      wrapTabsBar={(tabsBar) => (
+        <KibanaPageHeader
+          title="New session"
+          spacing="compact"
+          sticky={false}
+          borderless={tabsBar != null}
+          titleAppend={tabsBar}
+          menu={{
+            primaryActionItem: { id: 'save', label: 'Save', run: () => {} },
+          }}
+        />
+      )}
+      renderContent={(selectedItem) => <div>Content for {selectedItem.label}</div>}
+    />
+  );
+}
+```
+
+Maintain `src/replicas/tabs/` as a simplified replica of `@kbn/unified-tabs`. Preserve supported upstream prop names and callback/item shapes; no `tabs`, `activeTabId`, `title` item field or per-tab selection callbacks. The last tab cannot close. Rename uses Kibana's trimmed, nonempty, 120-character limit. Do not silently add service props as ignored no-ops. Drag reordering, recently closed tabs, previews, limits, duplication/bulk-close menus, custom menu generators, telemetry, service-dependent helpers and advanced responsive/shortcut behavior are not supported yet; consult SOURCES.md before expanding the subset.

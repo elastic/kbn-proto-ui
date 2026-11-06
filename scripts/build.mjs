@@ -15,6 +15,7 @@ const result = await build({
     'src/replicas/agent-builder/AgentSidebar.tsx',
     'src/replicas/agent-builder/agentConnectorLogo.ts',
     'src/replicas/page-header/KibanaPageHeader.tsx',
+    'src/replicas/tabs/KibanaTabs.tsx',
     'src/kibana-copies/ai-components/ai_button/ai_button.tsx', 'src/kibana-copies/ai-components/ai_button/ai_button_default.tsx',
     'src/kibana-copies/ai-components/ai_button/ai_button_empty.tsx', 'src/kibana-copies/ai-components/ai_button/ai_button_icon.tsx',
   ],

@@ -25,3 +25,6 @@ export type { LayoutVarName } from './wrappers/layout';
 export { KibanaPageHeader } from './replicas/page-header/KibanaPageHeader';
 export type * from './replicas/page-header/types';
 export type * from './replicas/page-header/menuTypes';
+
+export { KibanaTabs } from './replicas/tabs/KibanaTabs';
+export type { KibanaTabsProps, TabItem, TabbedContentState } from './replicas/tabs/types';

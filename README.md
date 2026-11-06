@@ -18,6 +18,8 @@ src/
     sidebarWidth.ts
     page-header/     # Rebuilt to match Kibana
       KibanaPageHeader.tsx
+    tabs/            # Simplified @kbn/unified-tabs replica
+      KibanaTabs.tsx
     agent-builder/
       AgentSidebar.tsx
       agentConnectorLogo.ts
@@ -115,11 +117,51 @@ import { KibanaPageHeader } from '@elastic/kbn-proto-ui';
 />
 ```
 
-Pass the same header props to `KibanaChrome` as `pageHeader={...}` to render it in the measured `applicationTopBar` slot, matching Kibana's registered header placement. For Discover-style inline placement, render `KibanaPageHeader` as the first child inside the app and pass the host's tab bar through `titleAppend`; leave `pageHeader` unset so there is only one header. Discover's tab system stays in the host. `titleAppend` is the only arbitrary-content slot; use data-driven `tabs` for ordinary page tabs and `menu` for actions.
+Pass the same header props to `KibanaChrome` as `pageHeader={...}` to render it in the measured `applicationTopBar` slot, matching Kibana's registered header placement. For Discover-style inline placement, render `KibanaPageHeader` as the first child inside the app and use `KibanaTabs.wrapTabsBar` to pass the bar through `titleAppend`; leave `pageHeader` unset so there is only one header. The host owns the controlled tab state and persistence. `titleAppend` is the only arbitrary-content slot; use data-driven `tabs` for ordinary page tabs and `menu` for actions.
 
 Inline rename uses `title={{ text, onSave, placeholder?, ariaLabel? }}`; the host updates `text` on success, and `onSave` may return an error string or a promise. Share receives `{ returnFocus }`; menu `run` receives `{ triggerElement, returnFocus }`. Menu items use Kibana's `disableButton` (boolean or function), while tabs and the menu switch use `disabled`. Menu items are ordered by `order`; `overflow: true` forces the ⋮ menu, and nested `items` create submenus. The primary action supports `splitButtonProps`. Provide either `description` or up to three typed `metadata` entries. Favorite statuses are `unfavorited`, `favorited`, `adding` and `removing`.
 
 Spacing defaults to 16px (`standard`), or 8px for a sparse header (`compact`). `flush`, `bleed`, `largeBleed`, `sticky` and `borderless` follow Kibana's layout meanings. See [SOURCES.md](SOURCES.md) for the intentionally unsupported header features.
+
+`KibanaTabs` is a simplified replica of `@kbn/unified-tabs`. Its supported props keep Kibana's names and shapes: `items` contain `{ id, label }`, `selectedItemId` selects the active tab (or the first item by default), and `onChanged` receives `{ items, selectedItem }`. `createItem` supplies the new item for +; `renderContent` receives only the active item. Use it inside `KibanaChrome`'s children, without setting `pageHeader`:
+
+```tsx
+import { useState } from 'react';
+import {
+  KibanaPageHeader, KibanaTabs, type TabbedContentState,
+} from '@elastic/kbn-proto-ui';
+
+export function DiscoverPage() {
+  const [state, setState] = useState<TabbedContentState>({
+    items: [{ id: 'initial', label: 'Untitled' }], selectedItem: null,
+  });
+  return (
+    <KibanaTabs
+      items={state.items}
+      selectedItemId={state.selectedItem?.id}
+      onChanged={setState}
+      createItem={() => ({ id: crypto.randomUUID(), label: 'Untitled' })}
+      wrapTabsBar={(tabsBar) => (
+        <KibanaPageHeader
+          title="New session"
+          spacing="compact"
+          sticky={false}
+          borderless={tabsBar != null}
+          titleAppend={tabsBar}
+          menu={{
+            primaryActionItem: { id: 'save', label: 'Save', run: () => {} },
+          }}
+        />
+      )}
+      renderContent={(selectedItem) => <div>Content for {selectedItem.label}</div>}
+    />
+  );
+}
+```
+
+Tabs support closing (except the last tab), inline rename by double-click or Actions → Rename, and keyboard selection. Enter or blur saves a trimmed name (1–120 characters); Escape cancels. Additional supported props are `hideTabsBar`, `unsavedItemIds`, `disableCloseButton`, `disableInlineLabelEditing`, `disableTabsBarMenu`, `customNewTabButton`, `tabContentIdOverride`, `appendRight`, and `data-test-subj`. The wrapper receives `null` when the bar is hidden, so it can keep rendering the header. Exported types are `KibanaTabsProps`, `TabItem` and `TabbedContentState`.
+
+This is a supported subset, not the complete package: drag reordering, recently closed tabs, previews, limits and Kibana services are not supported yet. See [SOURCES.md](SOURCES.md) for the full omissions. Switching to the real package keeps these supported prop shapes; the host must supply the real package's required services, recently closed state and telemetry callback.
 
 For maintenance, compatibility results, exact upstream paths, license findings, and release instructions, see [SOURCES.md](SOURCES.md).
 
