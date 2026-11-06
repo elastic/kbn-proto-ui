@@ -5,12 +5,12 @@ import type { MouseEvent } from 'react';
 import { PageHeaderMenu, plainText } from './PageHeaderMenu';
 import { PageHeaderTitle } from './PageHeaderTitle';
 import { PageHeaderBadges, PageHeaderTabs } from './PageHeaderExtras';
-import type { KibanaPageHeaderProps } from './types';
+import type { ChromeAppHeaderProps } from './types';
 
-export function KibanaPageHeader({
+export function ChromeAppHeader({
   title, back, badges, share, favorite, description, metadata, tabs, menu, titleAppend,
   spacing, borderless = false, sticky = true,
-}: KibanaPageHeaderProps) {
+}: ChromeAppHeaderProps) {
   const { euiTheme: theme } = useEuiTheme();
   const sparse = title === undefined && !badges?.length && !tabs?.length && !description && !metadata?.length && titleAppend == null && !favorite && !share;
   const resolvedSpacing = spacing ?? (sparse ? 'compact' : 'standard');
@@ -77,3 +77,6 @@ export function KibanaPageHeader({
     {hasTabs && <PageHeaderTabs tabs={tabs!} />}
   </div>;
 }
+
+/** @deprecated Use ChromeAppHeader; retained for one release. */
+export const KibanaPageHeader = ChromeAppHeader;

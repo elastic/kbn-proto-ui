@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { EuiProvider } from '@elastic/eui';
 import { describe, expect, it, vi } from 'vitest';
 import { AgentSidebar } from '../src/replicas/agent-builder/AgentSidebar';
-import { KibanaHeader } from '../src/replicas/KibanaHeader';
+import { ChromeHeader } from '../src/replicas/ChromeHeader';
 describe('agent UI', () => {
   it('submits a trimmed message and attachment through the host callback', () => {
     const submit = vi.fn();
@@ -25,7 +25,7 @@ describe('agent UI', () => {
   it('requests close and exposes the active agent button state', () => {
     const close = vi.fn();
     const toggle = vi.fn();
-    render(<EuiProvider><AgentSidebar onClose={close} /><KibanaHeader isAgentOpen onAgentClick={toggle} /></EuiProvider>);
+    render(<EuiProvider><AgentSidebar onClose={close} /><ChromeHeader isAgentOpen onAgentClick={toggle} /></EuiProvider>);
     fireEvent.click(screen.getByRole('button', { name: 'Close AI Agent' }));
     expect(close).toHaveBeenCalledOnce();
     const button = screen.getByRole('button', { name: 'AI Agent' });

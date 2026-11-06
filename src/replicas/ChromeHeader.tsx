@@ -10,15 +10,24 @@
 // Modified by Elastic, November 2026: project-header slots around standalone controls.
 import type { ReactNode } from 'react';
 import {
-  EuiAvatar, EuiBreadcrumbs, EuiButton, EuiButtonEmpty, EuiButtonIcon,
+  EuiAvatar, EuiBreadcrumbs, EuiButtonEmpty, EuiButtonIcon, EuiIcon,
   EuiFieldSearch, useEuiTheme,
 } from '@elastic/eui';
 import type { EuiBreadcrumb } from '@elastic/eui';
 import { AiButton } from '../kibana-copies/ai-components/ai_button/ai_button';
 import type { Solution } from '../solution-menus';
+import { HeaderActionButton } from './chrome-header/HeaderActionButton';
+import { SearchButton } from './chrome-header/SearchButton';
+
+export type ChromeHeaderAction = {
+  id: string;
+  label: string;
+  iconType: import('@elastic/eui').IconType;
+  variant?: 'bordered' | 'plain';
+} & ({ sidebarAppId: string; onClick?: never } | { sidebarAppId?: never; onClick?: () => void });
 
 export type KibanaBreadcrumb = EuiBreadcrumb;
-export interface KibanaHeaderProps {
+export interface ChromeHeaderProps {
   solution?: Solution;
   breadcrumbs?: KibanaBreadcrumb[];
   spaceName?: string;
@@ -26,14 +35,22 @@ export interface KibanaHeaderProps {
   userName?: string;
   onUserClick?: () => void;
   onHelpClick?: () => void;
+  onSearchClick?: () => void;
+  /** @deprecated Use onSearchClick. Opts into the legacy input for one release. */
   searchValue?: string;
+  /** @deprecated Use onSearchClick. Opts into the legacy input for one release. */
   onSearchChange?: (value: string) => void;
+  /** @deprecated Use onSearchClick. Opts into the legacy input for one release. */
   onSearchSubmit?: (value: string) => void;
   isAgentOpen?: boolean;
   onAgentClick?: () => void;
   agentControlsId?: string;
   colorMode?: 'light' | 'dark';
   onToggleColorMode?: () => void;
+  actions?: ChromeHeaderAction[];
+  activeSidebarApp?: string | null;
+  onActiveSidebarAppChange?: (id: string | null) => void;
+  sidebarControlsId?: string;
   trailing?: ReactNode;
   switcher?: ReactNode;
   projectPicker?: ReactNode;
@@ -48,15 +65,16 @@ const logos: Record<Solution, string> = {
 };
 
 /** Temporary port of vibe-kibana's header; host owns all actions and theme. */
-export function KibanaHeader({
+export function ChromeHeader({
   solution = 'observability', breadcrumbs = [], spaceName = 'Default', userName = 'Elastic User',
-  onSpaceClick, onUserClick, onHelpClick, searchValue, onSearchChange, onSearchSubmit,
+  onSpaceClick, onUserClick, onHelpClick, onSearchClick, searchValue, onSearchChange, onSearchSubmit,
   isAgentOpen = false, onAgentClick, agentControlsId, colorMode = 'light', onToggleColorMode, trailing,
   switcher, projectPicker, subscriptionBadge, afterUserMenu,
-}: KibanaHeaderProps) {
+  actions, activeSidebarApp, onActiveSidebarAppChange, sidebarControlsId,
+}: ChromeHeaderProps) {
   const { euiTheme } = useEuiTheme();
   const resolvedSwitcher = switcher === undefined ? (
-    <EuiButtonEmpty size="s" color="text" iconType={logos[solution]} isDisabled={!onSpaceClick} onClick={onSpaceClick}>
+    <EuiButtonEmpty size="s" color="text" iconType={logos[solution]} onClick={onSpaceClick}>
       {spaceName}
     </EuiButtonEmpty>
   ) : switcher;
@@ -87,27 +105,39 @@ export function KibanaHeader({
         <EuiBreadcrumbs breadcrumbs={breadcrumbs} truncate />
       </div>
       <div css={{ display: 'flex', alignItems: 'center', flexShrink: 0, gap: euiTheme.size.s }}>
-        <form role="search" onSubmit={(event) => {
+        {!onSearchClick && (searchValue !== undefined || onSearchChange || onSearchSubmit) ? <form role="search" onSubmit={(event) => {
           event.preventDefault();
           const data = new FormData(event.currentTarget);
           onSearchSubmit?.(String(data.get('contentSearch') ?? ''));
         }} css={{ width: 'clamp(120px, 18vw, 220px)', '& .euiFormControlLayout': { backgroundColor: 'transparent' } }}>
           <EuiFieldSearch name="contentSearch" aria-label="Find content" placeholder="Find content..."
             compressed isClearable={false} value={searchValue}
-            onChange={(event) => onSearchChange?.(event.target.value)} disabled={!onSearchChange && !onSearchSubmit}
+            onChange={(event) => onSearchChange?.(event.target.value)}
             append={<span css={{ fontSize: 12, color: euiTheme.colors.textSubdued, paddingInline: 4 }}>⌘/</span>}
           />
-        </form>
-        <EuiButton iconType="question" color="text" size="s" minWidth={false} aria-label="Help" onClick={onHelpClick} isDisabled={!onHelpClick} />
-        {onAgentClick && <AiButton size="s" color="text" iconType="productAgent"
-          variant={isAgentOpen ? 'accent' : 'outlined'} onClick={onAgentClick}
+        </form> : <SearchButton onClick={onSearchClick} />}
+        <HeaderActionButton variant="bordered" aria-label="Help" onClick={onHelpClick}>
+          <EuiIcon type="question" color="subdued" aria-hidden />
+        </HeaderActionButton>
+        {actions?.map(action => {
+          const linked = action.sidebarAppId !== undefined;
+          const isOpen = linked && activeSidebarApp === action.sidebarAppId;
+          return <HeaderActionButton key={action.id} variant={action.variant ?? 'bordered'} aria-label={action.label}
+            isSelected={linked ? isOpen : undefined} aria-expanded={linked ? isOpen : undefined}
+            aria-controls={isOpen ? sidebarControlsId : undefined}
+            onClick={linked ? () => onActiveSidebarAppChange?.(isOpen ? null : action.sidebarAppId!) : action.onClick}>
+            <EuiIcon type={action.iconType} color="subdued" aria-hidden />
+          </HeaderActionButton>;
+        })}
+        {onAgentClick && <AiButton size="s" iconType="productAgent"
+          variant={isAgentOpen ? 'accent' : 'base'} onClick={onAgentClick}
           aria-label="AI Agent" aria-expanded={isAgentOpen} aria-controls={agentControlsId} isSelected={isAgentOpen}>
           AI Agent
         </AiButton>}
         {onToggleColorMode && <EuiButtonIcon iconType={colorMode === 'light' ? 'moon' : 'sun'}
           aria-label={`Switch to ${colorMode === 'light' ? 'dark' : 'light'} mode`} onClick={onToggleColorMode} />}
         {trailing}
-        <button type="button" aria-label={`User menu: ${userName}`} disabled={!onUserClick} onClick={onUserClick}
+        <button type="button" aria-label={`User menu: ${userName}`} onClick={onUserClick}
           css={{ border: 0, background: 'transparent', padding: 0, borderRadius: '50%', cursor: onUserClick ? 'pointer' : 'default', flexShrink: 0 }}>
           <EuiAvatar name={userName} size="s" color={euiTheme.colors.vis.euiColorVis1} />
         </button>
@@ -116,3 +146,8 @@ export function KibanaHeader({
     </div>
   );
 }
+
+/** @deprecated Use ChromeHeader; retained for one release. */
+export const KibanaHeader = ChromeHeader;
+/** @deprecated Use ChromeHeaderProps; retained for one release. */
+export type KibanaHeaderProps = ChromeHeaderProps;

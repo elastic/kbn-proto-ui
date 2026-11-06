@@ -23,3 +23,7 @@ KibanaHeader slot layout and KibanaProjectPicker adapt Kibana's project header
 shell/right group and kbn-cps-utils cross-project picker button and styles.
 Modified by Elastic, November 2026: standalone prop slots/counts replace services
 and CPS context; afterUserMenu is a host-only prototype extension.
+
+Internal HeaderActionButton and SearchButton adapt Kibana's shared chrome header
+controls. Modified November 2026: callbacks and native key listeners replace
+Kibana services; deprecated input props retain their one-release behavior.

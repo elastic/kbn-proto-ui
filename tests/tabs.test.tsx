@@ -3,7 +3,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { EuiProvider } from '@elastic/eui';
 import { describe, expect, it, vi } from 'vitest';
 import { KibanaTabs } from '../src/replicas/unified-tabs/KibanaTabs';
-import { KibanaPageHeader } from '../src/replicas/page-header/KibanaPageHeader';
+import { ChromeAppHeader } from '../src/replicas/app-header/ChromeAppHeader';
 import type { KibanaTabsProps, TabbedContentState } from '../src/replicas/unified-tabs/types';
 
 const items = [{ id: 'a', label: 'First' }, { id: 'b', label: 'Second' }, { id: 'c', label: 'Third' }];
@@ -123,7 +123,7 @@ describe('KibanaTabs', () => {
   });
 
   it('passes the actual bar into titleAppend and keeps content outside the header', () => {
-    show({ renderContent: item => <p>Page {item.label}</p>, wrapTabsBar: bar => <KibanaPageHeader title="Discover" titleAppend={bar} borderless sticky={false} /> });
+    show({ renderContent: item => <p>Page {item.label}</p>, wrapTabsBar: bar => <ChromeAppHeader title="Discover" titleAppend={bar} borderless sticky={false} /> });
     const header = screen.getByRole('heading', { name: 'Discover' }).closest('[data-test-subj="kibanaPageHeader"]')!;
     expect(header.contains(screen.getByRole('tablist'))).toBe(true);
     expect(header.contains(screen.getByRole('tabpanel'))).toBe(false);
