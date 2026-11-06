@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../src/kibana-copies/ai-components/ai_button/ai_button_empty.tsx"],
+  "sourcesContent": ["/*\n * Copyright Elasticsearch B.V. and/or licensed to Elasticsearch B.V. under one\n * or more contributor license agreements. Licensed under the \"Elastic License\n * 2.0\", the \"GNU Affero General Public License v3.0 only\", and the \"Server Side\n * Public License v 1\"; you may not use this file except in compliance with, at\n * your election, the \"Elastic License 2.0\", the \"GNU Affero General Public\n * License v3.0 only\", or the \"Server Side Public License, v 1\".\n */\n\nimport React from 'react';\nimport type { DistributiveOmit } from '@elastic/eui';\n\nimport { AiButtonBase } from './ai_button_base';\nimport type { AiButtonProps } from './types';\n\n/** Props for the `AiButtonEmpty` component. */\nexport type AiButtonEmptyProps = DistributiveOmit<\n  Extract<AiButtonProps, { iconOnly?: false; variant: 'empty' | 'outlined' }>,\n  'variant'\n>;\n\n/**\n * Renders the empty AI button variant.\n * @param props - Props accepted by the empty AI button variant.\n */\nexport const AiButtonEmpty = (props: AiButtonEmptyProps) => {\n  return <AiButtonBase {...props} variant=\"empty\" />;\n};\n"],
+  "mappings": ";;;;;AA0BS;AADF,IAAM,gBAAgB,CAAC,UAA8B;AAC1D,SAAO,oBAAC,gBAAc,GAAG,OAAO,SAAQ,SAAQ;AAClD;",
+  "names": []
+}
