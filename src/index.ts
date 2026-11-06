@@ -28,3 +28,6 @@ export type * from './replicas/page-header/menuTypes';
 
 export { KibanaTabs } from './replicas/unified-tabs/KibanaTabs';
 export type { KibanaTabsProps, TabItem, TabbedContentState } from './replicas/unified-tabs/types';
+
+export { KibanaProjectPicker } from './replicas/KibanaProjectPicker';
+export type { KibanaProjectPickerProps } from './replicas/KibanaProjectPicker';

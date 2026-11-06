@@ -18,3 +18,8 @@ Original notices are retained in source and generated bundle legal comments.
 KibanaTabs adapts the supported public types, tab interactions and selected-tab
 corner SVG from Kibana's kbn-unified-tabs, via vibe-kibana's TabBar styling.
 Modified by Elastic, November 2026: standalone EUI replica with no Kibana services.
+
+KibanaHeader slot layout and KibanaProjectPicker adapt Kibana's project header
+shell/right group and kbn-cps-utils cross-project picker button and styles.
+Modified by Elastic, November 2026: standalone prop slots/counts replace services
+and CPS context; afterUserMenu is a host-only prototype extension.
