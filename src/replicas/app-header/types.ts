@@ -200,8 +200,11 @@ export type AppHeaderConfig = AppHeaderConfigBase & AppHeaderSecondaryContent;
 
 export type AppHeaderMenu = AppMenuConfig;
 
-export type KibanaPageHeaderProps = AppHeaderConfig & {
+export type ChromeAppHeaderProps = AppHeaderConfig & {
   titleAppend?: ReactNode;
   sticky?: boolean;
   borderless?: boolean;
 };
+
+/** @deprecated Use ChromeAppHeaderProps; retained for one release. */
+export type KibanaPageHeaderProps = ChromeAppHeaderProps;

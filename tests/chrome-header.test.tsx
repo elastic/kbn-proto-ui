@@ -1,11 +1,11 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { EuiBadge, EuiProvider } from '@elastic/eui';
 import { describe, expect, it, vi } from 'vitest';
-import { KibanaHeader } from '../src/replicas/KibanaHeader';
+import { ChromeHeader } from '../src/replicas/ChromeHeader';
 import { KibanaProjectPicker } from '../src/replicas/KibanaProjectPicker';
-import type { KibanaHeaderProps } from '../src/replicas/KibanaHeader';
+import type { ChromeHeaderProps } from '../src/replicas/ChromeHeader';
 
-const show = (props: KibanaHeaderProps = {}) => render(<EuiProvider><KibanaHeader {...props} /></EuiProvider>);
+const show = (props: ChromeHeaderProps = {}) => render(<EuiProvider><ChromeHeader {...props} /></EuiProvider>);
 
 describe('global header slots', () => {
   it('keeps the default space button, solution logo, callback and disabled behavior', async () => {

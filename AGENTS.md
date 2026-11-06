@@ -8,7 +8,7 @@ Keep the public API independent of consuming prototypes. Include UI and supporti
 
 - Install a maintainer-created release tag: `npm install github:elastic/kbn-proto-ui#v0.1.0`. Never install from `main`: it contains source, while release tags include prebuilt `dist/`.
 - Keep the host's `EuiProvider`, theme, React and Emotion instances. Do not add nested providers or import private `@kbn/ui-*` packages in the prototype.
-- Import `KibanaChrome` from `@elastic/kbn-proto-ui`. Pass `solution`, `activeNavItem`, `onNavigate`, `breadcrumbs`, and children. The host owns its router.
+- Import `KibanaChromeLayout` from `@elastic/kbn-proto-ui`. Pass `solution`, `activeNavItem`, `onNavigate`, `breadcrumbs`, and children. The host owns its router.
 - Valid solutions: `observability`, `security`, `search`, `classic`. Use `dashboards` (plural), matching Kibana. See exported `solutionNavTrees` for all IDs.
 - Supply `getHref` when links need host router URLs. Ordinary clicks call `onNavigate`; modified clicks should keep native browser behavior.
 - Override the menu with `navItems={{ primaryItems: [...] }}`, or extend defaults with `navItems={(nav) => ({ ...nav, primaryItems: [...nav.primaryItems, { id: 'my-page', label: 'My page', iconType: 'beaker', href: '/my-page' }] })}`. Preserve stable IDs. Sections have `{ id, label?, items: [{ id, label, href }] }`.
@@ -16,14 +16,14 @@ Keep the public API independent of consuming prototypes. Include UI and supporti
 - The agent uses `{ open, onOpenChange, attachment?, messages?, onSubmit?, isResponding? }`. Supply responses from the host; this library never fabricates responses or fetches data.
 - The application panel is fixed to `layoutVar('application.content.height')`. Keep page regions at `minHeight: 0` and put scrolling inside the page.
 - Prefer lower-level exported components when only one part is needed. Never copy the library's chrome into a prototype.
-- Use `KibanaPageHeader` for application headers. Use `menu` with Kibana's declarative `AppMenuConfig` for actions; do not add page presets. Use `KibanaTabs.wrapTabsBar` → `KibanaPageHeader.titleAppend` for Discover-style tabs; use the header's data-driven `tabs` for normal page tabs. Do not port vibe-kibana's legacy TabBar props or presets.
-- Global header slots are `switcher`, `projectPicker` and `subscriptionBadge`; pass them through `KibanaChrome.header` or directly to `KibanaHeader`. Omitted `switcher` preserves the space button; `null` hides it. `KibanaProjectPicker` is a count/button replica only; the host owns its popover. `trailing` stays before the avatar. `afterUserMenu` is a host-only extension after the avatar, not Kibana API; never ship prototype tools in this library.
-- For registered placement, pass header props through `KibanaChrome.pageHeader` (measured `applicationTopBar` slot). For Discover-style inline placement, render the header inside the app children and leave `pageHeader` unset. Preserve upstream prop names and shapes, including `disableButton`, focus-return contexts and the description/metadata union.
+- Use `ChromeAppHeader` for application headers. Use `menu` with Kibana's declarative `AppMenuConfig` for actions; do not add page presets. Use `KibanaTabs.wrapTabsBar` → `ChromeAppHeader.titleAppend` for Discover-style tabs; use the header's data-driven `tabs` for normal page tabs. Do not port vibe-kibana's legacy TabBar props or presets.
+- Global header slots are `switcher`, `projectPicker` and `subscriptionBadge`; pass them through `KibanaChromeLayout.header` or directly to `ChromeHeader`. Omitted `switcher` preserves the space button; `null` hides it. `KibanaProjectPicker` is a count/button replica only; the host owns its popover. `trailing` stays before the avatar. `afterUserMenu` is a host-only extension after the avatar, not Kibana API; never ship prototype tools in this library.
+- For registered placement, pass header props through `KibanaChromeLayout.appHeader` (measured `applicationTopBar` slot). For Discover-style inline placement, render the header inside the app children and leave `appHeader` unset. Preserve upstream prop names and shapes, including `disableButton`, focus-return contexts and the description/metadata union.
 
 ## Maintaining this library
 
 - Use `src/wrappers/` for setup around published `@kbn/ui-*` packages, `src/replicas/` for library-maintained UI rebuilt to match Kibana, `src/solution-menus/` for solution menu data, and `src/kibana-copies/ai-components/` for upstream copies. Preserve copies unchanged except for the documented removal of the deprecated AI Assistant logo from the button implementation and types. Record authorized local changes in SOURCES.md and retain modification notices. Replace copies with the published AI components package when available. The standalone English-label adapter lives in `src/utilities/kibanaI18n.ts` and resolves through TypeScript/build and test aliases.
-- Keep `KibanaChrome`, `KibanaSideNav` and `layout.ts` in `src/wrappers/`. Keep `KibanaHeader`, `KibanaSidebar` and `sidebarWidth.ts` in `src/replicas/`; its `agent-builder/` folder holds the agent conversation UI and connector logo.
+- Keep `KibanaChromeLayout`, `KibanaSideNav` and `layout.ts` in `src/wrappers/`. Keep `ChromeHeader`, `Sidebar` and `sidebarWidth.ts` in `src/replicas/`; its `agent-builder/` folder holds the agent conversation UI and connector logo.
 - Keep reusable styling APIs and standalone adapters in `src/utilities/`. `aiStyles.ts` re-exports the same Kibana gradient hooks and SVG definitions used by AI buttons; do not maintain a second palette or gradient implementation.
 - Use Node 22.12+ (`nvm use` selects Node 22) for the build and test tooling.
 - Use the published `ChromeLayout` and `SideNavigation`; do not recreate them.
@@ -37,12 +37,12 @@ Keep the public API independent of consuming prototypes. Include UI and supporti
 
 ## Discover tabs pattern
 
-Keep controlled state, ID creation and page content in the host. Use the following inside `KibanaChrome`'s children and leave `KibanaChrome.pageHeader` unset. `wrapTabsBar` renders the inline header, and `renderContent` renders the selected tab's content below it:
+Keep controlled state, ID creation and page content in the host. Use the following inside `KibanaChromeLayout`'s children and leave `KibanaChromeLayout.appHeader` unset. `wrapTabsBar` renders the inline header, and `renderContent` renders the selected tab's content below it:
 
 ```tsx
 import { useState } from 'react';
 import {
-  KibanaPageHeader, KibanaTabs, type TabbedContentState,
+  ChromeAppHeader, KibanaTabs, type TabbedContentState,
 } from '@elastic/kbn-proto-ui';
 
 export function DiscoverPage() {
@@ -56,7 +56,7 @@ export function DiscoverPage() {
       onChanged={setState}
       createItem={() => ({ id: crypto.randomUUID(), label: 'Untitled' })}
       wrapTabsBar={(tabsBar) => (
-        <KibanaPageHeader
+        <ChromeAppHeader
           title="New session"
           spacing="compact"
           sticky={false}

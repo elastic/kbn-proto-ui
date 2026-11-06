@@ -18,7 +18,7 @@ import { AiButton } from '../kibana-copies/ai-components/ai_button/ai_button';
 import type { Solution } from '../solution-menus';
 
 export type KibanaBreadcrumb = EuiBreadcrumb;
-export interface KibanaHeaderProps {
+export interface ChromeHeaderProps {
   solution?: Solution;
   breadcrumbs?: KibanaBreadcrumb[];
   spaceName?: string;
@@ -48,12 +48,12 @@ const logos: Record<Solution, string> = {
 };
 
 /** Temporary port of vibe-kibana's header; host owns all actions and theme. */
-export function KibanaHeader({
+export function ChromeHeader({
   solution = 'observability', breadcrumbs = [], spaceName = 'Default', userName = 'Elastic User',
   onSpaceClick, onUserClick, onHelpClick, searchValue, onSearchChange, onSearchSubmit,
   isAgentOpen = false, onAgentClick, agentControlsId, colorMode = 'light', onToggleColorMode, trailing,
   switcher, projectPicker, subscriptionBadge, afterUserMenu,
-}: KibanaHeaderProps) {
+}: ChromeHeaderProps) {
   const { euiTheme } = useEuiTheme();
   const resolvedSwitcher = switcher === undefined ? (
     <EuiButtonEmpty size="s" color="text" iconType={logos[solution]} isDisabled={!onSpaceClick} onClick={onSpaceClick}>
@@ -116,3 +116,8 @@ export function KibanaHeader({
     </div>
   );
 }
+
+/** @deprecated Use ChromeHeader; retained for one release. */
+export const KibanaHeader = ChromeHeader;
+/** @deprecated Use ChromeHeaderProps; retained for one release. */
+export type KibanaHeaderProps = ChromeHeaderProps;

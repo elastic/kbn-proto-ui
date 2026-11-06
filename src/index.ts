@@ -1,11 +1,11 @@
-export { KibanaChrome } from './wrappers/KibanaChrome';
-export type { KibanaChromeProps, AgentConfig } from './wrappers/KibanaChrome';
-export { KibanaHeader } from './replicas/KibanaHeader';
-export type { KibanaHeaderProps, KibanaBreadcrumb } from './replicas/KibanaHeader';
+export { KibanaChromeLayout } from './wrappers/KibanaChromeLayout';
+export type { KibanaChromeLayoutProps, AgentConfig } from './wrappers/KibanaChromeLayout';
+export { ChromeHeader } from './replicas/ChromeHeader';
+export type { ChromeHeaderProps, KibanaBreadcrumb } from './replicas/ChromeHeader';
 export { KibanaSideNav } from './wrappers/KibanaSideNav';
 export type { KibanaSideNavProps } from './wrappers/KibanaSideNav';
-export { KibanaSidebar, clampSidebarWidth, getDefaultSidebarWidth } from './replicas/KibanaSidebar';
-export type { KibanaSidebarProps } from './replicas/KibanaSidebar';
+export { Sidebar, clampSidebarWidth, getDefaultSidebarWidth } from './replicas/Sidebar';
+export type { SidebarProps } from './replicas/Sidebar';
 export { AgentSidebar } from './replicas/agent-builder/AgentSidebar';
 export type { AgentSidebarProps, AgentAttachment, AgentMessage } from './replicas/agent-builder/AgentSidebar';
 export { AiButton } from './kibana-copies/ai-components/ai_button/ai_button';
@@ -22,12 +22,20 @@ export { ANTHROPIC_LOGO } from './replicas/agent-builder/agentConnectorLogo';
 export * from './solution-menus';
 export { layoutVar, layoutVarName } from './wrappers/layout';
 export type { LayoutVarName } from './wrappers/layout';
-export { KibanaPageHeader } from './replicas/page-header/KibanaPageHeader';
-export type * from './replicas/page-header/types';
-export type * from './replicas/page-header/menuTypes';
+export { ChromeAppHeader } from './replicas/app-header/ChromeAppHeader';
+export type * from './replicas/app-header/types';
+export type * from './replicas/app-header/menuTypes';
 
 export { KibanaTabs } from './replicas/unified-tabs/KibanaTabs';
 export type { KibanaTabsProps, TabItem, TabbedContentState } from './replicas/unified-tabs/types';
 
 export { KibanaProjectPicker } from './replicas/KibanaProjectPicker';
 export type { KibanaProjectPickerProps } from './replicas/KibanaProjectPicker';
+
+export { KibanaChrome } from './wrappers/KibanaChromeLayout';
+export type { KibanaChromeProps } from './wrappers/KibanaChromeLayout';
+export { KibanaHeader } from './replicas/ChromeHeader';
+export type { KibanaHeaderProps } from './replicas/ChromeHeader';
+export { KibanaSidebar } from './replicas/Sidebar';
+export type { KibanaSidebarProps } from './replicas/Sidebar';
+export { KibanaPageHeader } from './replicas/app-header/ChromeAppHeader';

@@ -1,6 +1,6 @@
 import type {
   AppHeaderEditableTitle, AppHeaderMetadataItems, AppHeaderShareAction,
-  AppMenuConfig, KibanaPageHeaderProps,
+  AppMenuConfig, ChromeAppHeaderProps,
 } from '../dist/index';
 
 const title: AppHeaderEditableTitle = {
@@ -15,17 +15,17 @@ const menu: AppMenuConfig = {
     splitButtonProps: { secondaryButtonAriaLabel: 'Save options', items: [{ id: 'copy', label: 'Save a copy', run: () => {} }] } },
   switch: { id: 'live', label: 'Live', checked: false, disabled: false, onChange: (_checked: boolean) => {} },
 };
-const props: KibanaPageHeaderProps = { title, share, menu, metadata: [{ type: 'text', label: 'Created by', value: 'Andrea' }] };
+const props: ChromeAppHeaderProps = { title, share, menu, metadata: [{ type: 'text', label: 'Created by', value: 'Andrea' }] };
 void props;
 
 // @ts-expect-error Description and metadata are mutually exclusive in Kibana.
-const both: KibanaPageHeaderProps = { description: 'Traffic', metadata: [{ type: 'text', label: 'Created' }] };
+const both: ChromeAppHeaderProps = { description: 'Traffic', metadata: [{ type: 'text', label: 'Created' }] };
 // @ts-expect-error Metadata has a maximum of three items.
 const tooMany: AppHeaderMetadataItems = [{ type: 'text', label: '1' }, { type: 'text', label: '2' }, { type: 'text', label: '3' }, { type: 'text', label: '4' }];
 // @ts-expect-error A generic children slot is intentionally absent.
-const children: KibanaPageHeaderProps = { children: 'arbitrary' };
+const children: ChromeAppHeaderProps = { children: 'arbitrary' };
 // @ts-expect-error Presets are not part of the Kibana contract.
-const preset: KibanaPageHeaderProps = { config: 'discover' };
+const preset: ChromeAppHeaderProps = { config: 'discover' };
 // @ts-expect-error Kibana's share tooltip is a structured object.
 const tooltip: AppHeaderShareAction = { onClick: () => {}, tooltip: 'wrong shape' };
 // @ts-expect-error Menu items use disableButton, not disabled.

@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { EuiProvider } from '@elastic/eui';
 import { describe, expect, it, vi } from 'vitest';
-import { KibanaPageHeader } from '../src/replicas/page-header/KibanaPageHeader';
-import type { KibanaPageHeaderProps } from '../src/replicas/page-header/types';
+import { ChromeAppHeader } from '../src/replicas/app-header/ChromeAppHeader';
+import type { ChromeAppHeaderProps } from '../src/replicas/app-header/types';
 
-const show = (props: KibanaPageHeaderProps) => render(<EuiProvider><KibanaPageHeader {...props} /></EuiProvider>);
+const show = (props: ChromeAppHeaderProps) => render(<EuiProvider><ChromeAppHeader {...props} /></EuiProvider>);
 
 describe('Kibana page header', () => {
   it('renders a title, explicit back target, data badges and host titleAppend', () => {
@@ -25,7 +25,7 @@ describe('Kibana page header', () => {
     const save = vi.fn();
     function Editable() {
       const [text, setText] = useState('Traffic');
-      return <KibanaPageHeader title={{ text, ariaLabel: 'Edit dashboard name', onSave: value => { save(value); setText(value); } }} />;
+      return <ChromeAppHeader title={{ text, ariaLabel: 'Edit dashboard name', onSave: value => { save(value); setText(value); } }} />;
     }
     render(<EuiProvider><Editable /></EuiProvider>);
     fireEvent.click(screen.getByRole('button', { name: 'Edit dashboard name' }));
@@ -79,7 +79,7 @@ describe('Kibana page header', () => {
     const view = show({ title: 'Traffic', description: { text: 'Requests over time', learnMoreUrl: 'https://example.com/docs' } });
     expect(screen.getByRole('link', { name: /Learn more/ }).getAttribute('href')).toBe('https://example.com/docs');
     const details = vi.fn();
-    view.rerender(<EuiProvider><KibanaPageHeader title="Traffic" metadata={[
+    view.rerender(<EuiProvider><ChromeAppHeader title="Traffic" metadata={[
       { type: 'text', label: 'Created by', value: 'Andrea' },
       { type: 'button', label: 'Details', onClick: details }, { type: 'health', label: 'Healthy', color: 'success' },
     ]} /></EuiProvider>);
@@ -207,7 +207,7 @@ describe('Kibana page header', () => {
   });
 
   it('drops undeclared JSX fields instead of spreading them into EUI', () => {
-    const props = { title: 'Traffic', children: <span>Injected child</span>, badges: [{ label: <b>Injected badge</b>, renderCustomBadge: () => <b>Injected custom</b> }] } as unknown as KibanaPageHeaderProps;
+    const props = { title: 'Traffic', children: <span>Injected child</span>, badges: [{ label: <b>Injected badge</b>, renderCustomBadge: () => <b>Injected custom</b> }] } as unknown as ChromeAppHeaderProps;
     show(props);
     expect(screen.queryByText('Injected child')).toBeNull();
     expect(screen.queryByText('Injected badge')).toBeNull();

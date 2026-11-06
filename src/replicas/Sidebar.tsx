@@ -8,7 +8,7 @@ const sidebarRadius = layoutVar('sidebar.borderRadius' as CSSVarName, '0px');
 import { clampSidebarWidth } from './sidebarWidth';
 export { clampSidebarWidth, getDefaultSidebarWidth } from './sidebarWidth';
 
-export interface KibanaSidebarProps {
+export interface SidebarProps {
   width: number;
   onWidthChange: (width: number) => void;
   children: ReactNode;
@@ -17,7 +17,7 @@ export interface KibanaSidebarProps {
 }
 
 /** Temporary port of Kibana's sidebar panel and resize handle. */
-export function KibanaSidebar({ width, onWidthChange, children, id, 'aria-label': label = 'AI Agent' }: KibanaSidebarProps) {
+export function Sidebar({ width, onWidthChange, children, id, 'aria-label': label = 'AI Agent' }: SidebarProps) {
   const theme = useEuiTheme();
   const dragCleanup = useRef<() => void>();
   useEffect(() => () => dragCleanup.current?.(), []);
@@ -54,3 +54,8 @@ export function KibanaSidebar({ width, onWidthChange, children, id, 'aria-label'
     </aside>
   );
 }
+
+/** @deprecated Use Sidebar; retained for one release. */
+export const KibanaSidebar = Sidebar;
+/** @deprecated Use SidebarProps; retained for one release. */
+export type KibanaSidebarProps = SidebarProps;
