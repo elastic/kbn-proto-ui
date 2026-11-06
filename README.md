@@ -18,7 +18,7 @@ src/
     sidebarWidth.ts
     page-header/     # Rebuilt to match Kibana
       KibanaPageHeader.tsx
-    tabs/            # Simplified @kbn/unified-tabs replica
+    unified-tabs/    # Simplified @kbn/unified-tabs replica
       KibanaTabs.tsx
     agent-builder/
       AgentSidebar.tsx
