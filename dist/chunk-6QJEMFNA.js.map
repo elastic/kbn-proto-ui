@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../src/kibana-copies/ai-components/ai_button/ai_button_default.tsx"],
+  "sourcesContent": ["/*\n * Copyright Elasticsearch B.V. and/or licensed to Elasticsearch B.V. under one\n * or more contributor license agreements. Licensed under the \"Elastic License\n * 2.0\", the \"GNU Affero General Public License v3.0 only\", and the \"Server Side\n * Public License v 1\"; you may not use this file except in compliance with, at\n * your election, the \"Elastic License 2.0\", the \"GNU Affero General Public\n * License v3.0 only\", or the \"Server Side Public License, v 1\".\n */\n\nimport React from 'react';\n\nimport { AiButtonBase } from './ai_button_base';\nimport type { AiButtonProps } from './types';\n\n/** Props for the default text AI button variants (`base` and `accent`). */\nexport type AiButtonDefaultProps = Extract<\n  AiButtonProps,\n  { iconOnly?: false; variant?: 'accent' | 'base' }\n>;\n\n/**\n * Renders the default text AI button variants (`base` and `accent`).\n * Default variant is `'base'` when omitted.\n * @param props - Props accepted by the default AI button variant.\n */\nexport const AiButtonDefault = (props: AiButtonDefaultProps) => {\n  return <AiButtonBase {...props} />;\n};\n"],
+  "mappings": ";;;;;AA0BS;AADF,IAAM,kBAAkB,CAAC,UAAgC;AAC9D,SAAO,oBAAC,gBAAc,GAAG,OAAO;AAClC;",
+  "names": []
+}

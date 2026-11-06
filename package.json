@@ -1,6 +1,6 @@
 {
   "name": "@elastic/kbn-proto-ui",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Kibana shared chrome, solution navigation and AI UI for prototypes.",
   "type": "module",
   "license": "Elastic-2.0",

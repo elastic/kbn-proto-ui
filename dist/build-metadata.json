@@ -1,0 +1,13 @@
+{
+  "bundled": {
+    "@kbn/ui-chrome-layout": "0.0.0-56a57242d882",
+    "@kbn/ui-side-navigation": "0.0.0-875bc2cf4783"
+  },
+  "external": [
+    "react",
+    "react-dom",
+    "@elastic/eui",
+    "@emotion/react",
+    "@emotion/css"
+  ]
+}
