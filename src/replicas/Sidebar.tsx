@@ -17,7 +17,7 @@ export interface SidebarProps {
 }
 
 /** Temporary port of Kibana's sidebar panel and resize handle. */
-export function Sidebar({ width, onWidthChange, children, id, 'aria-label': label = 'AI Agent' }: SidebarProps) {
+export function Sidebar({ width, onWidthChange, children, id, 'aria-label': label = 'Side panel' }: SidebarProps) {
   const theme = useEuiTheme();
   const dragCleanup = useRef<() => void>();
   useEffect(() => () => dragCleanup.current?.(), []);

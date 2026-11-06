@@ -2,6 +2,17 @@
 
 Kibana's shared shell for React prototypes: the published chrome layout and side navigation, solution menus, header, and AI Agent UI. No router, app setup, or data fetching.
 
+How the chrome is organized:
+
+```text
+KibanaChromeLayout (wraps published ChromeLayout)
+├─ ChromeHeader             Kibana's top bar
+├─ KibanaSideNav            wraps published SideNavigation
+├─ ChromeAppHeader          Kibana's app title bar (appHeader)
+├─ Page content             supplied by the host
+└─ Sidebar                  Kibana's panel, containing the open sidebar app
+```
+
 The library is independent of consuming apps. App-specific styles, palettes and helpers belong in the host; shared AI buttons use the host's EUI theme.
 
 ```text
@@ -212,3 +223,35 @@ Old root exports and the old prop remain functional and carry `@deprecated` anno
 `searchValue`, `onSearchChange` and `onSearchSubmit` are deprecated for one release. Supplying any of them without `onSearchClick` retains the old editable search field and callbacks. `onSearchClick` takes precedence and selects the new button. Migrate by moving search/query UI to the host and supplying that callback.
 
 Use `header.actions` for custom icon actions (`id`, `label`, `iconType`, optional `variant: 'bordered' | 'plain'`, and `onClick`). They appear after Help and before AI Agent; existing theme control, `trailing`, avatar and `afterUserMenu` keep their order. The AI Agent now uses Kibana's `base` variant when closed and `accent` when open, without a text-color override.
+
+## Sidebar apps
+
+Register UI with `sidebarApps: [{ id, label?, render: () => ReactNode }]`, and control the single active ID with `activeSidebarApp` and `onActiveSidebarAppChange`. IDs must be unique. Unknown IDs render no sidebar. Content mounts only for the open app, inside the same resizable `Sidebar`; the width is shared across apps. The host owns content state and close controls. No Kibana registry, global store or persistence is added.
+
+```tsx
+import { useState } from 'react';
+import { KibanaChromeLayout } from '@elastic/kbn-proto-ui';
+
+export function Prototype() {
+  const [active, setActive] = useState<string | null>(null);
+  return (
+    <KibanaChromeLayout
+      activeSidebarApp={active}
+      onActiveSidebarAppChange={setActive}
+      sidebarApps={[{
+        id: 'inspector', label: 'Inspector',
+        render: () => <section><h2>Inspector</h2><button onClick={() => setActive(null)}>Close inspector</button></section>,
+      }]}
+      header={{ actions: [{
+        id: 'inspect', label: 'Inspector', iconType: 'inspect', sidebarAppId: 'inspector',
+      }] }}
+    >
+      <MyPrototypePage />
+    </KibanaChromeLayout>
+  );
+}
+```
+
+An action with `sidebarAppId` toggles that app instead of accepting `onClick`. Its selected state, `aria-expanded` and `aria-controls` follow the active app. Standalone `ChromeHeader` supports the corresponding controlled props and `sidebarControlsId`; the layout wires these automatically.
+
+The existing `agent={{ open, onOpenChange, ... }}` API remains supported, including `agent.children`; it registers the built-in `agent` app. Reserve that ID when using the adapter. You can also register your own `agent` render function in `sidebarApps` without the legacy prop. AI Agent accents only while `agent` is active; another app leaves it at `base`. When combining APIs, an explicitly supplied `activeSidebarApp` (including `null`) takes precedence over `agent.open`, and toggles notify both the main callback and the agent callback when its open flag changes. Supply controlled updates for the new API; there is no internal active-app state.
