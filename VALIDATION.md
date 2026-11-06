@@ -1,9 +1,10 @@
 # Validation — 2026-11-05
 
-The implementation is local. No project commits, pushes, GitHub repository creation, tags, or npm publication were performed. Temporary Git fixtures were created only under `/private/tmp` to test Git installation.
+Results below cover the original library checks and the page-header feature on `feat/page-header`. No release workflow or npm publication was run for the page-header change. Temporary Git fixtures were created only under `/private/tmp` to test Git installation.
 
 | Check | Result |
 | --- | --- |
+| Page header | 26 tests pass, including title/rename validation, back, badges, share/favorite, nested overflow, primary/split buttons, disabled states, tabs and the host titleAppend slot. Public consumer type compilation validates the declarative contract. Packed integration in an isolated copy of vibe-kibana passes Discover/Dashboards screenshots, menus, host tabs, dark mode and measured applicationTopBar resize checks without runtime warnings. Original vibe-kibana files are unchanged |
 | Solution menu rename | Renamed all seven menu files unchanged to the top-level `solution-menus` folder and updated the public entry point without an alias. Typecheck, all nine tests, build and package checks pass. The new package subpath imports successfully; the old subpath is rejected with `ERR_PACKAGE_PATH_NOT_EXPORTED`. Package audit verifies the new entry files and excludes old output. SOURCES.md classifies implementation origins |
 | Wrapper/replica organization | Source matches the documented `wrappers/`, `kibana-copies/`, `replicas/`, `solution-menus/` and `utilities/` structure. Translation adapter moved to utilities; imports, exports, build entries and aliases updated. Typecheck, all nine tests, build and package checks pass; public package exports are unchanged |
 | Deprecated logo removal | Removed the logo asset, special icon mapping and supported icon value. Source and built output contain no deprecated icon references; typecheck, all nine tests, build and package checks pass. The two changed upstream files carry modification notices; gradient files remain unchanged |

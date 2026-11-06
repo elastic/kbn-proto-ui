@@ -16,6 +16,8 @@ Keep the public API independent of consuming prototypes. Include UI and supporti
 - The agent uses `{ open, onOpenChange, attachment?, messages?, onSubmit?, isResponding? }`. Supply responses from the host; this library never fabricates responses or fetches data.
 - The application panel is fixed to `layoutVar('application.content.height')`. Keep page regions at `minHeight: 0` and put scrolling inside the page.
 - Prefer lower-level exported components when only one part is needed. Never copy the library's chrome into a prototype.
+- Use `KibanaPageHeader` for application headers. Use `menu` with Kibana's declarative `AppMenuConfig` for actions; do not add page presets. Only use `titleAppend` for host-owned content such as Discover's complete tab bar; use data-driven `tabs` for normal page tabs. Never move the host's TabBar into this library.
+- For registered placement, pass header props through `KibanaChrome.pageHeader` (measured `applicationTopBar` slot). For Discover-style inline placement, render the header inside the app children and leave `pageHeader` unset. Preserve upstream prop names and shapes, including `disableButton`, focus-return contexts and the description/metadata union.
 
 ## Maintaining this library
 

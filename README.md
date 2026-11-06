@@ -16,6 +16,8 @@ src/
     KibanaHeader.tsx
     KibanaSidebar.tsx
     sidebarWidth.ts
+    page-header/     # Rebuilt to match Kibana
+      KibanaPageHeader.tsx
     agent-builder/
       AgentSidebar.tsx
       agentConnectorLogo.ts
@@ -97,6 +99,27 @@ Use your host's Emotion JSX configuration and existing `EuiProvider`. The hook s
 The agent is UI only: pass `messages`, `onSubmit`, and `isResponding` through `agent` to connect your prototype's behavior, or supply `agent.children` for custom conversation content. Header actions and user/space labels are configured through `header`. Unconfigured actions are disabled. The page fills a fixed-height panel; give your page's scrollable region `min-height: 0; overflow: auto`.
 
 Classic uses Kibana's app categories in the published side navigation. Kibana's legacy collapsible Classic drawer itself is not published. The default solution snapshots represent self-managed Kibana with Agent chat, Streams and Workflows enabled; feature/privilege differences can be overridden with `navItems`.
+
+Use `KibanaPageHeader` for the application title bar. Its supported prop names and shapes follow Kibana's `@kbn/ui-app-header` and `AppMenuConfig`:
+
+```tsx
+import { KibanaPageHeader } from '@elastic/kbn-proto-ui';
+
+<KibanaPageHeader
+  title="Web traffic"
+  back={{ href: '/dashboards', label: 'Dashboards' }}
+  menu={{
+    items: [{ id: 'export', label: 'Export', iconType: 'export', run: onExport }],
+    primaryActionItem: { id: 'edit', label: 'Edit', iconType: 'pencil', run: onEdit },
+  }}
+/>
+```
+
+Pass the same header props to `KibanaChrome` as `pageHeader={...}` to render it in the measured `applicationTopBar` slot, matching Kibana's registered header placement. For Discover-style inline placement, render `KibanaPageHeader` as the first child inside the app and pass the host's tab bar through `titleAppend`; leave `pageHeader` unset so there is only one header. Discover's tab system stays in the host. `titleAppend` is the only arbitrary-content slot; use data-driven `tabs` for ordinary page tabs and `menu` for actions.
+
+Inline rename uses `title={{ text, onSave, placeholder?, ariaLabel? }}`; the host updates `text` on success, and `onSave` may return an error string or a promise. Share receives `{ returnFocus }`; menu `run` receives `{ triggerElement, returnFocus }`. Menu items use Kibana's `disableButton` (boolean or function), while tabs and the menu switch use `disabled`. Menu items are ordered by `order`; `overflow: true` forces the ⋮ menu, and nested `items` create submenus. The primary action supports `splitButtonProps`. Provide either `description` or up to three typed `metadata` entries. Favorite statuses are `unfavorited`, `favorited`, `adding` and `removing`.
+
+Spacing defaults to 16px (`standard`), or 8px for a sparse header (`compact`). `flush`, `bleed`, `largeBleed`, `sticky` and `borderless` follow Kibana's layout meanings. See [SOURCES.md](SOURCES.md) for the intentionally unsupported header features.
 
 For maintenance, compatibility results, exact upstream paths, license findings, and release instructions, see [SOURCES.md](SOURCES.md).
 

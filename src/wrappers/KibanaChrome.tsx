@@ -9,6 +9,8 @@ import type { KibanaSideNavProps } from './KibanaSideNav';
 import { KibanaSidebar, clampSidebarWidth, getDefaultSidebarWidth } from '../replicas/KibanaSidebar';
 import { AgentSidebar } from '../replicas/agent-builder/AgentSidebar';
 import type { AgentSidebarProps } from '../replicas/agent-builder/AgentSidebar';
+import { KibanaPageHeader } from '../replicas/page-header/KibanaPageHeader';
+import type { KibanaPageHeaderProps } from '../replicas/page-header/types';
 
 export interface AgentConfig extends Omit<AgentSidebarProps, 'onClose'> {
   open: boolean;
@@ -18,14 +20,25 @@ export interface KibanaChromeProps extends KibanaSideNavProps {
   breadcrumbs?: KibanaBreadcrumb[];
   agent?: AgentConfig;
   header?: Omit<KibanaHeaderProps, 'solution' | 'breadcrumbs' | 'isAgentOpen' | 'onAgentClick' | 'agentControlsId'>;
+  pageHeader?: KibanaPageHeaderProps;
   children?: ReactNode;
 }
 
 /** The published Kibana project layout, with state supplied by the host. */
-export function KibanaChrome({ solution = 'observability', breadcrumbs, agent, header, children, onWidthChange, ...nav }: KibanaChromeProps) {
+export function KibanaChrome({ solution = 'observability', breadcrumbs, agent, header, pageHeader, children, onWidthChange, ...nav }: KibanaChromeProps) {
   const [navigationWidth, setNavigationWidth] = useState(0);
+  const [pageHeaderNode, setPageHeaderNode] = useState<HTMLDivElement | null>(null);
+  const [pageHeaderHeight, setPageHeaderHeight] = useState(0);
   const [sidebarWidth, setSidebarWidth] = useState(getDefaultSidebarWidth);
   const agentId = useId();
+  useEffect(() => {
+    if (!pageHeaderNode) { setPageHeaderHeight(0); return; }
+    const measure = () => setPageHeaderHeight(pageHeaderNode.getBoundingClientRect().height);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(pageHeaderNode);
+    return () => observer.disconnect();
+  }, [pageHeaderNode]);
   const updateNavigationWidth = useCallback((width: number) => {
     setNavigationWidth(width);
     onWidthChange?.(width);
@@ -39,8 +52,10 @@ export function KibanaChrome({ solution = 'observability', breadcrumbs, agent, h
   return <>
     <GridLayoutGlobalStyles appearance="framed" />
     <ChromeLayoutConfigProvider value={{ appearance: 'framed', headerHeight: 48, navigationWidth,
-      sidebarWidth: agent?.open ? sidebarWidth : 0, applicationMarginRight: 8, applicationMarginBottom: 8 }}>
+      sidebarWidth: agent?.open ? sidebarWidth : 0, applicationTopBarHeight: pageHeaderHeight,
+      applicationMarginRight: 8, applicationMarginBottom: 8 }}>
       <ChromeLayout
+        applicationTopBar={pageHeader ? <div ref={setPageHeaderNode}><KibanaPageHeader {...pageHeader} sticky={false} /></div> : undefined}
         header={<div css={{ display: 'flex', alignItems: 'center', height: 48 }}>
           <div css={{ width: navigationWidth, display: 'flex', justifyContent: 'center', flexShrink: 0 }}><EuiIcon type="logoElastic" size="l" /></div>
           <div css={{ flex: 1, minWidth: 0 }}><KibanaHeader {...header} solution={solution} breadcrumbs={breadcrumbs}
