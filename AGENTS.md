@@ -6,7 +6,7 @@ Keep the public API independent of consuming prototypes. Include UI and supporti
 
 ## In a consuming prototype
 
-- Install the maintainer-created v0.4.0 tag once released: `npm install github:elastic/kbn-proto-ui#v0.4.0`. The current v0.3.0 release uses the previous names/API. Never install from `main`: it contains source, while release tags include prebuilt `dist/`.
+- Install the latest release tag, for example `npm install github:elastic/kbn-proto-ui#v0.5.0`. Never install from `main`: it contains source, while release tags include prebuilt `dist/`.
 - Keep the host's `EuiProvider`, theme, React and Emotion instances. Do not add nested providers or import private `@kbn/ui-*` packages in the prototype.
 - Import `KibanaChromeLayout` from `@elastic/kbn-proto-ui`. Pass `solution`, `activeNavItem`, `onNavigate`, `breadcrumbs`, and children. The host owns its router.
 - Valid solutions: `observability`, `security`, `search`, `classic`. Use `dashboards` (plural), matching Kibana. See exported `solutionNavTrees` for all IDs.
@@ -83,4 +83,3 @@ Maintain `src/rebuilt/unified-tabs/` as a simplified replica of `@kbn/unified-ta
 - Header order is search, Help, custom `actions`, AI Agent, existing theme action, `trailing`, avatar, `afterUserMenu`. Use internal HeaderActionButton bordered/plain styles for icons. Unconfigured actions stay enabled.
 - Prefer `onSearchClick` and the responsive SearchButton with platform shortcut badge. Deprecated search props opt into the old input only if onSearchClick is absent. Do not add a second search modal/provider in this library.
 - Use controlled `sidebarApps`, `activeSidebarApp`, `onActiveSidebarAppChange`; app IDs are unique and only the active app renders. Link header actions with `sidebarAppId` so state/ARIA come from the layout. Host content supplies its own close controls. The legacy agent prop maps to reserved ID `agent`; new controlled state takes precedence, and `agent.children` remains supported. Keep shared resize behavior and AI `base`/`accent` tied to the active app, not overall sidebar visibility.
-- Prepare these APIs for v0.4.0 through the existing release workflow; do not bump the source manifest or run a release automatically.
