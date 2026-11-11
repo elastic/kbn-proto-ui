@@ -13,6 +13,25 @@ KibanaChromeLayout (wraps published ChromeLayout)
 └─ Sidebar                  Kibana's panel, containing the open sidebar app
 ```
 
+## Components
+
+| Kibana | kbn-proto-ui | Type |
+| --- | --- | --- |
+| `ChromeLayout` (`@kbn/ui-chrome-layout`) | `KibanaChromeLayout` | Wrapper |
+| `SideNavigation` (`@kbn/ui-side-navigation`) | `KibanaSideNav` | Wrapper |
+| Global header (`project/header.tsx`) | `ChromeHeader` | Rebuilt |
+| App header (`@kbn/ui-app-header`, `@kbn/ui-app-menu`) | `ChromeAppHeader` | Rebuilt |
+| Sidebar (`chrome/sidebar`) | `Sidebar` | Rebuilt |
+| Agent Builder conversation | `AgentSidebar` | Rebuilt |
+| Unified tabs (`@kbn/unified-tabs`) | `KibanaTabs` | Rebuilt |
+| Project picker button (`@kbn/cps-utils`) | `KibanaProjectPicker` | Rebuilt |
+| `AiButton` (`@kbn/ui-ai-components`) | `AiButton` | Upstream copy |
+| Solution navigation trees | `solutionNavTrees` | Upstream data |
+
+- **Wrapper:** Kibana's published package, used as is. Named `Kibana…` because it imports the component of the same name.
+- **Upstream copy:** Kibana's source copied in until Kibana publishes it.
+- **Rebuilt:** rebuilt here to match Kibana, mostly under Kibana's name. Maintained by hand.
+
 The library is independent of consuming apps. App-specific styles, palettes and helpers belong in the host; shared AI buttons use the host's EUI theme.
 
 ```text
@@ -51,10 +70,10 @@ Rebuilt components are maintained in this library and validated against Kibana's
 
 `utilities/aiStyles.ts` exposes the shared AI gradient implementation; `utilities/kibanaI18n.ts` is the internal English-label adapter used by build and test aliases.
 
-This source prepares v0.4.0. After the maintainer releases it, install the prebuilt tag below. The current v0.3.0 tag has the previous names and APIs.
+Install a release tag (never `main`, which has no prebuilt files):
 
 ```sh
-npm install github:elastic/kbn-proto-ui#v0.4.0
+npm install github:elastic/kbn-proto-ui#v0.5.0
 ```
 
 Keep your app's existing `EuiProvider` and theme. React 18.2+, EUI 123.x, `@emotion/react` 11.14+, and `@emotion/css` 11.13.5+ are peers, shared with your app. No Artifactory access or build step is needed when installing a release tag.
@@ -214,20 +233,6 @@ This is a supported subset, not the complete package: drag reordering, recently 
 For maintenance, compatibility results, exact upstream paths, license findings, and release instructions, see [SOURCES.md](SOURCES.md).
 
 Maintainers: use Node 22.12+ (`nvm use`), run `npm ci` with your existing Artifactory access, then `npm run typecheck`, `npm test`, `npm run build:library`, and `npm run check:package`. Source branches exclude `dist/`; the release workflow adds it to the version tag. CI/release checks use the existing `KIBANA_UI_NPM_TOKEN` Actions secret. `"private": true` prevents npm publication and does not control GitHub repository visibility.
-
-## Naming and migration for v0.4.0
-
-Rebuilt components use Kibana's exact component names. Wrappers retain the `Kibana` prefix to distinguish them from the published component they import. `KibanaChromeLayout` wraps `ChromeLayout`; `ChromeHeader`, `ChromeAppHeader` and `Sidebar` are maintained rebuilds. `KibanaSideNav`, `AgentSidebar`, `KibanaTabs` and `KibanaProjectPicker` keep their names.
-
-| Deprecated for one release | Use instead |
-| --- | --- |
-| `KibanaChrome` / `KibanaChromeProps` | `KibanaChromeLayout` / `KibanaChromeLayoutProps` |
-| `KibanaHeader` / `KibanaHeaderProps` | `ChromeHeader` / `ChromeHeaderProps` |
-| `KibanaPageHeader` / `KibanaPageHeaderProps` | `ChromeAppHeader` / `ChromeAppHeaderProps` |
-| `KibanaSidebar` / `KibanaSidebarProps` | `Sidebar` / `SidebarProps` |
-| `pageHeader` | `appHeader` |
-
-Old root exports and the old prop remain functional and carry `@deprecated` annotations. Prefer `appHeader` when both props are supplied. Internal files move to the new names and `rebuilt/app-header/`; consumers should use the package root exports. The release workflow sets v0.4.0; this source change does not create a release or bump the source manifest.
 
 ## Global search and header actions
 
