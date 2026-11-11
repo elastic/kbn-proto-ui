@@ -1,9 +1,9 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { EuiBadge, EuiProvider } from '@elastic/eui';
 import { describe, expect, it, vi } from 'vitest';
-import { ChromeHeader } from '../src/replicas/ChromeHeader';
-import { KibanaProjectPicker } from '../src/replicas/KibanaProjectPicker';
-import type { ChromeHeaderProps } from '../src/replicas/ChromeHeader';
+import { ChromeHeader } from '../src/rebuilt/ChromeHeader';
+import { KibanaProjectPicker } from '../src/rebuilt/KibanaProjectPicker';
+import type { ChromeHeaderProps } from '../src/rebuilt/ChromeHeader';
 
 const show = (props: ChromeHeaderProps = {}) => render(<EuiProvider><ChromeHeader {...props} /></EuiProvider>);
 

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { getSolutionNav, solutionNavTrees } from '../src/solution-menus';
-import { clampSidebarWidth, getDefaultSidebarWidth } from '../src/replicas/sidebarWidth';
+import { clampSidebarWidth, getDefaultSidebarWidth } from '../src/rebuilt/sidebarWidth';
 describe('solution navigation', () => {
   it('has the actual solution-specific order and nested panels', () => {
     expect(getSolutionNav('observability').primaryItems.slice(0, 3).map((n) => n.id)).toEqual(['observability-overview', 'discover', 'dashboards']);

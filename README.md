@@ -17,19 +17,19 @@ The library is independent of consuming apps. App-specific styles, palettes and 
 
 ```text
 src/
-  wrappers/          # Type 1: setup around published @kbn/ui-* packages
+  wrappers/          # Setup around published @kbn/ui-* packages
     KibanaChromeLayout.tsx
     KibanaSideNav.tsx
     layout.ts
-  kibana-copies/     # Type 2: copied Kibana code; replace when published
+  upstream/          # Original Kibana source with documented local patches
     ai-components/
-  replicas/          # Type 3: rebuilt to look like Kibana; maintained here
+  rebuilt/           # Locally maintained UI matching Kibana's supported subset
     ChromeHeader.tsx
     chrome-header/   # Internal HeaderActionButton and SearchButton
     KibanaProjectPicker.tsx
     Sidebar.tsx
     sidebarWidth.ts
-    app-header/     # Rebuilt to match Kibana
+    app-header/      # Rebuilt to match Kibana
       ChromeAppHeader.tsx
     unified-tabs/    # Simplified @kbn/unified-tabs replica
       KibanaTabs.tsx
@@ -43,7 +43,13 @@ src/
   index.ts           # Public package exports
 ```
 
-Wrappers configure and connect published Kibana packages to host-supplied props. Copies preserve upstream implementations until Kibana publishes them; the only local source changes are the deprecated AI Assistant logo removal documented in [SOURCES.md](SOURCES.md). Replicas recreate Kibana UI that is not available as a suitable published component and are maintained in this library. `utilities/aiStyles.ts` exposes the shared AI gradient implementation; `utilities/kibanaI18n.ts` is the internal English-label adapter used by build and test aliases.
+Wrappers configure and connect published Kibana packages to host-supplied props.
+
+Upstream source is retained locally until Kibana publishes suitable packages; update it by comparing against the original and preserving the documented local patches. The only local source changes are the deprecated AI Assistant logo removal documented in [SOURCES.md](SOURCES.md).
+
+Rebuilt components are maintained in this library and validated against Kibana's appearance and their supported behavior. They implement a defined subset of Kibana's functionality, with application logic supplied by the host.
+
+`utilities/aiStyles.ts` exposes the shared AI gradient implementation; `utilities/kibanaI18n.ts` is the internal English-label adapter used by build and test aliases.
 
 This source prepares v0.4.0. After the maintainer releases it, install the prebuilt tag below. The current v0.3.0 tag has the previous names and APIs.
 
@@ -205,7 +211,7 @@ Maintainers: use Node 22.12+ (`nvm use`), run `npm ci` with your existing Artifa
 
 ## Naming and migration for v0.4.0
 
-Replicas use Kibana's exact component names. Wrappers retain the `Kibana` prefix to distinguish them from the published component they import. `KibanaChromeLayout` wraps `ChromeLayout`; `ChromeHeader`, `ChromeAppHeader` and `Sidebar` are maintained replicas. `KibanaSideNav`, `AgentSidebar`, `KibanaTabs` and `KibanaProjectPicker` keep their names.
+Rebuilt components use Kibana's exact component names. Wrappers retain the `Kibana` prefix to distinguish them from the published component they import. `KibanaChromeLayout` wraps `ChromeLayout`; `ChromeHeader`, `ChromeAppHeader` and `Sidebar` are maintained rebuilds. `KibanaSideNav`, `AgentSidebar`, `KibanaTabs` and `KibanaProjectPicker` keep their names.
 
 | Deprecated for one release | Use instead |
 | --- | --- |
@@ -215,7 +221,7 @@ Replicas use Kibana's exact component names. Wrappers retain the `Kibana` prefix
 | `KibanaSidebar` / `KibanaSidebarProps` | `Sidebar` / `SidebarProps` |
 | `pageHeader` | `appHeader` |
 
-Old root exports and the old prop remain functional and carry `@deprecated` annotations. Prefer `appHeader` when both props are supplied. Internal files move to the new names and `replicas/app-header/`; consumers should use the package root exports. The release workflow sets v0.4.0; this source change does not create a release or bump the source manifest.
+Old root exports and the old prop remain functional and carry `@deprecated` annotations. Prefer `appHeader` when both props are supplied. Internal files move to the new names and `rebuilt/app-header/`; consumers should use the package root exports. The release workflow sets v0.4.0; this source change does not create a release or bump the source manifest.
 
 ## Global search and header actions
 

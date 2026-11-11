@@ -2,15 +2,15 @@ import { useCallback, useEffect, useId, useState } from 'react';
 import type { ReactNode } from 'react';
 import { EuiIcon } from '@elastic/eui';
 import { ChromeLayout, ChromeLayoutConfigProvider, GridLayoutGlobalStyles, layoutVar } from '@kbn/ui-chrome-layout';
-import { ChromeHeader } from '../replicas/ChromeHeader';
-import type { KibanaBreadcrumb, ChromeHeaderProps } from '../replicas/ChromeHeader';
+import { ChromeHeader } from '../rebuilt/ChromeHeader';
+import type { KibanaBreadcrumb, ChromeHeaderProps } from '../rebuilt/ChromeHeader';
 import { KibanaSideNav } from './KibanaSideNav';
 import type { KibanaSideNavProps } from './KibanaSideNav';
-import { Sidebar, clampSidebarWidth, getDefaultSidebarWidth } from '../replicas/Sidebar';
-import { AgentSidebar } from '../replicas/agent-builder/AgentSidebar';
-import type { AgentSidebarProps } from '../replicas/agent-builder/AgentSidebar';
-import { ChromeAppHeader } from '../replicas/app-header/ChromeAppHeader';
-import type { ChromeAppHeaderProps } from '../replicas/app-header/types';
+import { Sidebar, clampSidebarWidth, getDefaultSidebarWidth } from '../rebuilt/Sidebar';
+import { AgentSidebar } from '../rebuilt/agent-builder/AgentSidebar';
+import type { AgentSidebarProps } from '../rebuilt/agent-builder/AgentSidebar';
+import { ChromeAppHeader } from '../rebuilt/app-header/ChromeAppHeader';
+import type { ChromeAppHeaderProps } from '../rebuilt/app-header/types';
 
 export interface AgentConfig extends Omit<AgentSidebarProps, 'onClose'> {
   open: boolean;
