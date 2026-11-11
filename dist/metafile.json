@@ -1,0 +1,2422 @@
+{
+  "inputs": {
+    "peer-bridge:react": {
+      "bytes": 74,
+      "imports": [
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "peer-bridge:@emotion/react": {
+      "bytes": 92,
+      "imports": [
+        {
+          "path": "@emotion/react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "peer-bridge:@elastic/eui": {
+      "bytes": 88,
+      "imports": [
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "node_modules/@kbn/ui-chrome-layout/index.js": {
+      "bytes": 19884,
+      "imports": [
+        {
+          "path": "peer-bridge:react",
+          "kind": "require-call",
+          "original": "react"
+        },
+        {
+          "path": "peer-bridge:@emotion/react",
+          "kind": "require-call",
+          "original": "@emotion/react"
+        },
+        {
+          "path": "peer-bridge:@elastic/eui",
+          "kind": "require-call",
+          "original": "@elastic/eui"
+        }
+      ],
+      "format": "cjs"
+    },
+    "src/upstream/ai-components/gradient_styles/use_ai_gradient_styles.ts": {
+      "bytes": 10412,
+      "imports": [
+        {
+          "path": "@emotion/react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/upstream/ai-components/ai_button/ai_button_xs_size_styles.ts": {
+      "bytes": 1346,
+      "imports": [
+        {
+          "path": "@emotion/react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/upstream/ai-components/gradient_styles/svg_ai_gradient_defs.tsx": {
+      "bytes": 1681,
+      "imports": [
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/utilities/kibanaI18n.ts": {
+      "bytes": 140,
+      "imports": [],
+      "format": "esm"
+    },
+    "src/upstream/ai-components/ai_button/constants.ts": {
+      "bytes": 628,
+      "imports": [
+        {
+          "path": "src/utilities/kibanaI18n.ts",
+          "kind": "import-statement",
+          "original": "@kbn/i18n"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/upstream/ai-components/ai_button/ai_button_base.tsx": {
+      "bytes": 5593,
+      "imports": [
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "src/upstream/ai-components/gradient_styles/use_ai_gradient_styles.ts",
+          "kind": "import-statement",
+          "original": "../gradient_styles/use_ai_gradient_styles"
+        },
+        {
+          "path": "src/upstream/ai-components/ai_button/ai_button_xs_size_styles.ts",
+          "kind": "import-statement",
+          "original": "./ai_button_xs_size_styles"
+        },
+        {
+          "path": "src/upstream/ai-components/gradient_styles/svg_ai_gradient_defs.tsx",
+          "kind": "import-statement",
+          "original": "../gradient_styles/svg_ai_gradient_defs"
+        },
+        {
+          "path": "src/upstream/ai-components/ai_button/constants.ts",
+          "kind": "import-statement",
+          "original": "./constants"
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/upstream/ai-components/ai_button/ai_button.tsx": {
+      "bytes": 855,
+      "imports": [
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "src/upstream/ai-components/ai_button/ai_button_base.tsx",
+          "kind": "import-statement",
+          "original": "./ai_button_base"
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/rebuilt/chrome-header/HeaderActionButton.tsx": {
+      "bytes": 2450,
+      "imports": [
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/rebuilt/chrome-header/SearchButton.tsx": {
+      "bytes": 2813,
+      "imports": [
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "src/rebuilt/chrome-header/HeaderActionButton.tsx",
+          "kind": "import-statement",
+          "original": "./HeaderActionButton"
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/rebuilt/ChromeHeader.tsx": {
+      "bytes": 7834,
+      "imports": [
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "src/upstream/ai-components/ai_button/ai_button.tsx",
+          "kind": "import-statement",
+          "original": "../upstream/ai-components/ai_button/ai_button"
+        },
+        {
+          "path": "src/rebuilt/chrome-header/HeaderActionButton.tsx",
+          "kind": "import-statement",
+          "original": "./chrome-header/HeaderActionButton"
+        },
+        {
+          "path": "src/rebuilt/chrome-header/SearchButton.tsx",
+          "kind": "import-statement",
+          "original": "./chrome-header/SearchButton"
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "node_modules/@kbn/ui-side-navigation/index.js": {
+      "bytes": 59860,
+      "imports": [
+        {
+          "path": "peer-bridge:@elastic/eui",
+          "kind": "require-call",
+          "original": "@elastic/eui"
+        },
+        {
+          "path": "peer-bridge:@emotion/react",
+          "kind": "require-call",
+          "original": "@emotion/react"
+        },
+        {
+          "path": "peer-bridge:react",
+          "kind": "require-call",
+          "original": "react"
+        }
+      ],
+      "format": "cjs"
+    },
+    "src/solution-menus/observability.ts": {
+      "bytes": 18294,
+      "imports": [],
+      "format": "esm"
+    },
+    "src/solution-menus/security.ts": {
+      "bytes": 22866,
+      "imports": [],
+      "format": "esm"
+    },
+    "src/solution-menus/search.ts": {
+      "bytes": 14383,
+      "imports": [],
+      "format": "esm"
+    },
+    "src/solution-menus/shared.ts": {
+      "bytes": 776,
+      "imports": [],
+      "format": "esm"
+    },
+    "src/solution-menus/classic.ts": {
+      "bytes": 1743,
+      "imports": [
+        {
+          "path": "src/solution-menus/shared.ts",
+          "kind": "import-statement",
+          "original": "./shared"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/solution-menus/types.ts": {
+      "bytes": 821,
+      "imports": [],
+      "format": "esm"
+    },
+    "src/solution-menus/index.ts": {
+      "bytes": 1478,
+      "imports": [
+        {
+          "path": "src/solution-menus/observability.ts",
+          "kind": "import-statement",
+          "original": "./observability"
+        },
+        {
+          "path": "src/solution-menus/security.ts",
+          "kind": "import-statement",
+          "original": "./security"
+        },
+        {
+          "path": "src/solution-menus/search.ts",
+          "kind": "import-statement",
+          "original": "./search"
+        },
+        {
+          "path": "src/solution-menus/classic.ts",
+          "kind": "import-statement",
+          "original": "./classic"
+        },
+        {
+          "path": "src/solution-menus/types.ts",
+          "kind": "import-statement",
+          "original": "./types"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/wrappers/KibanaSideNav.tsx": {
+      "bytes": 2293,
+      "imports": [
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/@kbn/ui-side-navigation/index.js",
+          "kind": "import-statement",
+          "original": "@kbn/ui-side-navigation"
+        },
+        {
+          "path": "src/solution-menus/index.ts",
+          "kind": "import-statement",
+          "original": "../solution-menus"
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/rebuilt/sidebarWidth.ts": {
+      "bytes": 343,
+      "imports": [],
+      "format": "esm"
+    },
+    "src/rebuilt/Sidebar.tsx": {
+      "bytes": 3236,
+      "imports": [
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/@kbn/ui-chrome-layout/index.js",
+          "kind": "import-statement",
+          "original": "@kbn/ui-chrome-layout"
+        },
+        {
+          "path": "src/rebuilt/sidebarWidth.ts",
+          "kind": "import-statement",
+          "original": "./sidebarWidth"
+        },
+        {
+          "path": "src/rebuilt/sidebarWidth.ts",
+          "kind": "import-statement",
+          "original": "./sidebarWidth"
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/rebuilt/agent-builder/AgentSidebar.tsx": {
+      "bytes": 6190,
+      "imports": [
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/rebuilt/app-header/PageHeaderMenu.tsx": {
+      "bytes": 9856,
+      "imports": [
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/rebuilt/app-header/PageHeaderTitle.tsx": {
+      "bytes": 3867,
+      "imports": [
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "src/rebuilt/app-header/PageHeaderMenu.tsx",
+          "kind": "import-statement",
+          "original": "./PageHeaderMenu"
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/rebuilt/app-header/PageHeaderExtras.tsx": {
+      "bytes": 4062,
+      "imports": [
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "src/rebuilt/app-header/PageHeaderMenu.tsx",
+          "kind": "import-statement",
+          "original": "./PageHeaderMenu"
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/rebuilt/app-header/ChromeAppHeader.tsx": {
+      "bytes": 6430,
+      "imports": [
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "src/rebuilt/app-header/PageHeaderMenu.tsx",
+          "kind": "import-statement",
+          "original": "./PageHeaderMenu"
+        },
+        {
+          "path": "src/rebuilt/app-header/PageHeaderTitle.tsx",
+          "kind": "import-statement",
+          "original": "./PageHeaderTitle"
+        },
+        {
+          "path": "src/rebuilt/app-header/PageHeaderExtras.tsx",
+          "kind": "import-statement",
+          "original": "./PageHeaderExtras"
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/wrappers/KibanaChromeLayout.tsx": {
+      "bytes": 6000,
+      "imports": [
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/@kbn/ui-chrome-layout/index.js",
+          "kind": "import-statement",
+          "original": "@kbn/ui-chrome-layout"
+        },
+        {
+          "path": "src/rebuilt/ChromeHeader.tsx",
+          "kind": "import-statement",
+          "original": "../rebuilt/ChromeHeader"
+        },
+        {
+          "path": "src/wrappers/KibanaSideNav.tsx",
+          "kind": "import-statement",
+          "original": "./KibanaSideNav"
+        },
+        {
+          "path": "src/rebuilt/Sidebar.tsx",
+          "kind": "import-statement",
+          "original": "../rebuilt/Sidebar"
+        },
+        {
+          "path": "src/rebuilt/agent-builder/AgentSidebar.tsx",
+          "kind": "import-statement",
+          "original": "../rebuilt/agent-builder/AgentSidebar"
+        },
+        {
+          "path": "src/rebuilt/app-header/ChromeAppHeader.tsx",
+          "kind": "import-statement",
+          "original": "../rebuilt/app-header/ChromeAppHeader"
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/upstream/ai-components/ai_button/ai_button_default.tsx": {
+      "bytes": 1083,
+      "imports": [
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "src/upstream/ai-components/ai_button/ai_button_base.tsx",
+          "kind": "import-statement",
+          "original": "./ai_button_base"
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/upstream/ai-components/ai_button/ai_button_empty.tsx": {
+      "bytes": 1073,
+      "imports": [
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "src/upstream/ai-components/ai_button/ai_button_base.tsx",
+          "kind": "import-statement",
+          "original": "./ai_button_base"
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/upstream/ai-components/ai_button/ai_button_icon.tsx": {
+      "bytes": 1155,
+      "imports": [
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "src/upstream/ai-components/ai_button/ai_button_base.tsx",
+          "kind": "import-statement",
+          "original": "./ai_button_base"
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/utilities/aiStyles.ts": {
+      "bytes": 522,
+      "imports": [
+        {
+          "path": "src/upstream/ai-components/gradient_styles/use_ai_gradient_styles.ts",
+          "kind": "import-statement",
+          "original": "../upstream/ai-components/gradient_styles/use_ai_gradient_styles"
+        },
+        {
+          "path": "src/upstream/ai-components/gradient_styles/svg_ai_gradient_defs.tsx",
+          "kind": "import-statement",
+          "original": "../upstream/ai-components/gradient_styles/svg_ai_gradient_defs"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/rebuilt/agent-builder/agentConnectorLogo.ts": {
+      "bytes": 2363,
+      "imports": [],
+      "format": "esm"
+    },
+    "src/wrappers/layout.ts": {
+      "bytes": 768,
+      "imports": [
+        {
+          "path": "node_modules/@kbn/ui-chrome-layout/index.js",
+          "kind": "import-statement",
+          "original": "@kbn/ui-chrome-layout"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/rebuilt/unified-tabs/TabCorner.tsx": {
+      "bytes": 1586,
+      "imports": [
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/rebuilt/unified-tabs/ReplicaTab.tsx": {
+      "bytes": 7235,
+      "imports": [
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "src/rebuilt/unified-tabs/TabCorner.tsx",
+          "kind": "import-statement",
+          "original": "./TabCorner"
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/rebuilt/unified-tabs/KibanaTabs.tsx": {
+      "bytes": 5940,
+      "imports": [
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "src/rebuilt/unified-tabs/ReplicaTab.tsx",
+          "kind": "import-statement",
+          "original": "./ReplicaTab"
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/rebuilt/KibanaProjectPicker.tsx": {
+      "bytes": 1934,
+      "imports": [
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/index.ts": {
+      "bytes": 2916,
+      "imports": [
+        {
+          "path": "src/wrappers/KibanaChromeLayout.tsx",
+          "kind": "import-statement",
+          "original": "./wrappers/KibanaChromeLayout"
+        },
+        {
+          "path": "src/rebuilt/ChromeHeader.tsx",
+          "kind": "import-statement",
+          "original": "./rebuilt/ChromeHeader"
+        },
+        {
+          "path": "src/wrappers/KibanaSideNav.tsx",
+          "kind": "import-statement",
+          "original": "./wrappers/KibanaSideNav"
+        },
+        {
+          "path": "src/rebuilt/Sidebar.tsx",
+          "kind": "import-statement",
+          "original": "./rebuilt/Sidebar"
+        },
+        {
+          "path": "src/rebuilt/agent-builder/AgentSidebar.tsx",
+          "kind": "import-statement",
+          "original": "./rebuilt/agent-builder/AgentSidebar"
+        },
+        {
+          "path": "src/upstream/ai-components/ai_button/ai_button.tsx",
+          "kind": "import-statement",
+          "original": "./upstream/ai-components/ai_button/ai_button"
+        },
+        {
+          "path": "src/upstream/ai-components/ai_button/ai_button_default.tsx",
+          "kind": "import-statement",
+          "original": "./upstream/ai-components/ai_button/ai_button_default"
+        },
+        {
+          "path": "src/upstream/ai-components/ai_button/ai_button_empty.tsx",
+          "kind": "import-statement",
+          "original": "./upstream/ai-components/ai_button/ai_button_empty"
+        },
+        {
+          "path": "src/upstream/ai-components/ai_button/ai_button_icon.tsx",
+          "kind": "import-statement",
+          "original": "./upstream/ai-components/ai_button/ai_button_icon"
+        },
+        {
+          "path": "src/utilities/aiStyles.ts",
+          "kind": "import-statement",
+          "original": "./utilities/aiStyles"
+        },
+        {
+          "path": "src/rebuilt/agent-builder/agentConnectorLogo.ts",
+          "kind": "import-statement",
+          "original": "./rebuilt/agent-builder/agentConnectorLogo"
+        },
+        {
+          "path": "src/solution-menus/index.ts",
+          "kind": "import-statement",
+          "original": "./solution-menus"
+        },
+        {
+          "path": "src/wrappers/layout.ts",
+          "kind": "import-statement",
+          "original": "./wrappers/layout"
+        },
+        {
+          "path": "src/rebuilt/app-header/ChromeAppHeader.tsx",
+          "kind": "import-statement",
+          "original": "./rebuilt/app-header/ChromeAppHeader"
+        },
+        {
+          "path": "src/rebuilt/unified-tabs/KibanaTabs.tsx",
+          "kind": "import-statement",
+          "original": "./rebuilt/unified-tabs/KibanaTabs"
+        },
+        {
+          "path": "src/rebuilt/KibanaProjectPicker.tsx",
+          "kind": "import-statement",
+          "original": "./rebuilt/KibanaProjectPicker"
+        },
+        {
+          "path": "src/wrappers/KibanaChromeLayout.tsx",
+          "kind": "import-statement",
+          "original": "./wrappers/KibanaChromeLayout"
+        },
+        {
+          "path": "src/rebuilt/ChromeHeader.tsx",
+          "kind": "import-statement",
+          "original": "./rebuilt/ChromeHeader"
+        },
+        {
+          "path": "src/rebuilt/Sidebar.tsx",
+          "kind": "import-statement",
+          "original": "./rebuilt/Sidebar"
+        },
+        {
+          "path": "src/rebuilt/app-header/ChromeAppHeader.tsx",
+          "kind": "import-statement",
+          "original": "./rebuilt/app-header/ChromeAppHeader"
+        }
+      ],
+      "format": "esm"
+    }
+  },
+  "outputs": {
+    "dist/upstream/ai-components/ai_button/ai_button_icon.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 93
+    },
+    "dist/upstream/ai-components/ai_button/ai_button_icon.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-34AOI7GW.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-BBDDF3MR.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-IEUFCWYV.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-I5KYHNF2.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "AiButtonIcon"
+      ],
+      "entryPoint": "src/upstream/ai-components/ai_button/ai_button_icon.tsx",
+      "inputs": {},
+      "bytes": 242
+    },
+    "dist/rebuilt/Sidebar.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 93
+    },
+    "dist/rebuilt/Sidebar.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-HHEX5IEH.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-NXGUSL52.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-N3KR57XQ.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-I5KYHNF2.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "KibanaSidebar",
+        "Sidebar",
+        "clampSidebarWidth",
+        "getDefaultSidebarWidth"
+      ],
+      "entryPoint": "src/rebuilt/Sidebar.tsx",
+      "inputs": {},
+      "bytes": 329
+    },
+    "dist/rebuilt/agent-builder/AgentSidebar.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 93
+    },
+    "dist/rebuilt/agent-builder/AgentSidebar.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-P3OOHJ5E.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-I5KYHNF2.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "AgentSidebar"
+      ],
+      "entryPoint": "src/rebuilt/agent-builder/AgentSidebar.tsx",
+      "inputs": {},
+      "bytes": 160
+    },
+    "dist/rebuilt/agent-builder/agentConnectorLogo.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 93
+    },
+    "dist/rebuilt/agent-builder/agentConnectorLogo.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-SMPE72R7.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-I5KYHNF2.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "ANTHROPIC_LOGO"
+      ],
+      "entryPoint": "src/rebuilt/agent-builder/agentConnectorLogo.ts",
+      "inputs": {},
+      "bytes": 170
+    },
+    "dist/rebuilt/app-header/ChromeAppHeader.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 93
+    },
+    "dist/rebuilt/app-header/ChromeAppHeader.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-EM2GFXKE.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-I5KYHNF2.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "ChromeAppHeader",
+        "KibanaPageHeader"
+      ],
+      "entryPoint": "src/rebuilt/app-header/ChromeAppHeader.tsx",
+      "inputs": {},
+      "bytes": 209
+    },
+    "dist/rebuilt/unified-tabs/KibanaTabs.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 93
+    },
+    "dist/rebuilt/unified-tabs/KibanaTabs.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-7ZQULD7R.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-I5KYHNF2.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "KibanaTabs"
+      ],
+      "entryPoint": "src/rebuilt/unified-tabs/KibanaTabs.tsx",
+      "inputs": {},
+      "bytes": 154
+    },
+    "dist/upstream/ai-components/ai_button/ai_button.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 93
+    },
+    "dist/upstream/ai-components/ai_button/ai_button.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-KUCFW56Q.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-BBDDF3MR.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-IEUFCWYV.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-I5KYHNF2.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "AiButton"
+      ],
+      "entryPoint": "src/upstream/ai-components/ai_button/ai_button.tsx",
+      "inputs": {},
+      "bytes": 229
+    },
+    "dist/upstream/ai-components/ai_button/ai_button_default.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 93
+    },
+    "dist/upstream/ai-components/ai_button/ai_button_default.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-HG3LPCCE.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-BBDDF3MR.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-IEUFCWYV.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-I5KYHNF2.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "AiButtonDefault"
+      ],
+      "entryPoint": "src/upstream/ai-components/ai_button/ai_button_default.tsx",
+      "inputs": {},
+      "bytes": 251
+    },
+    "dist/upstream/ai-components/ai_button/ai_button_empty.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 93
+    },
+    "dist/upstream/ai-components/ai_button/ai_button_empty.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-BLVOFTQL.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-BBDDF3MR.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-IEUFCWYV.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-I5KYHNF2.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "AiButtonEmpty"
+      ],
+      "entryPoint": "src/upstream/ai-components/ai_button/ai_button_empty.tsx",
+      "inputs": {},
+      "bytes": 245
+    },
+    "dist/index.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 93
+    },
+    "dist/index.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-34AOI7GW.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-SMPE72R7.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-7ZQULD7R.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-HG3LPCCE.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-BLVOFTQL.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-4M5NMDD5.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-IWNNG2OT.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-DXY572ZS.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-HHEX5IEH.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-P3OOHJ5E.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-EM2GFXKE.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-NXGUSL52.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-BAKVMAEA.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-KUCFW56Q.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-BBDDF3MR.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-IEUFCWYV.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-2C2L3UFH.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-I74ZXOIK.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-GWFHTNQL.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-N3KR57XQ.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-I5KYHNF2.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "ANTHROPIC_LOGO",
+        "AgentSidebar",
+        "AiButton",
+        "AiButtonDefault",
+        "AiButtonEmpty",
+        "AiButtonIcon",
+        "ChromeAppHeader",
+        "ChromeHeader",
+        "KibanaChrome",
+        "KibanaChromeLayout",
+        "KibanaHeader",
+        "KibanaPageHeader",
+        "KibanaProjectPicker",
+        "KibanaSideNav",
+        "KibanaSidebar",
+        "KibanaTabs",
+        "Sidebar",
+        "SvgAiGradientDefs",
+        "clampSidebarWidth",
+        "classicNav",
+        "getDefaultSidebarWidth",
+        "getSolutionNav",
+        "layoutVar",
+        "layoutVarName",
+        "observabilityNav",
+        "searchNav",
+        "securityNav",
+        "solutionNavTrees",
+        "useAiButtonGradientStyles",
+        "useSvgAiGradient"
+      ],
+      "entryPoint": "src/index.ts",
+      "inputs": {
+        "src/index.ts": {
+          "bytesInOutput": 0
+        }
+      },
+      "bytes": 1875
+    },
+    "dist/chunk-34AOI7GW.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 1437
+    },
+    "dist/chunk-34AOI7GW.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-BBDDF3MR.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "exports": [
+        "AiButtonIcon"
+      ],
+      "inputs": {
+        "src/upstream/ai-components/ai_button/ai_button_icon.tsx": {
+          "bytesInOutput": 159
+        }
+      },
+      "bytes": 344
+    },
+    "dist/chunk-SMPE72R7.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 2533
+    },
+    "dist/chunk-SMPE72R7.js": {
+      "imports": [],
+      "exports": [
+        "ANTHROPIC_LOGO"
+      ],
+      "inputs": {
+        "src/rebuilt/agent-builder/agentConnectorLogo.ts": {
+          "bytesInOutput": 2207
+        }
+      },
+      "bytes": 2331
+    },
+    "dist/chunk-7ZQULD7R.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 25174
+    },
+    "dist/chunk-7ZQULD7R.js": {
+      "imports": [
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "exports": [
+        "KibanaTabs"
+      ],
+      "inputs": {
+        "src/rebuilt/unified-tabs/KibanaTabs.tsx": {
+          "bytesInOutput": 6282
+        },
+        "src/rebuilt/unified-tabs/ReplicaTab.tsx": {
+          "bytesInOutput": 7920
+        },
+        "src/rebuilt/unified-tabs/TabCorner.tsx": {
+          "bytesInOutput": 1198
+        }
+      },
+      "bytes": 15687
+    },
+    "dist/chunk-HG3LPCCE.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 1359
+    },
+    "dist/chunk-HG3LPCCE.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-BBDDF3MR.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "exports": [
+        "AiButtonDefault"
+      ],
+      "inputs": {
+        "src/upstream/ai-components/ai_button/ai_button_default.tsx": {
+          "bytesInOutput": 146
+        }
+      },
+      "bytes": 337
+    },
+    "dist/chunk-BLVOFTQL.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 1359
+    },
+    "dist/chunk-BLVOFTQL.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-BBDDF3MR.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "exports": [
+        "AiButtonEmpty"
+      ],
+      "inputs": {
+        "src/upstream/ai-components/ai_button/ai_button_empty.tsx": {
+          "bytesInOutput": 162
+        }
+      },
+      "bytes": 349
+    },
+    "dist/solution-menus/index.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 93
+    },
+    "dist/solution-menus/index.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-GWFHTNQL.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-I5KYHNF2.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "classicNav",
+        "getSolutionNav",
+        "observabilityNav",
+        "searchNav",
+        "securityNav",
+        "solutionNavTrees"
+      ],
+      "entryPoint": "src/solution-menus/index.ts",
+      "inputs": {},
+      "bytes": 315
+    },
+    "dist/utilities/aiStyles.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 93
+    },
+    "dist/utilities/aiStyles.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-4M5NMDD5.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-IEUFCWYV.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-I5KYHNF2.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "SvgAiGradientDefs",
+        "useAiButtonGradientStyles",
+        "useSvgAiGradient"
+      ],
+      "entryPoint": "src/utilities/aiStyles.ts",
+      "inputs": {},
+      "bytes": 289
+    },
+    "dist/chunk-4M5NMDD5.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 93
+    },
+    "dist/chunk-4M5NMDD5.js": {
+      "imports": [],
+      "exports": [],
+      "inputs": {
+        "src/utilities/aiStyles.ts": {
+          "bytesInOutput": 0
+        }
+      },
+      "bytes": 43
+    },
+    "dist/wrappers/layout.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 93
+    },
+    "dist/wrappers/layout.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-IWNNG2OT.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-NXGUSL52.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-N3KR57XQ.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-I5KYHNF2.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "layoutVar",
+        "layoutVarName"
+      ],
+      "entryPoint": "src/wrappers/layout.ts",
+      "inputs": {},
+      "bytes": 238
+    },
+    "dist/chunk-IWNNG2OT.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 1065
+    },
+    "dist/chunk-IWNNG2OT.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-NXGUSL52.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-I5KYHNF2.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "layoutVar",
+        "layoutVarName"
+      ],
+      "inputs": {
+        "src/wrappers/layout.ts": {
+          "bytesInOutput": 242
+        }
+      },
+      "bytes": 469
+    },
+    "dist/wrappers/KibanaChromeLayout.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 93
+    },
+    "dist/wrappers/KibanaChromeLayout.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-DXY572ZS.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-HHEX5IEH.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-P3OOHJ5E.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-EM2GFXKE.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-NXGUSL52.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-BAKVMAEA.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-KUCFW56Q.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-BBDDF3MR.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-IEUFCWYV.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-I74ZXOIK.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-GWFHTNQL.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-N3KR57XQ.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-I5KYHNF2.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "KibanaChrome",
+        "KibanaChromeLayout"
+      ],
+      "entryPoint": "src/wrappers/KibanaChromeLayout.tsx",
+      "inputs": {},
+      "bytes": 545
+    },
+    "dist/chunk-DXY572ZS.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 8947
+    },
+    "dist/chunk-DXY572ZS.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-HHEX5IEH.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-P3OOHJ5E.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-EM2GFXKE.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-NXGUSL52.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-BAKVMAEA.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-I74ZXOIK.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-I5KYHNF2.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "exports": [
+        "KibanaChrome",
+        "KibanaChromeLayout"
+      ],
+      "inputs": {
+        "src/wrappers/KibanaChromeLayout.tsx": {
+          "bytesInOutput": 4716
+        }
+      },
+      "bytes": 5280
+    },
+    "dist/chunk-HHEX5IEH.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 5631
+    },
+    "dist/chunk-HHEX5IEH.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-NXGUSL52.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-I5KYHNF2.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "exports": [
+        "KibanaSidebar",
+        "Sidebar",
+        "clampSidebarWidth",
+        "getDefaultSidebarWidth"
+      ],
+      "inputs": {
+        "src/rebuilt/Sidebar.tsx": {
+          "bytesInOutput": 2845
+        },
+        "src/rebuilt/sidebarWidth.ts": {
+          "bytesInOutput": 304
+        }
+      },
+      "bytes": 3482
+    },
+    "dist/chunk-P3OOHJ5E.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 10508
+    },
+    "dist/chunk-P3OOHJ5E.js": {
+      "imports": [
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "exports": [
+        "AgentSidebar"
+      ],
+      "inputs": {
+        "src/rebuilt/agent-builder/AgentSidebar.tsx": {
+          "bytesInOutput": 6978
+        }
+      },
+      "bytes": 7095
+    },
+    "dist/chunk-EM2GFXKE.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 42804
+    },
+    "dist/chunk-EM2GFXKE.js": {
+      "imports": [
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "exports": [
+        "ChromeAppHeader",
+        "KibanaPageHeader"
+      ],
+      "inputs": {
+        "src/rebuilt/app-header/ChromeAppHeader.tsx": {
+          "bytesInOutput": 7534
+        },
+        "src/rebuilt/app-header/PageHeaderMenu.tsx": {
+          "bytesInOutput": 10374
+        },
+        "src/rebuilt/app-header/PageHeaderTitle.tsx": {
+          "bytesInOutput": 4301
+        },
+        "src/rebuilt/app-header/PageHeaderExtras.tsx": {
+          "bytesInOutput": 4723
+        }
+      },
+      "bytes": 27260
+    },
+    "dist/chunk-NXGUSL52.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 95659
+    },
+    "dist/chunk-NXGUSL52.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-N3KR57XQ.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-I5KYHNF2.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "require_ui_chrome_layout"
+      ],
+      "inputs": {
+        "node_modules/@kbn/ui-chrome-layout/index.js": {
+          "bytesInOutput": 24573
+        }
+      },
+      "bytes": 24901
+    },
+    "dist/rebuilt/ChromeHeader.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 93
+    },
+    "dist/rebuilt/ChromeHeader.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-BAKVMAEA.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-KUCFW56Q.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-BBDDF3MR.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-IEUFCWYV.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-I5KYHNF2.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "ChromeHeader",
+        "KibanaHeader"
+      ],
+      "entryPoint": "src/rebuilt/ChromeHeader.tsx",
+      "inputs": {},
+      "bytes": 279
+    },
+    "dist/chunk-BAKVMAEA.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 19720
+    },
+    "dist/chunk-BAKVMAEA.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-KUCFW56Q.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "exports": [
+        "ChromeHeader",
+        "KibanaHeader"
+      ],
+      "inputs": {
+        "src/rebuilt/ChromeHeader.tsx": {
+          "bytesInOutput": 6157
+        },
+        "src/rebuilt/chrome-header/HeaderActionButton.tsx": {
+          "bytesInOutput": 1576
+        },
+        "src/rebuilt/chrome-header/SearchButton.tsx": {
+          "bytesInOutput": 2416
+        }
+      },
+      "bytes": 10452
+    },
+    "dist/chunk-KUCFW56Q.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 1116
+    },
+    "dist/chunk-KUCFW56Q.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-BBDDF3MR.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "exports": [
+        "AiButton"
+      ],
+      "inputs": {
+        "src/upstream/ai-components/ai_button/ai_button.tsx": {
+          "bytesInOutput": 139
+        }
+      },
+      "bytes": 315
+    },
+    "dist/chunk-BBDDF3MR.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 11554
+    },
+    "dist/chunk-BBDDF3MR.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-IEUFCWYV.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "exports": [
+        "AiButtonBase"
+      ],
+      "inputs": {
+        "src/upstream/ai-components/ai_button/ai_button_base.tsx": {
+          "bytesInOutput": 4196
+        },
+        "src/upstream/ai-components/ai_button/ai_button_xs_size_styles.ts": {
+          "bytesInOutput": 576
+        },
+        "src/utilities/kibanaI18n.ts": {
+          "bytesInOutput": 86
+        },
+        "src/upstream/ai-components/ai_button/constants.ts": {
+          "bytesInOutput": 114
+        }
+      },
+      "bytes": 5426
+    },
+    "dist/chunk-IEUFCWYV.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 17012
+    },
+    "dist/chunk-IEUFCWYV.js": {
+      "imports": [
+        {
+          "path": "@emotion/react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "exports": [
+        "SvgAiGradientDefs",
+        "useAiButtonGradientStyles",
+        "useSvgAiGradient"
+      ],
+      "inputs": {
+        "src/upstream/ai-components/gradient_styles/use_ai_gradient_styles.ts": {
+          "bytesInOutput": 7802
+        },
+        "src/upstream/ai-components/gradient_styles/svg_ai_gradient_defs.tsx": {
+          "bytesInOutput": 820
+        }
+      },
+      "bytes": 8891
+    },
+    "dist/rebuilt/KibanaProjectPicker.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 93
+    },
+    "dist/rebuilt/KibanaProjectPicker.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-2C2L3UFH.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-I5KYHNF2.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "KibanaProjectPicker"
+      ],
+      "entryPoint": "src/rebuilt/KibanaProjectPicker.tsx",
+      "inputs": {},
+      "bytes": 175
+    },
+    "dist/chunk-2C2L3UFH.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 2835
+    },
+    "dist/chunk-2C2L3UFH.js": {
+      "imports": [
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "exports": [
+        "KibanaProjectPicker"
+      ],
+      "inputs": {
+        "src/rebuilt/KibanaProjectPicker.tsx": {
+          "bytesInOutput": 1270
+        }
+      },
+      "bytes": 1387
+    },
+    "dist/wrappers/KibanaSideNav.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 93
+    },
+    "dist/wrappers/KibanaSideNav.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-I74ZXOIK.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-GWFHTNQL.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-N3KR57XQ.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-I5KYHNF2.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "KibanaSideNav"
+      ],
+      "entryPoint": "src/wrappers/KibanaSideNav.tsx",
+      "inputs": {},
+      "bytes": 219
+    },
+    "dist/chunk-I74ZXOIK.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 324585
+    },
+    "dist/chunk-I74ZXOIK.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-GWFHTNQL.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-N3KR57XQ.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-I5KYHNF2.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "exports": [
+        "KibanaSideNav"
+      ],
+      "inputs": {
+        "node_modules/@kbn/ui-side-navigation/index.js": {
+          "bytesInOutput": 81102
+        },
+        "src/wrappers/KibanaSideNav.tsx": {
+          "bytesInOutput": 1633
+        }
+      },
+      "bytes": 83156
+    },
+    "dist/chunk-GWFHTNQL.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 93723
+    },
+    "dist/chunk-GWFHTNQL.js": {
+      "imports": [],
+      "exports": [
+        "classicNav",
+        "getSolutionNav",
+        "observabilityNav",
+        "searchNav",
+        "securityNav",
+        "solutionNavTrees"
+      ],
+      "inputs": {
+        "src/solution-menus/observability.ts": {
+          "bytesInOutput": 18072
+        },
+        "src/solution-menus/security.ts": {
+          "bytesInOutput": 22644
+        },
+        "src/solution-menus/search.ts": {
+          "bytesInOutput": 14161
+        },
+        "src/solution-menus/shared.ts": {
+          "bytesInOutput": 386
+        },
+        "src/solution-menus/classic.ts": {
+          "bytesInOutput": 1448
+        },
+        "src/solution-menus/index.ts": {
+          "bytesInOutput": 924
+        }
+      },
+      "bytes": 57996
+    },
+    "dist/chunk-N3KR57XQ.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 909
+    },
+    "dist/chunk-N3KR57XQ.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-I5KYHNF2.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@emotion/react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@elastic/eui",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "exports": [
+        "eui_exports",
+        "init_eui",
+        "init_react",
+        "init_react2",
+        "react_exports",
+        "react_exports2"
+      ],
+      "inputs": {
+        "peer-bridge:react": {
+          "bytesInOutput": 300
+        },
+        "peer-bridge:@emotion/react": {
+          "bytesInOutput": 338
+        },
+        "peer-bridge:@elastic/eui": {
+          "bytesInOutput": 305
+        }
+      },
+      "bytes": 1244
+    },
+    "dist/chunk-I5KYHNF2.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 93
+    },
+    "dist/chunk-I5KYHNF2.js": {
+      "imports": [],
+      "exports": [
+        "__commonJS",
+        "__esm",
+        "__export",
+        "__reExport",
+        "__toCommonJS",
+        "__toESM"
+      ],
+      "inputs": {},
+      "bytes": 2072
+    }
+  }
+}
