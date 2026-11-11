@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { EuiProvider } from '@elastic/eui';
 import { describe, expect, it, vi } from 'vitest';
-import { KibanaTabs } from '../src/replicas/unified-tabs/KibanaTabs';
-import { ChromeAppHeader } from '../src/replicas/app-header/ChromeAppHeader';
-import type { KibanaTabsProps, TabbedContentState } from '../src/replicas/unified-tabs/types';
+import { KibanaTabs } from '../src/rebuilt/unified-tabs/KibanaTabs';
+import { ChromeAppHeader } from '../src/rebuilt/app-header/ChromeAppHeader';
+import type { KibanaTabsProps, TabbedContentState } from '../src/rebuilt/unified-tabs/types';
 
 const items = [{ id: 'a', label: 'First' }, { id: 'b', label: 'Second' }, { id: 'c', label: 'Third' }];
 const show = (props: Partial<KibanaTabsProps> = {}) => {

@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { EuiProvider } from '@elastic/eui';
 import { describe, expect, it, vi } from 'vitest';
-import { AgentSidebar } from '../src/replicas/agent-builder/AgentSidebar';
-import { ChromeHeader } from '../src/replicas/ChromeHeader';
+import { AgentSidebar } from '../src/rebuilt/agent-builder/AgentSidebar';
+import { ChromeHeader } from '../src/rebuilt/ChromeHeader';
 describe('agent UI', () => {
   it('submits a trimmed message and attachment through the host callback', () => {
     const submit = vi.fn();

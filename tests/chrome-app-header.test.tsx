@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { EuiProvider } from '@elastic/eui';
 import { describe, expect, it, vi } from 'vitest';
-import { ChromeAppHeader } from '../src/replicas/app-header/ChromeAppHeader';
-import type { ChromeAppHeaderProps } from '../src/replicas/app-header/types';
+import { ChromeAppHeader } from '../src/rebuilt/app-header/ChromeAppHeader';
+import type { ChromeAppHeaderProps } from '../src/rebuilt/app-header/types';
 
 const show = (props: ChromeAppHeaderProps) => render(<EuiProvider><ChromeAppHeader {...props} /></EuiProvider>);
 
