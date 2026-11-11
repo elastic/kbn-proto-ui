@@ -1,0 +1,2 @@
+import type { KibanaTabsProps } from './types';
+export declare function KibanaTabs({ items, selectedItemId, createItem, onChanged, renderContent, wrapTabsBar, hideTabsBar, tabContentIdOverride, appendRight, customNewTabButton, unsavedItemIds, disableCloseButton, disableInlineLabelEditing, disableTabsBarMenu, 'data-test-subj': testSubject, }: KibanaTabsProps): import("@emotion/react/jsx-runtime").JSX.Element;
