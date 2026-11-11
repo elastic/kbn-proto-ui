@@ -2,6 +2,7 @@ export { KibanaChromeLayout } from './wrappers/KibanaChromeLayout';
 export type { KibanaChromeLayoutProps, AgentConfig, SidebarAppConfig } from './wrappers/KibanaChromeLayout';
 export { ChromeHeader } from './rebuilt/ChromeHeader';
 export type { ChromeHeaderProps, ChromeHeaderAction, KibanaBreadcrumb } from './rebuilt/ChromeHeader';
+export type { ChromeHeaderLogoConfig } from './rebuilt/chrome-header/HeaderLogo';
 export { KibanaSideNav } from './wrappers/KibanaSideNav';
 export type { KibanaSideNavProps } from './wrappers/KibanaSideNav';
 export { Sidebar, clampSidebarWidth, getDefaultSidebarWidth } from './rebuilt/Sidebar';

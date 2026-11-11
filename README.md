@@ -119,6 +119,12 @@ Use your host's Emotion JSX configuration and existing `EuiProvider`. The hook s
 
 The agent is UI only: pass `messages`, `onSubmit`, and `isResponding` through `agent` to connect your prototype's behavior, or supply `agent.children` for custom conversation content. Header actions and user/space labels are configured through `header`. Unconfigured header actions remain enabled and do nothing until the host supplies a callback. The page fills a fixed-height panel; give your page's scrollable region `min-height: 0; overflow: auto`.
 
+The Elastic logo at the start of the header is a link home, as in Kibana, when you pass `logo={{ href, onClick, label }}` to `KibanaChromeLayout`. With `href`, ordinary clicks call `onClick` (for your router) and modified clicks keep native link behavior; with only `onClick` it renders as a button. `label` defaults to "Elastic home". Without `href` or `onClick` the logo stays a plain mark, so it never links nowhere:
+
+```tsx
+<KibanaChromeLayout logo={{ href: '/', onClick: () => navigate('/'), label: 'Back to prototype hub' }} />
+```
+
 The global `ChromeHeader` has Kibana's named `switcher`, `projectPicker` and `subscriptionBadge` slots. Omit `switcher` to keep the existing solution-logo/space button; pass `null` to hide it. The order is switcher → project picker → subscription badge → breadcrumbs/spacer → search → help → custom actions → AI Agent → existing theme control (if configured) → `trailing` → avatar → `afterUserMenu`. Kibana's fixed left-group divider and conditional switcher/picker-badge dividers follow `header_shell.tsx`.
 
 Pass these props directly to `ChromeHeader`, or through `KibanaChromeLayout.header`:
