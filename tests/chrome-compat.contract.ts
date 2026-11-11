@@ -5,6 +5,7 @@ import {
   type ChromeHeaderProps, type KibanaHeaderProps,
   type ChromeAppHeaderProps, type KibanaPageHeaderProps,
   type SidebarProps, type KibanaSidebarProps,
+  type ChromeHeaderLogoConfig,
 } from '../dist/index';
 const oldHeader: KibanaHeaderProps = { spaceName: 'Legacy' };
 const header: ChromeHeaderProps = oldHeader;
@@ -25,3 +26,7 @@ const newLayout: KibanaChromeLayoutProps = {
   ] },
 };
 void newLayout;
+
+const logo: ChromeHeaderLogoConfig = { href: '/', onClick: event => { void event; }, label: 'Back to prototype hub' };
+const logoLayout: KibanaChromeLayoutProps = { logo };
+void logoLayout;

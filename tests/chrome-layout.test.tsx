@@ -132,3 +132,28 @@ describe('controlled sidebar apps', () => {
     expect(screen.queryByRole('complementary')).toBeNull();
   });
 });
+
+describe('header logo', () => {
+  it('stays a plain mark when no href or onClick is supplied', () => {
+    render(<EuiProvider><KibanaChromeLayout /></EuiProvider>);
+    expect(screen.queryByRole('link', { name: 'Elastic home' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Elastic home' })).toBeNull();
+    expect(screen.getByRole('img', { name: 'Elastic' })).toBeTruthy();
+  });
+  it('links home and hands ordinary clicks to the host router', () => {
+    const onClick = vi.fn();
+    render(<EuiProvider><KibanaChromeLayout logo={{ href: '/', onClick }} /></EuiProvider>);
+    const link = screen.getByRole('link', { name: 'Elastic home' });
+    expect(link.getAttribute('href')).toBe('/');
+    expect(fireEvent.click(link)).toBe(false);
+    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(fireEvent.click(link, { metaKey: true })).toBe(true);
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
+  it('renders a labelled button when only onClick is supplied', () => {
+    const onClick = vi.fn();
+    render(<EuiProvider><KibanaChromeLayout logo={{ onClick, label: 'Back to prototype hub' }} /></EuiProvider>);
+    fireEvent.click(screen.getByRole('button', { name: 'Back to prototype hub' }));
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
+});

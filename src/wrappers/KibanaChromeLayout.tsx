@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useId, useState } from 'react';
 import type { ReactNode } from 'react';
-import { EuiIcon } from '@elastic/eui';
 import { ChromeLayout, ChromeLayoutConfigProvider, GridLayoutGlobalStyles, layoutVar } from '@kbn/ui-chrome-layout';
 import { ChromeHeader } from '../rebuilt/ChromeHeader';
+import { ChromeHeaderLogo } from '../rebuilt/chrome-header/HeaderLogo';
+import type { ChromeHeaderLogoConfig } from '../rebuilt/chrome-header/HeaderLogo';
 import type { KibanaBreadcrumb, ChromeHeaderProps } from '../rebuilt/ChromeHeader';
 import { KibanaSideNav } from './KibanaSideNav';
 import type { KibanaSideNavProps } from './KibanaSideNav';
@@ -27,6 +28,8 @@ export interface KibanaChromeLayoutProps extends KibanaSideNavProps {
   sidebarApps?: SidebarAppConfig[];
   activeSidebarApp?: string | null;
   onActiveSidebarAppChange?: (id: string | null) => void;
+  /** The Elastic logo at the start of the header. Pass `href` and/or `onClick` to make it a link home, as in Kibana. */
+  logo?: ChromeHeaderLogoConfig;
   header?: Omit<ChromeHeaderProps, 'solution' | 'breadcrumbs' | 'isAgentOpen' | 'onAgentClick' | 'agentControlsId' | 'activeSidebarApp' | 'onActiveSidebarAppChange' | 'sidebarControlsId'>;
   appHeader?: ChromeAppHeaderProps;
   /** @deprecated Use appHeader; retained for one release. */
@@ -35,7 +38,7 @@ export interface KibanaChromeLayoutProps extends KibanaSideNavProps {
 }
 
 /** The published Kibana project layout, with state supplied by the host. */
-export function KibanaChromeLayout({ solution = 'observability', breadcrumbs, agent, sidebarApps = [], activeSidebarApp, onActiveSidebarAppChange, header, appHeader: suppliedAppHeader, pageHeader, children, onWidthChange, ...nav }: KibanaChromeLayoutProps) {
+export function KibanaChromeLayout({ solution = 'observability', breadcrumbs, agent, sidebarApps = [], activeSidebarApp, onActiveSidebarAppChange, logo, header, appHeader: suppliedAppHeader, pageHeader, children, onWidthChange, ...nav }: KibanaChromeLayoutProps) {
   const appHeader = suppliedAppHeader ?? pageHeader;
   const [navigationWidth, setNavigationWidth] = useState(0);
   const [appHeaderNode, setAppHeaderNode] = useState<HTMLDivElement | null>(null);
@@ -81,7 +84,7 @@ export function KibanaChromeLayout({ solution = 'observability', breadcrumbs, ag
       <ChromeLayout
         applicationTopBar={appHeader ? <div ref={setAppHeaderNode}><ChromeAppHeader {...appHeader} sticky={false} /></div> : undefined}
         header={<div css={{ display: 'flex', alignItems: 'center', height: 48 }}>
-          <div css={{ width: navigationWidth, display: 'flex', justifyContent: 'center', flexShrink: 0 }}><EuiIcon type="logoElastic" size="l" /></div>
+          <div css={{ width: navigationWidth, display: 'flex', justifyContent: 'center', flexShrink: 0 }}><ChromeHeaderLogo {...logo} /></div>
           <div css={{ flex: 1, minWidth: 0 }}><ChromeHeader {...header} solution={solution} breadcrumbs={breadcrumbs}
             activeSidebarApp={activeId} onActiveSidebarAppChange={changeSidebarApp} sidebarControlsId={sidebarId}
             isAgentOpen={activeId === 'agent'} onAgentClick={apps.some(app => app.id === 'agent') ? () => changeSidebarApp(activeId === 'agent' ? null : 'agent') : undefined}
