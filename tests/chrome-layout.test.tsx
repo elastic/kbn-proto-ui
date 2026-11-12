@@ -9,11 +9,11 @@ vi.mock('@kbn/ui-chrome-layout', async importOriginal => ({
   ChromeLayout: ({ header, applicationTopBar, sidebar, children }: Record<string, ReactNode>) => <main>{header}{applicationTopBar}{sidebar}{children}</main>,
 }));
 vi.mock('../src/wrappers/KibanaSideNav', () => ({ KibanaSideNav: () => null }));
-vi.mock('../src/upstream/ai-components/ai_button/ai_button', async importOriginal => {
-  const actual = await importOriginal<typeof import('../src/upstream/ai-components/ai_button/ai_button')>();
+vi.mock('../src/wrappers/ai-components', async importOriginal => {
+  const actual = await importOriginal<typeof import('../src/wrappers/ai-components')>();
   return { ...actual, AiButton: vi.fn(actual.AiButton) };
 });
-import { AiButton } from '../src/upstream/ai-components/ai_button/ai_button';
+import { AiButton } from '../src/wrappers/ai-components';
 import { KibanaChromeLayout, KibanaChrome } from '../src/wrappers/KibanaChromeLayout';
 import { ChromeHeader, KibanaHeader } from '../src/rebuilt/ChromeHeader';
 import { ChromeAppHeader, KibanaPageHeader } from '../src/rebuilt/app-header/ChromeAppHeader';

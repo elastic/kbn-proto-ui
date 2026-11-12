@@ -41,5 +41,7 @@ for (const [symbol, path] of [['AiButton', './dist/index.js'], ['ChromeAppHeader
   });
   assert(!result.outputFiles[0].text.includes('app-main-scroll'), `${symbol} pulled in unused chrome code`);
 }
-execFileSync(process.execPath, ['node_modules/typescript/bin/tsc', '--noEmit', '--strict', '--skipLibCheck', '--moduleResolution', 'bundler', '--module', 'esnext', '--target', 'es2022', '--types', 'react', 'tests/chrome-app-header.contract.ts', 'tests/tabs.contract.ts', 'tests/chrome-header.contract.ts', 'tests/chrome-compat.contract.ts'], { stdio: 'inherit' });
+execFileSync(process.execPath, ['node_modules/typescript/bin/tsc', '--noEmit', '--strict', '--skipLibCheck', '--moduleResolution', 'bundler', '--module', 'esnext', '--target', 'es2022', '--types', 'react', 'tests/ai-components.contract.ts', 'tests/chrome-app-header.contract.ts', 'tests/tabs.contract.ts', 'tests/chrome-header.contract.ts', 'tests/chrome-compat.contract.ts'], { stdio: 'inherit' });
+// Dev-only: the standalone AI type snapshot must match the installed published declarations.
+execFileSync(process.execPath, ['node_modules/typescript/bin/tsc', '--noEmit', '--strict', '--skipLibCheck', '--moduleResolution', 'bundler', '--module', 'esnext', '--target', 'es2022', '--types', 'react', 'tests/ai-components.drift.ts'], { stdio: 'inherit' });
 console.log(`Package verified: ${pack.entryCount} files; peers external; no Artifactory runtime or type dependencies.`);

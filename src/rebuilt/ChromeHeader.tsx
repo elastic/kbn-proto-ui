@@ -14,7 +14,7 @@ import {
   EuiFieldSearch, useEuiTheme,
 } from '@elastic/eui';
 import type { EuiBreadcrumb } from '@elastic/eui';
-import { AiButton } from '../upstream/ai-components/ai_button/ai_button';
+import { AiButton } from '../wrappers/ai-components';
 import type { Solution } from '../solution-menus';
 import { HeaderActionButton } from './chrome-header/HeaderActionButton';
 import { SearchButton } from './chrome-header/SearchButton';

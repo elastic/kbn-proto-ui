@@ -1,6 +1,6 @@
 # kbn-proto-ui
 
-Kibana's shared shell for React prototypes: the published chrome layout and side navigation, solution menus, header, and AI Agent UI. No router, app setup, or data fetching.
+Kibana's shared shell for React prototypes: the published chrome layout, side navigation and AI components, solution menus, header, and AI Agent UI. No router, app setup, or data fetching.
 
 How the chrome is organized:
 
@@ -25,11 +25,11 @@ KibanaChromeLayout (wraps published ChromeLayout)
 | Agent Builder conversation | `AgentSidebar` | Rebuilt |
 | Unified tabs (`@kbn/unified-tabs`) | `KibanaTabs` | Rebuilt |
 | Project picker button (`@kbn/cps-utils`) | `KibanaProjectPicker` | Rebuilt |
-| `AiButton` (`@kbn/ui-ai-components`) | `AiButton` | Upstream copy |
+| AI buttons and gradients (`@kbn/ui-ai-components`) | `AiButton`, `AiButtonDefault`, `AiButtonEmpty`, `AiButtonIcon`, AI styling utilities | Published package |
 | Solution navigation trees | `solutionNavTrees` | Upstream data |
 
 - **Wrapper:** Kibana's published package, used as is. Named `Kibana…` because it imports the component of the same name.
-- **Upstream copy:** Kibana's source copied in until Kibana publishes it.
+- **Published package:** Kibana's implementation bundled as is, with standalone public types so consumers never need Artifactory.
 - **Rebuilt:** rebuilt here to match Kibana, mostly under Kibana's name. Maintained by hand.
 
 The library is independent of consuming apps. App-specific styles, palettes and helpers belong in the host; shared AI buttons use the host's EUI theme.
@@ -40,8 +40,8 @@ src/
     KibanaChromeLayout.tsx
     KibanaSideNav.tsx
     layout.ts
-  upstream/          # Original Kibana source with documented local patches
-    ai-components/
+    ai-components.ts
+    ai-components.types.ts
   rebuilt/           # Locally maintained UI matching Kibana's supported subset
     ChromeHeader.tsx
     chrome-header/   # Internal HeaderActionButton and SearchButton
@@ -58,17 +58,16 @@ src/
   solution-menus/    # Kibana's solution menus, represented as data
   utilities/         # Reusable styling APIs and standalone adapters
     aiStyles.ts
-    kibanaI18n.ts
   index.ts           # Public package exports
 ```
 
 Wrappers configure and connect published Kibana packages to host-supplied props.
 
-Upstream source is retained locally until Kibana publishes suitable packages; update it by comparing against the original and preserving the documented local patches. The only local source changes are the deprecated AI Assistant logo removal documented in [SOURCES.md](SOURCES.md).
+AI buttons and gradients come from the published `@kbn/ui-ai-components` package, bundled into this library. The thin wrapper preserves the existing exports and keeps public declarations independent of private packages. The deprecated `aiAssistantLogo` option remains excluded from our public types; the upstream package itself is unmodified.
 
 Rebuilt components are maintained in this library and validated against Kibana's appearance and their supported behavior. They implement a defined subset of Kibana's functionality, with application logic supplied by the host.
 
-`utilities/aiStyles.ts` exposes the shared AI gradient implementation; `utilities/kibanaI18n.ts` is the internal English-label adapter used by build and test aliases.
+`utilities/aiStyles.ts` exposes the published AI gradient hooks and SVG definitions used by the buttons. No local AI implementation or translation adapter is maintained.
 
 Install a release tag (never `main`, which has no prebuilt files):
 
@@ -134,7 +133,7 @@ export function CustomAiAction() {
 }
 ```
 
-Use your host's Emotion JSX configuration and existing `EuiProvider`. The hook supports `base`, `outlined`, `empty`, and `accent` variants plus `iconOnly`; its styles include hover, focus and disabled states. `useSvgAiGradient({ variant })` also exposes the resolved `colors.startColor` / `colors.endColor`, `gradientId` and `iconGradientCss`. For gradient icons, render `<SvgAiGradientDefs gradientId={gradientId} colors={colors} />` alongside the icon and apply `iconGradientCss` to its wrapper. Each hook call creates a unique SVG gradient ID. These utilities follow the host's theme and reuse the unchanged Kibana implementation; no separate fixed palette is maintained.
+Use your host's Emotion JSX configuration and existing `EuiProvider`. The hook supports `base`, `outlined`, `empty`, and `accent` variants plus `iconOnly`; its styles include hover, focus and disabled states. `useSvgAiGradient({ variant })` also exposes the resolved `colors.startColor` / `colors.endColor`, `gradientId` and `iconGradientCss`. For gradient icons, render `<SvgAiGradientDefs gradientId={gradientId} colors={colors} />` alongside the icon and apply `iconGradientCss` to its wrapper. Each hook call creates a unique SVG gradient ID. These utilities follow the host's theme and reuse the published Kibana implementation; no separate fixed palette is maintained.
 
 The agent is UI only: pass `messages`, `onSubmit`, and `isResponding` through `agent` to connect your prototype's behavior, or supply `agent.children` for custom conversation content. Header actions and user/space labels are configured through `header`. Unconfigured header actions remain enabled and do nothing until the host supplies a callback. The page fills a fixed-height panel; give your page's scrollable region `min-height: 0; overflow: auto`.
 

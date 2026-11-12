@@ -16,12 +16,7 @@
     "declaration": true,
     "emitDeclarationOnly": true,
     "outDir": "dist",
-    "rootDir": "src",
-    "paths": {
-      "@kbn/i18n": [
-        "./src/utilities/kibanaI18n.ts"
-      ]
-    }
+    "rootDir": "src"
   },
   "include": [
     "src"
