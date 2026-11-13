@@ -130,3 +130,28 @@ it('matches Kibana shortcut handling for editable targets and extra modifiers', 
   fireEvent.keyDown(document, { key: '/', metaKey: true });
   expect(click).toHaveBeenCalledOnce(); platform.mockRestore();
 });
+
+describe('header logo slot', () => {
+  const slotWidth = (container: HTMLElement) =>
+    (container.querySelector('[data-test-subj="kibanaHeaderLogo"]') as HTMLElement).style.width;
+
+  it('renders the Elastic logo first, as in Kibana', () => {
+    const { container } = show({ switcher: <button>ACME Corp</button> });
+    const logo = screen.getByRole('img', { name: 'Elastic' });
+    expect(logo.compareDocumentPosition(screen.getByRole('button', { name: 'ACME Corp' })) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(slotWidth(container)).toBe('48px');
+  });
+
+  it.each([[48, '48px'], [100, '100px'], [348, '100px']])(
+    'follows only the side nav rail (nav width %i → %s), never the secondary panel', (sideNavWidth, width) => {
+      const { container } = show({ sideNavWidth });
+      expect(slotWidth(container)).toBe(width);
+    });
+
+  it('passes the logo config through', () => {
+    const onClick = vi.fn();
+    show({ logo: { onClick, label: 'Back to prototype hub' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Back to prototype hub' }));
+    expect(onClick).toHaveBeenCalledOnce();
+  });
+});
