@@ -155,3 +155,27 @@ describe('header logo slot', () => {
     expect(onClick).toHaveBeenCalledOnce();
   });
 });
+
+describe('user menu slot', () => {
+  it('keeps the default avatar and its callback when omitted', () => {
+    const onUserClick = vi.fn();
+    const { container } = show({ userName: 'Kate', onUserClick });
+    fireEvent.click(screen.getByRole('button', { name: 'User menu: Kate' }));
+    expect(onUserClick).toHaveBeenCalledOnce();
+    expect(container.querySelector('[data-test-subj="kibanaHeaderUserMenu"]')).toBeTruthy();
+  });
+
+  it('renders host content in place of the avatar, before afterUserMenu', () => {
+    show({ userName: 'Kate', userMenu: <button>Kate's menu</button>, afterUserMenu: <button>Prototype tools</button> });
+    expect(screen.queryByRole('button', { name: 'User menu: Kate' })).toBeNull();
+    const menu = screen.getByRole('button', { name: "Kate's menu" });
+    expect(menu.compareDocumentPosition(screen.getByRole('button', { name: 'Prototype tools' })) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it('hides the slot with null', () => {
+    const { container } = show({ userMenu: null });
+    expect(container.querySelector('[data-test-subj="kibanaHeaderUserMenu"]')).toBeNull();
+    expect(screen.queryByRole('button', { name: /^User menu/ })).toBeNull();
+  });
+});
+

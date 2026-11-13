@@ -8,7 +8,8 @@
  */
 
 // Modified by Elastic, November 2026: project-header slots around standalone controls;
-// the logo slot takes the side nav width as a prop instead of `useSideNavWidth`.
+// the logo slot takes the side nav width as a prop instead of `useSideNavWidth`;
+// the user menu slot defaults to a plain avatar instead of the security plugin's menu.
 import type { ReactNode } from 'react';
 import {
   EuiAvatar, EuiBreadcrumbs, EuiButtonEmpty, EuiButtonIcon, EuiIcon,
@@ -48,8 +49,15 @@ export interface ChromeHeaderProps {
   breadcrumbs?: KibanaBreadcrumb[];
   spaceName?: string;
   onSpaceClick?: () => void;
+  /** Name on the default avatar. Ignored when `userMenu` is supplied. */
   userName?: string;
+  /** Click handler for the default avatar. Ignored when `userMenu` is supplied. */
   onUserClick?: () => void;
+  /**
+   * Kibana's user menu slot. Pass your own avatar and menu (for example an
+   * `EuiPopover`). Omit it to keep the default avatar; `null` hides it.
+   */
+  userMenu?: ReactNode;
   onHelpClick?: () => void;
   onSearchClick?: () => void;
   /** @deprecated Use onSearchClick. Opts into the legacy input for one release. */
@@ -85,7 +93,7 @@ export function ChromeHeader({
   solution = 'observability', logo, sideNavWidth = COLLAPSED_NAV_WIDTH, breadcrumbs = [], spaceName = 'Default', userName = 'Elastic User',
   onSpaceClick, onUserClick, onHelpClick, onSearchClick, searchValue, onSearchChange, onSearchSubmit,
   isAgentOpen = false, onAgentClick, agentControlsId, colorMode = 'light', onToggleColorMode, trailing,
-  switcher, projectPicker, subscriptionBadge, afterUserMenu,
+  switcher, projectPicker, subscriptionBadge, userMenu, afterUserMenu,
   actions, activeSidebarApp, onActiveSidebarAppChange, sidebarControlsId,
 }: ChromeHeaderProps) {
   const { euiTheme } = useEuiTheme();
@@ -94,6 +102,12 @@ export function ChromeHeader({
       {spaceName}
     </EuiButtonEmpty>
   ) : switcher;
+  const resolvedUserMenu = userMenu === undefined ? (
+    <button type="button" aria-label={`User menu: ${userName}`} onClick={onUserClick}
+      css={{ border: 0, background: 'transparent', padding: 0, borderRadius: '50%', cursor: onUserClick ? 'pointer' : 'default', flexShrink: 0 }}>
+      <EuiAvatar name={userName} size="s" color={euiTheme.colors.vis.euiColorVis1} />
+    </button>
+  ) : userMenu;
   const separator = <div aria-hidden="true" data-test-subj="kibanaHeaderSeparator" css={{
     width: euiTheme.border.width.thin, height: euiTheme.size.l, flexShrink: 0, background: euiTheme.colors.borderBasePlain,
   }} />;
@@ -157,10 +171,9 @@ export function ChromeHeader({
         {onToggleColorMode && <EuiButtonIcon iconType={colorMode === 'light' ? 'moon' : 'sun'}
           aria-label={`Switch to ${colorMode === 'light' ? 'dark' : 'light'} mode`} onClick={onToggleColorMode} />}
         {trailing}
-        <button type="button" aria-label={`User menu: ${userName}`} onClick={onUserClick}
-          css={{ border: 0, background: 'transparent', padding: 0, borderRadius: '50%', cursor: onUserClick ? 'pointer' : 'default', flexShrink: 0 }}>
-          <EuiAvatar name={userName} size="s" color={euiTheme.colors.vis.euiColorVis1} />
-        </button>
+        {resolvedUserMenu && <div data-test-subj="kibanaHeaderUserMenu" css={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+          {resolvedUserMenu}
+        </div>}
         {afterUserMenu}
       </div>
     </div>

@@ -7,6 +7,8 @@ const header: ChromeHeaderProps = {
   subscriptionBadge: 'Trial', trailing: 'Before avatar', afterUserMenu: 'Prototype tools',
 };
 const chrome: KibanaChromeLayoutProps = { header };
+const withUserMenu: ChromeHeaderProps = { userMenu: createElement('button', null, 'Kate'), afterUserMenu: null };
+void withUserMenu;
 const standalone: ChromeHeaderProps = { logo: { href: '/', label: 'Elastic home' }, sideNavWidth: 100 };
 // @ts-expect-error the layout supplies the logo and nav width itself; use its top-level `logo`
 const layoutHeaderLogo: KibanaChromeLayoutProps = { header: { logo: {} } };
