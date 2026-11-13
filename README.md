@@ -143,6 +143,14 @@ The Elastic logo at the start of the header is a link home, as in Kibana, when y
 <KibanaChromeLayout logo={{ href: '/', onClick: () => navigate('/'), label: 'Back to prototype hub' }} />
 ```
 
+As in Kibana, the logo is part of `ChromeHeader`, so a standalone `ChromeHeader` includes it too; don't add your own. Pass the width `KibanaSideNav` reports through `onWidthChange` as `sideNavWidth`: the logo slot is 48px while the nav is collapsed and 100px while expanded, and ignores the nav's secondary panel. Without a side nav, omit it.
+
+```tsx
+const [navWidth, setNavWidth] = useState(0);
+<ChromeHeader logo={{ href: '/' }} sideNavWidth={navWidth} />
+<KibanaSideNav onWidthChange={setNavWidth} />
+```
+
 The global `ChromeHeader` has Kibana's named `switcher`, `projectPicker` and `subscriptionBadge` slots. Omit `switcher` to keep the existing solution-logo/space button; pass `null` to hide it. The order is switcher → project picker → subscription badge → breadcrumbs/spacer → search → help → custom actions → AI Agent → existing theme control (if configured) → `trailing` → avatar → `afterUserMenu`. Kibana's fixed left-group divider and conditional switcher/picker-badge dividers follow `header_shell.tsx`.
 
 Pass these props directly to `ChromeHeader`, or through `KibanaChromeLayout.header`:
