@@ -151,7 +151,7 @@ const [navWidth, setNavWidth] = useState(0);
 <KibanaSideNav onWidthChange={setNavWidth} />
 ```
 
-The global `ChromeHeader` has Kibana's named `switcher`, `projectPicker` and `subscriptionBadge` slots. Omit `switcher` to keep the existing solution-logo/space button; pass `null` to hide it. The order is switcher → project picker → subscription badge → breadcrumbs/spacer → search → help → custom actions → AI Agent → existing theme control (if configured) → `trailing` → avatar → `afterUserMenu`. Kibana's fixed left-group divider and conditional switcher/picker-badge dividers follow `header_shell.tsx`.
+The global `ChromeHeader` has Kibana's named `switcher`, `projectPicker`, `subscriptionBadge` and `userMenu` slots. Omit `switcher` to keep the existing solution-logo/space button; pass `null` to hide it. Omit `userMenu` to keep the plain avatar (`userName`, `onUserClick`); pass your own avatar and menu to replace it, or `null` to hide it. In Kibana the security plugin fills this slot. The order is switcher → project picker → subscription badge → breadcrumbs/spacer → search → help → custom actions → AI Agent → existing theme control (if configured) → `trailing` → avatar → `afterUserMenu`. Kibana's fixed left-group divider and conditional switcher/picker-badge dividers follow `header_shell.tsx`.
 
 Pass these props directly to `ChromeHeader`, or through `KibanaChromeLayout.header`:
 
@@ -171,6 +171,15 @@ import { KibanaChromeLayout, KibanaProjectPicker } from '@elastic/kbn-proto-ui';
 ```
 
 `KibanaProjectPicker` is the cross-project scope button only: pass numeric `selected`/`total`, optional `onClick`, and an optional tooltip override. It shows compact counts with tabular numbers, “All” when every project is selected, and a warning button for zero selected (including 0/0). Its default tooltip is “Cross-project search scope selector”. The host implements the picker popover and selection state. Counts use English compact notation without introducing Kibana's numeral dependency.
+
+```tsx
+<ChromeHeader userMenu={
+  <EuiPopover isOpen={open} closePopover={() => setOpen(false)}
+    button={<EuiHeaderSectionItemButton aria-label="User menu" onClick={() => setOpen(!open)}><EuiAvatar name="Kate" size="s" /></EuiHeaderSectionItemButton>}>
+    {/* menu items */}
+  </EuiPopover>
+} />
+```
 
 **`afterUserMenu` is a prototype-only extension, not part of Kibana.** It leaves space after the avatar for host-owned tools; this library provides no tweaks, variants or versioning UI. The existing `trailing` slot remains before the avatar.
 
