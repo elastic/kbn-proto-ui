@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useId, useState } from 'react';
 import type { ReactNode } from 'react';
+import { Global } from '@emotion/react';
 import { ChromeLayout, ChromeLayoutConfigProvider, GridLayoutGlobalStyles, layoutVar } from '@kbn/ui-chrome-layout';
 import { ChromeHeader } from '../rebuilt/ChromeHeader';
 import type { ChromeHeaderLogoConfig } from '../rebuilt/chrome-header/HeaderLogo';
@@ -11,6 +12,7 @@ import { AgentSidebar } from '../rebuilt/agent-builder/AgentSidebar';
 import type { AgentSidebarProps } from '../rebuilt/agent-builder/AgentSidebar';
 import { ChromeAppHeader } from '../rebuilt/app-header/ChromeAppHeader';
 import type { ChromeAppHeaderProps } from '../rebuilt/app-header/types';
+import { reservedInlineEndStyles } from './reservedInlineEnd';
 
 export interface AgentConfig extends Omit<AgentSidebarProps, 'onClose'> {
   open: boolean;
@@ -33,11 +35,19 @@ export interface KibanaChromeLayoutProps extends KibanaSideNavProps {
   appHeader?: ChromeAppHeaderProps;
   /** @deprecated Use appHeader; retained for one release. */
   pageHeader?: ChromeAppHeaderProps;
+  /**
+   * Not in Kibana. Pixels to keep free at the window's right edge, for host tools rendered
+   * outside the chrome (for example a prototype settings panel). The whole layout, header
+   * included, fits in the remaining width. Omit it, or pass 0, for Kibana's full-window layout.
+   */
+  reservedInlineEnd?: number;
   children?: ReactNode;
 }
 
+const APPLICATION_MARGIN_RIGHT = 8;
+
 /** The published Kibana project layout, with state supplied by the host. */
-export function KibanaChromeLayout({ solution = 'observability', breadcrumbs, agent, sidebarApps = [], activeSidebarApp, onActiveSidebarAppChange, logo, header, appHeader: suppliedAppHeader, pageHeader, children, onWidthChange, ...nav }: KibanaChromeLayoutProps) {
+export function KibanaChromeLayout({ solution = 'observability', breadcrumbs, agent, sidebarApps = [], activeSidebarApp, onActiveSidebarAppChange, logo, header, appHeader: suppliedAppHeader, pageHeader, reservedInlineEnd = 0, children, onWidthChange, ...nav }: KibanaChromeLayoutProps) {
   const appHeader = suppliedAppHeader ?? pageHeader;
   const [navigationWidth, setNavigationWidth] = useState(0);
   const [appHeaderNode, setAppHeaderNode] = useState<HTMLDivElement | null>(null);
@@ -56,11 +66,13 @@ export function KibanaChromeLayout({ solution = 'observability', breadcrumbs, ag
     setNavigationWidth(width);
     onWidthChange?.(width);
   }, [onWidthChange]);
+  const reserved = Math.max(0, reservedInlineEnd);
   useEffect(() => {
-    const resize = () => setSidebarWidth((width) => clampSidebarWidth(width, window.innerWidth));
+    const resize = () => setSidebarWidth((width) => clampSidebarWidth(width, window.innerWidth - reserved));
+    resize();
     window.addEventListener('resize', resize);
     return () => window.removeEventListener('resize', resize);
-  }, []);
+  }, [reserved]);
   const agentProps = agent ? (({ open, onOpenChange, ...props }) => props)(agent) : undefined;
   const apps: SidebarAppConfig[] = agent ? [
     ...sidebarApps.filter(app => app.id !== 'agent'),
@@ -75,11 +87,13 @@ export function KibanaChromeLayout({ solution = 'observability', breadcrumbs, ag
     onActiveSidebarAppChange?.(id);
     if (agent && agent.open !== (id === 'agent')) agent.onOpenChange(id === 'agent');
   }
+  const openSidebarWidth = openApp ? sidebarWidth : 0;
   return <>
     <GridLayoutGlobalStyles appearance="framed" />
+    {reserved > 0 ? <Global styles={reservedInlineEndStyles({ reserved, navigationWidth, sidebarWidth: openSidebarWidth, applicationMarginRight: APPLICATION_MARGIN_RIGHT })} /> : null}
     <ChromeLayoutConfigProvider value={{ appearance: 'framed', headerHeight: 48, navigationWidth,
-      sidebarWidth: openApp ? sidebarWidth : 0, applicationTopBarHeight: appHeaderHeight,
-      applicationMarginRight: 8, applicationMarginBottom: 8 }}>
+      sidebarWidth: openSidebarWidth, applicationTopBarHeight: appHeaderHeight,
+      applicationMarginRight: APPLICATION_MARGIN_RIGHT, applicationMarginBottom: 8 }}>
       <ChromeLayout
         applicationTopBar={appHeader ? <div ref={setAppHeaderNode}><ChromeAppHeader {...appHeader} sticky={false} /></div> : undefined}
         header={<ChromeHeader {...header} solution={solution} breadcrumbs={breadcrumbs} logo={logo} sideNavWidth={navigationWidth}
