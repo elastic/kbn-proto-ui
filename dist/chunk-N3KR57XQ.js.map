@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["peer-bridge:react", "peer-bridge:@emotion/react", "peer-bridge:@elastic/eui"],
+  "sourcesContent": ["import * as peer from \"react\"; export * from \"react\"; export default peer;", "import * as peer from \"@emotion/react\"; export * from \"@emotion/react\"; export default peer;", "import * as peer from \"@elastic/eui\"; export * from \"@elastic/eui\"; export default peer;"],
+  "mappings": ";;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA,YAAY,UAAU;AAAS,4BAAc;AAA7C,IAA6D;AAA7D;AAAA;AAA+B;AAAuB,IAAO,gBAAQ;AAAA;AAAA;;;ACArE,IAAAA,iBAAA;AAAA,SAAAA,gBAAA;AAAA,iBAAAC;AAAA;AAAA,YAAYC,WAAU;AAAkB,YAAAC,iBAAc;AAAtD,IAA+EF;AAA/E,IAAAG,cAAA;AAAA;AAAwC,eAAAJ,gBAAAG;AAAgC,IAAOF,iBAAQC;AAAA;AAAA;;;ACAvF;AAAA;AAAA;AAAA;AAAA,YAAYG,WAAU;AAAgB,0BAAc;AAApD,IAA2E;AAA3E;AAAA;AAAsC;AAA8B,IAAO,cAAQA;AAAA;AAAA;",
+  "names": ["react_exports", "react_default", "peer", "react_star", "init_react", "peer"]
+}
