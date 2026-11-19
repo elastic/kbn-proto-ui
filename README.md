@@ -289,3 +289,16 @@ export function Prototype() {
 An action with `sidebarAppId` toggles that app instead of accepting `onClick`. Its selected state, `aria-expanded` and `aria-controls` follow the active app. Standalone `ChromeHeader` supports the corresponding controlled props and `sidebarControlsId`; the layout wires these automatically.
 
 The existing `agent={{ open, onOpenChange, ... }}` API remains supported, including `agent.children`; it registers the built-in `agent` app. Reserve that ID when using the adapter. You can also register your own `agent` render function in `sidebarApps` without the legacy prop. AI Agent accents only while `agent` is active; another app leaves it at `base`. When combining APIs, an explicitly supplied `activeSidebarApp` (including `null`) takes precedence over `agent.open`, and toggles notify both the main callback and the agent callback when its open flag changes. Supply controlled updates for the new API; there is no internal active-app state.
+
+## Room for tools beside Kibana
+
+**`reservedInlineEnd` is a prototype-only extension, not part of Kibana.** Kibana's layout always fills the window. Pass a width in pixels to keep that much free at the window's right edge for host tools rendered outside the chrome, such as a prototype settings panel. The whole layout, header included, fits in the remaining width, and everything Kibana positions from the window's right edge (application, sidebar, app bars, overlay masks) moves with it. The host renders and positions its own panel; this library provides none.
+
+```tsx
+<KibanaChromeLayout reservedInlineEnd={isPanelOpen ? 400 : 0}>
+  <MyPrototypePage />
+</KibanaChromeLayout>
+{isPanelOpen ? <aside style={{ position: 'fixed', top: 0, right: 0, bottom: 0, width: 400 }}>…</aside> : null}
+```
+
+Omitted or `0`, the layout is Kibana's full-window layout and no extra styles are added. Scope the app's EUI flyouts to the application area (`EuiProvider`'s `componentDefaults={{ EuiFlyout: { container: '#app-main-scroll' } }}`) so they open inside the chrome rather than against the window.
