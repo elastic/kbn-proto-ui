@@ -30,3 +30,6 @@ void newLayout;
 const logo: ChromeHeaderLogoConfig = { href: '/', onClick: event => { void event; }, label: 'Back to prototype hub' };
 const logoLayout: KibanaChromeLayoutProps = { logo };
 void logoLayout;
+
+const customizeLayout: KibanaChromeLayoutProps = { onCustomizeNavigation: () => {} };
+void customizeLayout;

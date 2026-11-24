@@ -13,6 +13,7 @@ Keep the public API independent of consuming prototypes. Include UI and supporti
 - Supply `getHref` when links need host router URLs. Ordinary clicks call `onNavigate`; modified clicks should keep native browser behavior.
 - Override the menu with `navItems={{ primaryItems: [...] }}`, or extend defaults with `navItems={(nav) => ({ ...nav, primaryItems: [...nav.primaryItems, { id: 'my-page', label: 'My page', iconType: 'beaker', href: '/my-page' }] })}`. Preserve stable IDs. Sections have `{ id, label?, items: [{ id, label, href }] }`.
 - The library does not persist collapse state. Use `collapsed` and `onCollapsedChange` if the app needs persistence.
+- The More panel always shows Kibana's "Customize navigation" button, a no-op by default. Pass `onCustomizeNavigation` (no arguments; the panel closes first) to open the host's own customization UI.
 - The legacy agent adapter uses `{ open, onOpenChange, attachment?, messages?, onSubmit?, isResponding? }`. Supply responses from the host; this library never fabricates responses or fetches data.
 - The application panel is fixed to `layoutVar('application.content.height')`. Keep page regions at `minHeight: 0` and put scrolling inside the page.
 - Prefer lower-level exported components when only one part is needed. Never copy the library's chrome into a prototype.

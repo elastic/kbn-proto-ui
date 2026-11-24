@@ -100,6 +100,8 @@ export function Prototype() {
 
 `solution` accepts `observability` (default), `security`, `search` (Elasticsearch), or `classic`. Navigation IDs follow Kibana, for example `discover`, `dashboards`, and `apm:services`. `onNavigate` receives the ID and item. Use `getHref={(id) => ...}` for real URLs and modified-click behavior, or omit `onNavigate` to use native links.
 
+The side nav's More panel ends with Kibana's **Customize navigation** button. It shows by default and does nothing until you pass `onCustomizeNavigation={() => ...}` (to `KibanaChromeLayout` or `KibanaSideNav`); the panel closes before the callback runs.
+
 Extend a solution's menu without copying the shell:
 
 ```tsx
