@@ -15,9 +15,9 @@ export interface KibanaSideNavProps {
   onCollapsedChange?: (collapsed: boolean) => void;
   onWidthChange?: (width: number) => void;
   /**
-   * Called by the "Customize navigation" button in the More panel's footer,
-   * after the panel closes. The button shows by default, as in Kibana, and
-   * does nothing until the host supplies this callback.
+   * Passed through to the published SideNavigation. When set, the More panel
+   * shows Kibana's "Customize navigation" button; activating it closes More
+   * and invokes this callback. Without it, no button renders.
    */
   onCustomizeNavigation?: () => void;
 }
@@ -25,7 +25,7 @@ export interface KibanaSideNavProps {
 export function KibanaSideNav({
   solution = 'observability', activeNavItem, onNavigate, getHref, navItems,
   collapsed, defaultCollapsed = false, onCollapsedChange, onWidthChange,
-  onCustomizeNavigation = ignoreCustomize,
+  onCustomizeNavigation,
 }: KibanaSideNavProps) {
   const [internalCollapsed, setCollapsed] = useState(defaultCollapsed);
   const nativeClick = useRef(false);
@@ -63,4 +63,3 @@ const SideNavigationWithCustomize = SideNavigation as ComponentType<
   ComponentProps<typeof SideNavigation> & { onCustomizeNavigation?: () => void }
 >;
 const ignoreWidth = () => {};
-const ignoreCustomize = () => {};

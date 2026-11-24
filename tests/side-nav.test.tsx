@@ -14,15 +14,15 @@ function openMore(props: KibanaSideNavProps = {}) {
 }
 
 describe('KibanaSideNav customize navigation', () => {
-  it('shows "Customize navigation" in the More panel by default', async () => {
+  it('renders no Customize navigation button without a callback', () => {
     openMore();
-    expect(customizeButton()?.textContent).toBe('Customize navigation');
-    fireEvent.click(customizeButton()!);
-    await waitFor(() => expect(customizeButton()).toBeNull());
+    expect(screen.getByText('Extra page')).toBeTruthy();
+    expect(customizeButton()).toBeNull();
   });
-  it('closes the More panel and calls the supplied callback', async () => {
+  it('shows the button with a callback; activating it closes More and invokes the callback', async () => {
     const onCustomizeNavigation = vi.fn();
     openMore({ onCustomizeNavigation });
+    expect(customizeButton()?.textContent).toBe('Customize navigation');
     fireEvent.click(customizeButton()!);
     expect(onCustomizeNavigation).toHaveBeenCalledOnce();
     expect(onCustomizeNavigation).toHaveBeenCalledWith();
