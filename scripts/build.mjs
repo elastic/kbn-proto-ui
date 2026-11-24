@@ -1,6 +1,7 @@
 import { build } from 'esbuild';
 import { execFileSync } from 'node:child_process';
-import { readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
 
 const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
 rmSync('dist', { recursive: true, force: true });
@@ -54,3 +55,22 @@ writeFileSync('dist/build-metadata.json', JSON.stringify({ bundled: Object.fromE
   Object.entries(pkg.devDependencies).filter(([name]) => name.startsWith('@kbn/ui-')),
 ), external: peers }, null, 2) + '\n');
 writeFileSync('dist/metafile.json', JSON.stringify(result.metafile, null, 2) + '\n');
+
+// Upstream license notices. A bundled package's minified code keeps its comment
+// "For license information please see index.js.LICENSE.txt"; esbuild moves it into our
+// chunk, so ship the notice beside the chunks under that name. The upstream code is unchanged.
+const kbnPackages = Object.keys(pkg.devDependencies).filter((name) => name.startsWith('@kbn/ui-'));
+const notices = kbnPackages.flatMap((name) => {
+  const file = join('node_modules', name, 'index.js.LICENSE.txt');
+  return existsSync(file) ? [`Bundled from ${name}@${pkg.devDependencies[name]} (${file.replace('node_modules/', '')}):\n\n${readFileSync(file, 'utf8').trim()}\n`] : [];
+});
+if (notices.length) {
+  writeFileSync('dist/index.js.LICENSE.txt', `Third-party license notices for code bundled into @elastic/kbn-proto-ui.\n\n${notices.join('\n')}`);
+}
+// Every "please see X" reference in the output must resolve to a file next to the chunk that has it.
+const walk = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((entry) => entry.isDirectory() ? walk(join(dir, entry.name)) : [join(dir, entry.name)]);
+for (const file of walk('dist').filter((file) => file.endsWith('.js'))) {
+  for (const [, notice] of readFileSync(file, 'utf8').matchAll(/For license information please see ([^\s*]+)/g)) {
+    if (!existsSync(join(dirname(file), notice))) throw new Error(`${file} references a missing license notice: ${notice}`);
+  }
+}

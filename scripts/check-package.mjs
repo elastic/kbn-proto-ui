@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { readFileSync, readdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
 import { build } from 'esbuild';
 const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
 assert.equal(pkg.type, 'module');
@@ -31,6 +31,14 @@ const files = new Set(pack.files.map(({ path }) => path));
 for (const file of ['dist/index.js', 'dist/index.d.ts', 'dist/solution-menus/index.js', 'dist/solution-menus/index.d.ts', 'README.md', 'AGENTS.md', 'SOURCES.md', 'LICENSE', 'NOTICE']) assert(files.has(file), `Missing release file: ${file}`);
 assert(![...files].some((file) => file.startsWith('dist/navigation/')), 'Old navigation output must not be packaged');
 assert(!files.has('.npmrc'));
+// Upstream license notices ship in the release, and every reference to one resolves inside the pack.
+assert(files.has('dist/index.js.LICENSE.txt'), 'Missing bundled third-party license notice: dist/index.js.LICENSE.txt');
+assert(readFileSync('dist/index.js.LICENSE.txt', 'utf8').includes('Lodash'), 'The bundled notice must keep @kbn/ui-app-menu\'s lodash notice');
+for (const file of [...files].filter((file) => file.endsWith('.js'))) {
+  for (const [, notice] of readFileSync(file, 'utf8').matchAll(/For license information please see ([^\s*]+)/g)) {
+    assert(files.has(join(dirname(file), notice)), `${file} references a license notice missing from the pack: ${notice}`);
+  }
+}
 assert(![...files].some((file) => file.startsWith('node_modules/')));
 for (const [symbol, path] of [['AiButton', './dist/index.js'], ['ChromeAppHeader', './dist/index.js'], ['KibanaAppMenu', './dist/index.js'], ['KibanaTabs', './dist/index.js'], ['KibanaProjectPicker', './dist/index.js'], ['useAiButtonGradientStyles', './dist/index.js'], ['useSvgAiGradient', './dist/index.js'], ['SvgAiGradientDefs', './dist/index.js'], ['observabilityNav', './dist/solution-menus/index.js']]) {
   const result = await build({
