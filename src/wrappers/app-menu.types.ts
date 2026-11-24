@@ -6,14 +6,14 @@
  * your election, the "Elastic License 2.0", the "GNU Affero General Public
  * License v3.0 only", or the "Server Side Public License, v 1".
  */
-// Adapted type contract for kbn-proto-ui; unsupported features omitted. See SOURCES.md.
+// Standalone snapshot of the published @kbn/ui-app-menu declarations, so kbn-proto-ui's public
+// types never import @kbn/*. tests/app-menu.drift.ts (run by `npm run check:package`) fails when
+// it drifts from the installed package; update this file to match. See SOURCES.md.
 
 /*
  * This contract is declarative on purpose: apps describe what to show (text, options, callbacks),
  * and the menu decides how it looks. Do not add `ReactNode`, `ReactElement`, JSX, or render-prop
  * fields here. They let every app paint its own UI, and the menu stops looking like one component.
- * The renderer also coerces text to plain strings and drops undeclared keys, see "Strict props" in
- * this package's README.
  *
  * When the existing props cannot express something, add a new declarative field for it rather
  * than a slot for arbitrary content.
@@ -124,6 +124,10 @@ type AppMenuItemOverflow = AppMenuItemTypeBase & {
 
 export type AppMenuItemType = AppMenuItemTopLevel | AppMenuItemOverflow;
 
+export type AppMenuStaticItem = AppMenuItemType & {
+  global?: boolean;
+};
+
 
 export type AppMenuPopoverItem = Omit<
   AppMenuItemType,
@@ -181,4 +185,11 @@ export interface AppMenuConfig {
   items?: AppMenuItemType[];
   primaryActionItem?: AppMenuPrimaryActionItem;
   switch?: AppMenuSwitch;
+  historyConfig?: {
+    undo?: { onClick: () => void; disabled?: boolean };
+    redo?: { onClick: () => void; disabled?: boolean };
+  };
 }
+
+/** Where the menu reads its responsive breakpoint from. */
+export type AppMenuBreakpointSource = 'application' | 'viewport';

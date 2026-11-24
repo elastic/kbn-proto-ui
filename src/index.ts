@@ -25,7 +25,9 @@ export { layoutVar, layoutVarName } from './wrappers/layout';
 export type { LayoutVarName } from './wrappers/layout';
 export { ChromeAppHeader } from './rebuilt/app-header/ChromeAppHeader';
 export type * from './rebuilt/app-header/types';
-export type * from './rebuilt/app-header/menuTypes';
+export type * from './wrappers/app-menu.types';
+export { KibanaAppMenu } from './wrappers/AppMenu';
+export type { KibanaAppMenuProps } from './wrappers/AppMenu';
 
 export { KibanaTabs } from './rebuilt/unified-tabs/KibanaTabs';
 export type { KibanaTabsProps, TabItem, TabbedContentState } from './rebuilt/unified-tabs/types';

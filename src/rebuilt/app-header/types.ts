@@ -22,7 +22,7 @@
 
 import type { ReactNode, MouseEventHandler } from 'react';
 import type { IconColor, IconType } from '@elastic/eui';
-import type { AppMenuConfig } from './menuTypes';
+import type { AppMenuConfig } from '../../wrappers/app-menu.types';
 
 
 export interface AppHeaderBackTarget {

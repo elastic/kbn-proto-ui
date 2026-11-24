@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { readFileSync, readdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { dirname, join, relative } from 'node:path';
 import { build } from 'esbuild';
 const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
 assert.equal(pkg.type, 'module');
@@ -31,17 +31,43 @@ const files = new Set(pack.files.map(({ path }) => path));
 for (const file of ['dist/index.js', 'dist/index.d.ts', 'dist/solution-menus/index.js', 'dist/solution-menus/index.d.ts', 'README.md', 'AGENTS.md', 'SOURCES.md', 'LICENSE', 'NOTICE']) assert(files.has(file), `Missing release file: ${file}`);
 assert(![...files].some((file) => file.startsWith('dist/navigation/')), 'Old navigation output must not be packaged');
 assert(!files.has('.npmrc'));
+// Upstream license notices ship in the release, and every reference to one resolves inside the pack.
+assert(files.has('dist/index.js.LICENSE.txt'), 'Missing bundled third-party license notice: dist/index.js.LICENSE.txt');
+assert(readFileSync('dist/index.js.LICENSE.txt', 'utf8').includes('Lodash'), 'The bundled notice must keep @kbn/ui-app-menu\'s lodash notice');
+for (const file of [...files].filter((file) => file.endsWith('.js'))) {
+  for (const [, notice] of readFileSync(file, 'utf8').matchAll(/For license information please see ([^\s*]+)/g)) {
+    assert(files.has(join(dirname(file), notice)), `${file} references a license notice missing from the pack: ${notice}`);
+  }
+}
 assert(![...files].some((file) => file.startsWith('node_modules/')));
-for (const [symbol, path] of [['AiButton', './dist/index.js'], ['ChromeAppHeader', './dist/index.js'], ['KibanaTabs', './dist/index.js'], ['KibanaProjectPicker', './dist/index.js'], ['useAiButtonGradientStyles', './dist/index.js'], ['useSvgAiGradient', './dist/index.js'], ['SvgAiGradientDefs', './dist/index.js'], ['observabilityNav', './dist/solution-menus/index.js']]) {
+for (const [symbol, path] of [['AiButton', './dist/index.js'], ['ChromeAppHeader', './dist/index.js'], ['KibanaAppMenu', './dist/index.js'], ['KibanaTabs', './dist/index.js'], ['KibanaProjectPicker', './dist/index.js'], ['useAiButtonGradientStyles', './dist/index.js'], ['useSvgAiGradient', './dist/index.js'], ['SvgAiGradientDefs', './dist/index.js'], ['observabilityNav', './dist/solution-menus/index.js']]) {
+  // Split chunks like a consumer's bundler does, then check only the code loaded up front:
+  // the app menu (with its bundled lodash and chrome-layout hooks) must stay in a lazy chunk.
   const result = await build({
     stdin: { contents: `import { ${symbol} } from '${path}'; console.log(${symbol});`, resolveDir: process.cwd() },
-    bundle: true, write: false, format: 'esm', minify: true, treeShaking: true,
+    bundle: true, write: false, format: 'esm', minify: true, treeShaking: true, splitting: true,
+    outdir: 'check-package-out', metafile: true,
     external: Object.keys(pkg.peerDependencies),
     logOverride: { 'ignored-bare-import': 'silent' },
   });
-  assert(!result.outputFiles[0].text.includes('app-main-scroll'), `${symbol} pulled in unused chrome code`);
+  const outputs = result.metafile.outputs;
+  const entry = Object.keys(outputs).find((file) => outputs[file].entryPoint === '<stdin>');
+  const loadedUpFront = new Set([entry]);
+  const lazy = [];
+  for (const file of loadedUpFront) {
+    for (const imp of outputs[file].imports) {
+      if (imp.external) continue;
+      if (imp.kind === 'dynamic-import') lazy.push(imp.path);
+      else loadedUpFront.add(imp.path);
+    }
+  }
+  const upFront = result.outputFiles.filter((file) => loadedUpFront.has(relative(process.cwd(), file.path))).map((file) => file.text).join('\n');
+  assert(!upFront.includes('app-main-scroll'), `${symbol} pulled in unused chrome code`);
+  if (symbol === 'ChromeAppHeader' || symbol === 'KibanaAppMenu') {
+    assert(lazy.length > 0, `${symbol} must load the published app menu lazily, as Kibana does`);
+  }
 }
 execFileSync(process.execPath, ['node_modules/typescript/bin/tsc', '--noEmit', '--strict', '--skipLibCheck', '--moduleResolution', 'bundler', '--module', 'esnext', '--target', 'es2022', '--types', 'react', 'tests/ai-components.contract.ts', 'tests/chrome-app-header.contract.ts', 'tests/tabs.contract.ts', 'tests/chrome-header.contract.ts', 'tests/chrome-compat.contract.ts'], { stdio: 'inherit' });
-// Dev-only: the standalone AI type snapshot must match the installed published declarations.
-execFileSync(process.execPath, ['node_modules/typescript/bin/tsc', '--noEmit', '--strict', '--skipLibCheck', '--moduleResolution', 'bundler', '--module', 'esnext', '--target', 'es2022', '--types', 'react', 'tests/ai-components.drift.ts'], { stdio: 'inherit' });
+// Dev-only: the standalone AI and app menu type snapshots must match the installed published declarations.
+execFileSync(process.execPath, ['node_modules/typescript/bin/tsc', '--noEmit', '--strict', '--skipLibCheck', '--moduleResolution', 'bundler', '--module', 'esnext', '--target', 'es2022', '--types', 'react', '--jsx', 'react-jsx', 'tests/ai-components.drift.ts', 'tests/app-menu.drift.ts'], { stdio: 'inherit' });
 console.log(`Package verified: ${pack.entryCount} files; peers external; no Artifactory runtime or type dependencies.`);

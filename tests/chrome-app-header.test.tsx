@@ -1,11 +1,23 @@
 import { useState } from 'react';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { EuiProvider } from '@elastic/eui';
-import { describe, expect, it, vi } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import { ChromeAppHeader } from '../src/rebuilt/app-header/ChromeAppHeader';
 import type { ChromeAppHeaderProps } from '../src/rebuilt/app-header/types';
 
 const show = (props: ChromeAppHeaderProps) => render(<EuiProvider><ChromeAppHeader {...props} /></EuiProvider>);
+// Kibana's app menu loads lazily, as in Kibana; wait for it before interacting.
+const showMenu = async (props: ChromeAppHeaderProps) => {
+  const view = show(props);
+  await screen.findByRole('navigation', { name: 'App menu' });
+  return view;
+};
+
+// Kibana's app menu shows its full row from EUI's xl breakpoint (1200px) when it reads the
+// window width; jsdom defaults to 1024px, where it shows only the primary action and More.
+const jsdomWidth = window.innerWidth;
+beforeAll(() => { Object.defineProperty(window, 'innerWidth', { configurable: true, writable: true, value: 1280 }); });
+afterAll(() => { Object.defineProperty(window, 'innerWidth', { configurable: true, writable: true, value: jsdomWidth }); });
 
 describe('Kibana page header', () => {
   it('renders a title, explicit back target, data badges and host titleAppend', () => {
@@ -91,39 +103,39 @@ describe('Kibana page header', () => {
 
   it('sorts menu items, forces overflow, invokes actions and restores focus to More', async () => {
     const run = vi.fn();
-    show({ title: 'Traffic', menu: { items: [
+    await showMenu({ title: 'Traffic', menu: { items: [
       { id: 'later', label: 'Later', iconType: 'clock', order: 2, run },
       { id: 'first', label: 'First', iconType: 'copy', order: 1, run },
       { id: 'archive', label: 'Archive', iconType: 'folderClosed', overflow: true, order: 0, run },
     ] } });
     const buttons = screen.getAllByRole('button').map(button => button.textContent);
     expect(buttons.indexOf('First')).toBeLessThan(buttons.indexOf('Later'));
-    expect(screen.queryByRole('button', { name: 'Archive' })).toBeNull();
+    expect(screen.queryByRole('menuitem', { name: 'Archive' })).toBeNull();
     const more = screen.getByRole('button', { name: 'More' }); fireEvent.click(more);
-    fireEvent.click(await screen.findByRole('button', { name: 'Archive' }));
+    fireEvent.click(await screen.findByRole('menuitem', { name: 'Archive' }));
     expect(run).toHaveBeenCalledOnce();
-    await waitFor(() => expect(screen.queryByRole('button', { name: 'Archive' })).toBeNull());
+    await waitFor(() => expect(screen.queryByRole('menuitem', { name: 'Archive' })).toBeNull());
     run.mock.calls[0][0].returnFocus(); expect(document.activeElement).toBe(more);
   });
 
   it('uses the three-slot limit and preserves nested popovers and disabled callbacks', async () => {
     const run = vi.fn();
-    show({ title: 'Traffic', menu: { items: [
+    await showMenu({ title: 'Traffic', menu: { items: [
       { id: 'disabled', label: 'Unavailable', iconType: 'lock', disableButton: () => true, run },
       { id: 'nested', label: 'Export', iconType: 'exportAction', items: [{ id: 'csv', label: 'CSV', run }] },
       { id: 'third', label: 'Third', iconType: 'copy', run }, { id: 'fourth', label: 'Fourth', iconType: 'copy', run },
     ] } });
     expect((screen.getByRole('button', { name: 'Unavailable' }) as HTMLButtonElement).disabled).toBe(true);
     fireEvent.click(screen.getByRole('button', { name: 'Export' }));
-    fireEvent.click(await screen.findByRole('button', { name: 'CSV' })); expect(run).toHaveBeenCalledOnce();
+    fireEvent.click(await screen.findByRole('menuitem', { name: 'CSV' })); expect(run).toHaveBeenCalledOnce();
     fireEvent.click(screen.getByRole('button', { name: 'More' }));
-    expect(await screen.findByRole('button', { name: 'Third' })).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'Fourth' })).toBeTruthy();
+    expect(await screen.findByRole('menuitem', { name: 'Third' })).toBeTruthy();
+    expect(screen.getByRole('menuitem', { name: 'Fourth' })).toBeTruthy();
   });
 
-  it('supports the primary action and one checked switch', () => {
+  it('supports the primary action and one checked switch', async () => {
     const run = vi.fn(); const change = vi.fn();
-    show({ menu: { primaryActionItem: { id: 'edit', label: 'Edit', iconType: 'pencil', run },
+    await showMenu({ menu: { primaryActionItem: { id: 'edit', label: 'Edit', iconType: 'pencil', run },
       switch: { id: 'live', label: 'Live', checked: false, onChange: change } } });
     fireEvent.click(screen.getByRole('button', { name: 'Edit' }));
     expect(run.mock.calls[0][0].triggerElement).toBeInstanceOf(HTMLElement);
@@ -132,19 +144,19 @@ describe('Kibana page header', () => {
 
   it('keeps split-button primary and secondary actions independent', async () => {
     const save = vi.fn(); const saveAs = vi.fn();
-    show({ menu: { primaryActionItem: { id: 'save', label: 'Save', iconType: 'save', run: save,
+    await showMenu({ menu: { primaryActionItem: { id: 'save', label: 'Save', iconType: 'save', run: save,
       splitButtonProps: { secondaryButtonAriaLabel: 'Save options', items: [{ id: 'save-as', label: 'Save as', run: saveAs }] } } } });
     fireEvent.click(screen.getByRole('button', { name: 'Save' })); expect(save).toHaveBeenCalledOnce();
     fireEvent.click(screen.getByRole('button', { name: 'Save options' })); expect(save).toHaveBeenCalledOnce();
-    fireEvent.click(await screen.findByRole('button', { name: 'Save as' })); expect(saveAs).toHaveBeenCalledOnce();
-    await waitFor(() => expect(screen.queryByRole('button', { name: 'Save as' })).toBeNull());
+    fireEvent.click(await screen.findByRole('menuitem', { name: 'Save as' })); expect(saveAs).toHaveBeenCalledOnce();
+    await waitFor(() => expect(screen.queryByRole('menuitem', { name: 'Save as' })).toBeNull());
     saveAs.mock.calls[0][0].returnFocus();
     expect(document.activeElement).toBe(screen.getByRole('button', { name: 'Save options' }));
   });
 
-  it('supports split-button secondary run and independent disabled states', () => {
+  it('supports split-button secondary run and independent disabled states', async () => {
     const primary = vi.fn(); const secondary = vi.fn();
-    show({ menu: { primaryActionItem: { id: 'save', label: 'Save', iconType: 'save', run: primary,
+    await showMenu({ menu: { primaryActionItem: { id: 'save', label: 'Save', iconType: 'save', run: primary,
       splitButtonProps: { secondaryButtonAriaLabel: 'Save options', run: secondary, isMainButtonDisabled: true } } } });
     expect((screen.getByRole('button', { name: 'Save' }) as HTMLButtonElement).disabled).toBe(true);
     fireEvent.click(screen.getByRole('button', { name: 'Save options' })); expect(secondary).toHaveBeenCalledOnce(); expect(primary).not.toHaveBeenCalled();
@@ -165,17 +177,17 @@ describe('Kibana page header', () => {
 
   it('supports primary popover actions, including a split-button primary popover', async () => {
     const choose = vi.fn(); const secondary = vi.fn();
-    show({ menu: { primaryActionItem: { id: 'create', label: 'Create', iconType: 'plusInCircle',
+    await showMenu({ menu: { primaryActionItem: { id: 'create', label: 'Create', iconType: 'plusInCircle',
       items: [{ id: 'dashboard', label: 'Dashboard', run: choose }],
       splitButtonProps: { secondaryButtonAriaLabel: 'Other create options', run: secondary } } } });
     fireEvent.click(screen.getByRole('button', { name: 'Other create options' })); expect(secondary).toHaveBeenCalledOnce();
     fireEvent.click(screen.getByRole('button', { name: 'Create' }));
-    fireEvent.click(await screen.findByRole('button', { name: 'Dashboard' })); expect(choose).toHaveBeenCalledOnce();
+    fireEvent.click(await screen.findByRole('menuitem', { name: 'Dashboard' })); expect(choose).toHaveBeenCalledOnce();
   });
 
-  it('preserves native modified links and only intercepts ordinary links with a run handler', () => {
+  it('preserves native modified links and only intercepts ordinary links with a run handler', async () => {
     const run = vi.fn();
-    show({ menu: { items: [{ id: 'open', label: 'Open', iconType: 'folderOpen', href: '/other', run }] } });
+    await showMenu({ menu: { items: [{ id: 'open', label: 'Open', iconType: 'folderOpen', href: '/other', run }] } });
     const link = screen.getByRole('link', { name: 'Open' });
     const preventNavigation = (event: Event) => event.preventDefault();
     document.addEventListener('click', preventNavigation);

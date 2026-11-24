@@ -4,8 +4,8 @@ import {
   EuiTab, EuiTabs, EuiToolTip,
 } from '@elastic/eui';
 import type { AppHeaderBadge, AppHeaderBadgeItem, AppHeaderTab } from './types';
-import type { AppMenuPopoverItem } from './menuTypes';
-import { ActionPopover, plainText } from './PageHeaderMenu';
+import type { AppMenuPopoverItem } from '../../wrappers/app-menu.types';
+import { ActionPopover, plainText } from './ActionPopover';
 
 const badgeItems = (items: AppHeaderBadgeItem[]): AppMenuPopoverItem[] => items.map((item, index) => ({
   id: String(index), label: plainText(item.name), iconType: item.icon, testId: item['data-test-subj'],

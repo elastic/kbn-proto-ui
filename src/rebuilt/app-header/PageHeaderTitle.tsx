@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { EuiTitle, useEuiTheme } from '@elastic/eui';
 import type { AppHeaderTitle } from './types';
-import { plainText } from './PageHeaderMenu';
+import { plainText } from './ActionPopover';
 
 export function PageHeaderTitle({ title, compact, hasBack }: { title: AppHeaderTitle; compact: boolean; hasBack: boolean }) {
   const { euiTheme } = useEuiTheme();

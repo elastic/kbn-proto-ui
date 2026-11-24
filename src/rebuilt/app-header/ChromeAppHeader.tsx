@@ -2,7 +2,8 @@ import {
   EuiButtonEmpty, EuiButtonIcon, EuiHealth, EuiLink, EuiText, EuiToolTip, useEuiTheme,
 } from '@elastic/eui';
 import type { MouseEvent } from 'react';
-import { PageHeaderMenu, plainText } from './PageHeaderMenu';
+import { plainText } from './ActionPopover';
+import { KibanaAppMenu } from '../../wrappers/AppMenu';
 import { PageHeaderTitle } from './PageHeaderTitle';
 import { PageHeaderBadges, PageHeaderTabs } from './PageHeaderExtras';
 import type { ChromeAppHeaderProps } from './types';
@@ -57,7 +58,7 @@ export function ChromeAppHeader({
         </div>
         {hasAppend && <div css={{ display: 'flex', alignItems: 'center', flex: '1 1 0', minWidth: 0 }}>{titleAppend}</div>}
       </div>
-      <PageHeaderMenu menu={menu} />
+      {menu && <div css={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}><KibanaAppMenu config={menu} /></div>}
     </div>
     {hasSecondary && <div css={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: `${theme.size.xs} ${theme.size.m}`, paddingBlockEnd: hasTabs ? theme.size.xs : inset ?? theme.size.base }}>
       {description ? <EuiText size="xs" color="subdued" css={{ maxInlineSize: '80ch' }}><p>
