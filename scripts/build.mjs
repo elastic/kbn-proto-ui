@@ -18,6 +18,7 @@ const result = await build({
     'src/rebuilt/app-header/ChromeAppHeader.tsx',
     'src/rebuilt/unified-tabs/KibanaTabs.tsx',
     'src/wrappers/ai-components.ts',
+    'src/wrappers/AppMenu.tsx',
   ],
   outdir: 'dist', outbase: 'src', bundle: true, format: 'esm', splitting: true,
   platform: 'browser', target: 'es2022', jsx: 'automatic', jsxImportSource: '@emotion/react',

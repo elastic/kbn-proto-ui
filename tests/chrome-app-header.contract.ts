@@ -30,6 +30,6 @@ const preset: ChromeAppHeaderProps = { config: 'discover' };
 const tooltip: AppHeaderShareAction = { onClick: () => {}, tooltip: 'wrong shape' };
 // @ts-expect-error Menu items use disableButton, not disabled.
 const disabled: AppMenuConfig = { items: [{ id: 'edit', label: 'Edit', iconType: 'pencil', run: () => {}, disabled: true }] };
-// @ts-expect-error historyConfig is intentionally unsupported.
+// Undo and redo come with Kibana's published app menu.
 const history: AppMenuConfig = { historyConfig: { undo: { onClick: () => {} } } };
 void [both, tooMany, children, preset, tooltip, disabled, history];

@@ -1,11 +1,17 @@
 import { useState } from 'react';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { EuiProvider } from '@elastic/eui';
-import { describe, expect, it, vi } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import { ChromeAppHeader } from '../src/rebuilt/app-header/ChromeAppHeader';
 import type { ChromeAppHeaderProps } from '../src/rebuilt/app-header/types';
 
 const show = (props: ChromeAppHeaderProps) => render(<EuiProvider><ChromeAppHeader {...props} /></EuiProvider>);
+
+// Kibana's app menu shows its full row from EUI's xl breakpoint (1200px) when it reads the
+// window width; jsdom defaults to 1024px, where it shows only the primary action and More.
+const jsdomWidth = window.innerWidth;
+beforeAll(() => { Object.defineProperty(window, 'innerWidth', { configurable: true, writable: true, value: 1280 }); });
+afterAll(() => { Object.defineProperty(window, 'innerWidth', { configurable: true, writable: true, value: jsdomWidth }); });
 
 describe('Kibana page header', () => {
   it('renders a title, explicit back target, data badges and host titleAppend', () => {
@@ -98,11 +104,11 @@ describe('Kibana page header', () => {
     ] } });
     const buttons = screen.getAllByRole('button').map(button => button.textContent);
     expect(buttons.indexOf('First')).toBeLessThan(buttons.indexOf('Later'));
-    expect(screen.queryByRole('button', { name: 'Archive' })).toBeNull();
+    expect(screen.queryByRole('menuitem', { name: 'Archive' })).toBeNull();
     const more = screen.getByRole('button', { name: 'More' }); fireEvent.click(more);
-    fireEvent.click(await screen.findByRole('button', { name: 'Archive' }));
+    fireEvent.click(await screen.findByRole('menuitem', { name: 'Archive' }));
     expect(run).toHaveBeenCalledOnce();
-    await waitFor(() => expect(screen.queryByRole('button', { name: 'Archive' })).toBeNull());
+    await waitFor(() => expect(screen.queryByRole('menuitem', { name: 'Archive' })).toBeNull());
     run.mock.calls[0][0].returnFocus(); expect(document.activeElement).toBe(more);
   });
 
@@ -115,10 +121,10 @@ describe('Kibana page header', () => {
     ] } });
     expect((screen.getByRole('button', { name: 'Unavailable' }) as HTMLButtonElement).disabled).toBe(true);
     fireEvent.click(screen.getByRole('button', { name: 'Export' }));
-    fireEvent.click(await screen.findByRole('button', { name: 'CSV' })); expect(run).toHaveBeenCalledOnce();
+    fireEvent.click(await screen.findByRole('menuitem', { name: 'CSV' })); expect(run).toHaveBeenCalledOnce();
     fireEvent.click(screen.getByRole('button', { name: 'More' }));
-    expect(await screen.findByRole('button', { name: 'Third' })).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'Fourth' })).toBeTruthy();
+    expect(await screen.findByRole('menuitem', { name: 'Third' })).toBeTruthy();
+    expect(screen.getByRole('menuitem', { name: 'Fourth' })).toBeTruthy();
   });
 
   it('supports the primary action and one checked switch', () => {
@@ -136,8 +142,8 @@ describe('Kibana page header', () => {
       splitButtonProps: { secondaryButtonAriaLabel: 'Save options', items: [{ id: 'save-as', label: 'Save as', run: saveAs }] } } } });
     fireEvent.click(screen.getByRole('button', { name: 'Save' })); expect(save).toHaveBeenCalledOnce();
     fireEvent.click(screen.getByRole('button', { name: 'Save options' })); expect(save).toHaveBeenCalledOnce();
-    fireEvent.click(await screen.findByRole('button', { name: 'Save as' })); expect(saveAs).toHaveBeenCalledOnce();
-    await waitFor(() => expect(screen.queryByRole('button', { name: 'Save as' })).toBeNull());
+    fireEvent.click(await screen.findByRole('menuitem', { name: 'Save as' })); expect(saveAs).toHaveBeenCalledOnce();
+    await waitFor(() => expect(screen.queryByRole('menuitem', { name: 'Save as' })).toBeNull());
     saveAs.mock.calls[0][0].returnFocus();
     expect(document.activeElement).toBe(screen.getByRole('button', { name: 'Save options' }));
   });
@@ -170,7 +176,7 @@ describe('Kibana page header', () => {
       splitButtonProps: { secondaryButtonAriaLabel: 'Other create options', run: secondary } } } });
     fireEvent.click(screen.getByRole('button', { name: 'Other create options' })); expect(secondary).toHaveBeenCalledOnce();
     fireEvent.click(screen.getByRole('button', { name: 'Create' }));
-    fireEvent.click(await screen.findByRole('button', { name: 'Dashboard' })); expect(choose).toHaveBeenCalledOnce();
+    fireEvent.click(await screen.findByRole('menuitem', { name: 'Dashboard' })); expect(choose).toHaveBeenCalledOnce();
   });
 
   it('preserves native modified links and only intercepts ordinary links with a run handler', () => {
