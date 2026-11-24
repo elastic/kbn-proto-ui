@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState, type ComponentProps, type ComponentType } from 'react';
 import { SideNavigation } from '@kbn/ui-side-navigation';
 import { getSolutionNav } from '../solution-menus';
 import type { NavItemsOverride, NavItem, NavLink, Solution } from '../solution-menus';
@@ -14,11 +14,18 @@ export interface KibanaSideNavProps {
   defaultCollapsed?: boolean;
   onCollapsedChange?: (collapsed: boolean) => void;
   onWidthChange?: (width: number) => void;
+  /**
+   * Passed through to the published SideNavigation. When set, the More panel
+   * shows Kibana's "Customize navigation" button; activating it closes More
+   * and invokes this callback. Without it, no button renders.
+   */
+  onCustomizeNavigation?: () => void;
 }
 
 export function KibanaSideNav({
   solution = 'observability', activeNavItem, onNavigate, getHref, navItems,
   collapsed, defaultCollapsed = false, onCollapsedChange, onWidthChange,
+  onCustomizeNavigation,
 }: KibanaSideNavProps) {
   const [internalCollapsed, setCollapsed] = useState(defaultCollapsed);
   const nativeClick = useRef(false);
@@ -33,7 +40,7 @@ export function KibanaSideNav({
         event.preventDefault();
       }
     }}>
-      <SideNavigation
+      <SideNavigationWithCustomize
         items={items}
         activeItemId={activeNavItem}
         isCollapsed={collapsed ?? internalCollapsed}
@@ -43,9 +50,16 @@ export function KibanaSideNav({
         }}
         onItemClick={onNavigate ? (item) => { if (!nativeClick.current && !('isExternal' in item && item.isExternal)) onNavigate(item.id, item); } : undefined}
         setWidth={onWidthChange ?? ignoreWidth}
+        onCustomizeNavigation={onCustomizeNavigation}
       />
     </div>
   );
 }
 
+// The published runtime accepts `onCustomizeNavigation` (it renders the More
+// panel's "Customize navigation" footer button), but its index.d.ts omits the
+// prop as of 0.0.0-a9ec21545c85. tests/side-nav.test.tsx covers the behavior.
+const SideNavigationWithCustomize = SideNavigation as ComponentType<
+  ComponentProps<typeof SideNavigation> & { onCustomizeNavigation?: () => void }
+>;
 const ignoreWidth = () => {};
